@@ -8,9 +8,7 @@ public class Player : MonoBehaviour
     public InventoryObject inventory;
     public InventoryObject equipment;
 
-    private void Start()
-    {
-    }
+    public Attribute[] attributes;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -58,9 +56,34 @@ public class Player : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public void AttributeModified(Attribute attribute)
+    {
+        Debug.Log(string.Concat(attribute.type, " was updated! Value is now ", attribute.value.ModifiedValue));
+
+    }
+
     private void OnApplicationQuit()
     {
         inventory.Clear();
         inventory.Clear();
+    }
+}
+
+[System.Serializable]
+public class Attribute
+{
+    [System.NonSerialized]
+    public Player parent;
+    public Attribute type;
+    public ModifiableInt value;
+
+    public void SetParent(Player _parent)
+    {
+        parent = _parent;
+        value = new ModifiableInt(AttributeModified);
+    }
+    public void AttributeModified()
+    {
+        parent.AttributeModified(this);
     }
 }

@@ -36,7 +36,6 @@ public class DynamicInterface : UserInterface
 
     private Vector3 GetPosition(int i)
     {
-
         return new Vector3(X_START + (X_SPACE_BETEEN_ITEM * (i % NUMBER_OF_COLUMN)), Y_START + (-Y_SPACE_BETEEN_ITEM * (i / NUMBER_OF_COLUMN)), 0f);
     }
 }

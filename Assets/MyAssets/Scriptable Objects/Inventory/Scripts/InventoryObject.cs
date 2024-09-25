@@ -15,7 +15,7 @@ public class InventoryObject : ScriptableObject
     public string savePath;
     public ItemDatabaseObject database;
     public Inventory Container;
-    public InventorySlot[] GetSlots { get { return GetSlots; } }
+    public InventorySlot[] GetSlots { get { return Container.Slots; } }
 
     public bool AddItem(Item _item, int _amount)
     {
