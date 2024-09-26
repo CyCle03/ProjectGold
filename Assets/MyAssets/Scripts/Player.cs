@@ -25,6 +25,10 @@ public class Player : MonoBehaviour
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
     {
+        if (_slot.ItemObject == null)
+        {
+            return;
+        }
         print("Before update");
     }
     public void OnAfterSlotUpdate(InventorySlot _slot)
