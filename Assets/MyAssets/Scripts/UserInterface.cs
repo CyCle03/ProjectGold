@@ -12,6 +12,7 @@ public abstract class UserInterface : MonoBehaviour
 
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
+    //public GameObject LastUI; 가장 최근에 연 UI창 저장. 그냥 Queue를 만들어서 거기에 넣는게 나을 듯.
 
     // Start is called before the first frame update
     void Start()
@@ -106,7 +107,7 @@ public abstract class UserInterface : MonoBehaviour
     {
         Destroy(MouseData.tempItemBeingDragged);
 
-        if (MouseData.tempItemBeingDragged == null)
+        if (MouseData.interfaceMouseIsOver == null)
         {
             slotsOnInterface[obj].RemoveItem();
             return;

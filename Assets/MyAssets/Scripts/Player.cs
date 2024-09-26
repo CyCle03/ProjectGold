@@ -1,12 +1,15 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
     public InventoryObject equipment;
+    public GameObject inventoryScreen;
+    public GameObject equipmentScreen;
 
     public Attribute[] attributes;
 
@@ -21,6 +24,9 @@ public class Player : MonoBehaviour
             equipment.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
             equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
+
+        inventoryScreen.SetActive(false);
+        equipmentScreen.SetActive(false);
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -115,9 +121,15 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
+            inventoryScreen.SetActive(true);
             CursorOn();
         }
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            equipmentScreen.SetActive(true);
+            CursorOn();
+        }
+        if (Input.GetKeyDown(KeyCode.O)||Input.GetKeyDown(KeyCode.Escape))
         {
             CursorOff();
         }

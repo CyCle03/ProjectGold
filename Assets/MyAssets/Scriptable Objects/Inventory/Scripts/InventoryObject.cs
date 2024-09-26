@@ -103,7 +103,7 @@ public class InventoryObject : ScriptableObject
         {
             if (GetSlots[i].item == _item)
             {
-                GetSlots[i].UpdateSlot(null, 0);
+                GetSlots[i].RemoveItem();
             }
         }
     }
