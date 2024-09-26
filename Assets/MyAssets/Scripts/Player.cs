@@ -10,6 +10,29 @@ public class Player : MonoBehaviour
 
     public Attribute[] attributes;
 
+    private void Start()
+    {
+        for (int i = 0; i < attributes.Length; i++)
+        {
+            attributes[i].SetParent(this);
+        }
+        for (int i = 0; i < equipment.GetSlots.Length; i++)
+        {
+            equipment.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
+            equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
+        }
+    }
+
+    public void OnBeforeSlotUpdate(InventorySlot _slot)
+    {
+        print("Before update");
+    }
+    public void OnAfterSlotUpdate(InventorySlot _slot)
+    {
+        print("After update");
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         var item = other.GetComponent<GroundItem>();
