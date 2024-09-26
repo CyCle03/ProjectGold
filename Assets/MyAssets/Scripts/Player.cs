@@ -149,7 +149,7 @@ public class Attribute
 {
     [System.NonSerialized]
     public Player parent;
-    public Attribute type;
+    public Attributes type;
     public ModifiableInt value;
 
     public void SetParent(Player _parent)

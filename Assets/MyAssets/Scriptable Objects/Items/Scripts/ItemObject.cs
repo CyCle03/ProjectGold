@@ -70,7 +70,7 @@ public class Item
 [System.Serializable]
 public class ItemBuff : IModifiers
 {
-    public Attribute attribute;
+    public Attributes attribute;
     public int value;
     public int min;
     public int max;
