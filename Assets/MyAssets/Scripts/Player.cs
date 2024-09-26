@@ -121,18 +121,46 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            inventoryScreen.SetActive(true);
+            OpenInventory();
+            OpenEquipment();
             CursorOn();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            equipmentScreen.SetActive(true);
+            OpenInventory();
+            OpenEquipment();
             CursorOn();
         }
         if (Input.GetKeyDown(KeyCode.O)||Input.GetKeyDown(KeyCode.Escape))
         {
+            CloseInventory();
+            CloseEquipment();
             CursorOff();
         }
+    }
+
+    public void OpenInventory()
+    {
+        inventoryScreen.SetActive(true);
+        //CursorOn();
+    }
+
+    public void CloseInventory()
+    {
+        inventoryScreen.SetActive(false);
+        //CursorOff();
+    }
+
+    public void OpenEquipment()
+    {
+        equipmentScreen.SetActive(true);
+        //CursorOn();
+    }
+
+    public void CloseEquipment()
+    {
+        equipmentScreen.SetActive(false);
+        //CursorOff();
     }
 
     public void CursorOn()
