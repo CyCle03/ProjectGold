@@ -144,7 +144,7 @@ public class Player : MonoBehaviour
     private void OnApplicationQuit()
     {
         inventory.Clear();
-        inventory.Clear();
+        equipment.Clear();
     }
 }
 
