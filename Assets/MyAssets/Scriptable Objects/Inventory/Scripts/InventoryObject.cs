@@ -6,7 +6,6 @@ using System.IO;
 using UnityEditor;
 using JetBrains.Annotations;
 using System.Runtime.Serialization;
-using static UnityEditor.Progress;
 
 public enum InterfaceType
 {
