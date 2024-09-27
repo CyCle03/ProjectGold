@@ -8,10 +8,11 @@ public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
     public InventoryObject equipment;
-    public GameObject inventoryScreen;
-    public GameObject equipmentScreen;
+    public Canvas UIcanvas;
 
     public Attribute[] attributes;
+
+    public bool isUIOn;
 
     private void Start()
     {
@@ -25,8 +26,8 @@ public class Player : MonoBehaviour
             equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
 
-        inventoryScreen.SetActive(false);
-        equipmentScreen.SetActive(false);
+        UIcanvas.enabled = false;
+        isUIOn = false;
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -119,49 +120,35 @@ public class Player : MonoBehaviour
             inventory.Load();
             equipment.Load();
         }
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I)||Input.GetKeyDown(KeyCode.Tab))
         {
+            if (isUIOn)
+            {
+                CloseInventory();
+                return;
+            }
             OpenInventory();
-            OpenEquipment();
-            CursorOn();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OpenInventory();
-            OpenEquipment();
-            CursorOn();
         }
         if (Input.GetKeyDown(KeyCode.O)||Input.GetKeyDown(KeyCode.Escape))
         {
             CloseInventory();
-            CloseEquipment();
-            CursorOff();
         }
     }
 
     public void OpenInventory()
     {
-        inventoryScreen.SetActive(true);
-        //CursorOn();
+        UIcanvas.enabled = true;
+        isUIOn = true;
+        CursorOn();
     }
 
     public void CloseInventory()
     {
-        inventoryScreen.SetActive(false);
-        //CursorOff();
+        UIcanvas.enabled = false;
+        isUIOn = false;
+        CursorOff();
     }
 
-    public void OpenEquipment()
-    {
-        equipmentScreen.SetActive(true);
-        //CursorOn();
-    }
-
-    public void CloseEquipment()
-    {
-        equipmentScreen.SetActive(false);
-        //CursorOff();
-    }
 
     public void CursorOn()
     {
