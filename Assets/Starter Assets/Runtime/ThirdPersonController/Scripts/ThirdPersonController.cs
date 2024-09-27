@@ -46,6 +46,12 @@ namespace StarterAssets
         [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
         public float FallTimeout = 0.15f;
 
+        [Tooltip("Time required to pass before being able to attack again. Set to 0f to instantly attack again")]
+        public float AttackTimeout = 2.3f;
+
+        [Tooltip("If the character is attacking or not.")]
+        public bool Attacking = false;
+
         [Header("Player Grounded")]
         [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
         public bool Grounded = true;
@@ -90,6 +96,7 @@ namespace StarterAssets
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
+        private float _attackTimeoutDelta;
 
         // animation IDs
         private int _animIDSpeed;
@@ -97,6 +104,7 @@ namespace StarterAssets
         private int _animIDJump;
         private int _animIDFreeFall;
         private int _animIDMotionSpeed;
+        private int _animIDAttack;
 
 #if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
@@ -150,6 +158,7 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+            _attackTimeoutDelta = AttackTimeout;
         }
 
         private void Update()
@@ -159,6 +168,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            Attack();
         }
 
         private void LateUpdate()
@@ -173,6 +183,7 @@ namespace StarterAssets
             _animIDJump = Animator.StringToHash("Jump");
             _animIDFreeFall = Animator.StringToHash("FreeFall");
             _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            _animIDAttack = Animator.StringToHash("Attack");
         }
 
         private void GroundedCheck()
@@ -345,6 +356,52 @@ namespace StarterAssets
             if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
+            }
+        }
+
+        private void Attack()
+        {
+            if (!Attacking)
+            {
+                // update animator if using character
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDAttack, false);
+                }
+                //attack
+                if (_input.attack && _attackTimeoutDelta <= 0.0f)
+                {
+                    // update animator if using character
+                    if (_hasAnimator)
+                    {
+                        _animator.SetBool(_animIDAttack, true);
+                        Attacking = true;
+                        _attackTimeoutDelta = AttackTimeout;
+                    }
+                }
+                // attack timeout
+                if (_attackTimeoutDelta >= 0.0f)
+                {
+                    _attackTimeoutDelta -= Time.deltaTime;
+                }
+            }
+            else
+            {
+                // update animator if using character
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDAttack, false);
+                    _input.attack = false;
+                }
+                if (_attackTimeoutDelta >= 0.0f)
+                {
+                    _attackTimeoutDelta -= Time.deltaTime;
+                }
+                if (_attackTimeoutDelta <= 0.0f)
+                {
+                    Attacking = false;
+                }
+                Debug.Log(_attackTimeoutDelta);
             }
         }
 
