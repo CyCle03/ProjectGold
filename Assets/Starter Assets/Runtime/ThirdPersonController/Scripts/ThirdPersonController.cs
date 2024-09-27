@@ -401,7 +401,6 @@ namespace StarterAssets
                 {
                     Attacking = false;
                 }
-                Debug.Log(_attackTimeoutDelta);
             }
         }
 
