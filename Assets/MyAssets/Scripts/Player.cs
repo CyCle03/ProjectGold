@@ -131,7 +131,11 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O)||Input.GetKeyDown(KeyCode.Escape))
         {
-            CloseInventory();
+            if (isUIOn)
+            {
+                CloseInventory();
+                return;
+            }
         }
     }
 
