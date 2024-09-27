@@ -134,7 +134,6 @@ public class Player : MonoBehaviour
             if (isUIOn)
             {
                 CloseInventory();
-                return;
             }
         }
     }
