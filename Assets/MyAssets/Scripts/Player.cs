@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     public Attribute[] attributes;
 
-    public float maxHP;
+    public float maxHP = 100;
     public float curruntHP;
     public float attackDamage;
     public int level = 1;
@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
             equipment.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
             equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
+
+        curruntHP = maxHP;
 
         UIcanvas.enabled = false;
         isUIOn = false;
@@ -144,6 +146,7 @@ public class Player : MonoBehaviour
         s_int = GetStats(l_int);
         s_stm = GetStats(l_stm);
         s_str = GetStats(l_str);
+        maxHP = 100+(s_stm * 10);
     }
 
     public int GetStats(int l_stat)
