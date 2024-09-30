@@ -95,7 +95,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         var item = other.GetComponent<GroundItem>();
@@ -168,7 +167,6 @@ public class Player : MonoBehaviour
     public void AttributeModified(Attribute attribute)
     {
         Debug.Log(string.Concat(attribute.type, " was updated! Value is now ", attribute.value.ModifiedValue));
-
     }
 
     private void OnApplicationQuit()
