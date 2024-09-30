@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class MonsterMove : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MonsterMove : MonoBehaviour
     public float monsterSight = 100;
     public MonsterObject monsterObj;
     public Player player;
+    public Slider hpSlider;
 
     //MonsterManager mManager;
     CharacterController cc;
@@ -39,6 +41,7 @@ public class MonsterMove : MonoBehaviour
         monsterNav = gameObject.GetComponent<NavMeshAgent>();
         cc = gameObject.GetComponent<CharacterController>();
         player = GameObject.Find("Player").GetComponent<Player>();
+        hpSlider.value = (float)myMonster.curruntHP / (float)myMonster.maxHP;
     }
 
     // Update is called once per frame
@@ -68,6 +71,7 @@ public class MonsterMove : MonoBehaviour
     {
         print(myMonster.mName + " Hit");
         myMonster.curruntHP -= hitPower;
+        hpSlider.value = (float)myMonster.curruntHP / (float)myMonster.maxHP;
         if (m_State == MonsterState.Die)
         {
             return;
@@ -81,13 +85,13 @@ public class MonsterMove : MonoBehaviour
         {
             m_State = MonsterState.Move;
         }
-        StartCoroutine(Hitted());
+        //StartCoroutine(Hitted());
     }
 
-    IEnumerator Hitted()
+    /*IEnumerator Hitted()
     {
-        yield return new WaitForSeconds(1.0f);
-    }
+        yield return new WaitForSeconds(0.5f);
+    }*/
 
     public void MoveMonster()
     {

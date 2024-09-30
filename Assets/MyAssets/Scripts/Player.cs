@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
     public InventoryObject equipment;
-    public Canvas UIcanvas;
+    public Canvas InventoryCanvas;
 
     public Attribute[] attributes;
 
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
 
         curruntHP = maxHP;
 
-        UIcanvas.enabled = false;
+        InventoryCanvas.enabled = false;
         isUIOn = false;
     }
 
@@ -219,14 +219,14 @@ public class Player : MonoBehaviour
 
     public void OpenInventory()
     {
-        UIcanvas.enabled = true;
+        InventoryCanvas.enabled = true;
         isUIOn = true;
         CursorOn();
     }
 
     public void CloseInventory()
     {
-        UIcanvas.enabled = false;
+        InventoryCanvas.enabled = false;
         isUIOn = false;
         CursorOff();
     }
