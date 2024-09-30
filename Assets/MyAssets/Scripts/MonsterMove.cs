@@ -18,7 +18,9 @@ public class MonsterMove : MonoBehaviour
     //MonsterManager mManager;
     CharacterController cc;
     NavMeshAgent monsterNav;
-    Transform targetTransform;
+    //Transform targetTransform;
+    Transform playerTransform;
+    Vector3 originPos;
 
     float atkCdw = 0;
 
@@ -28,7 +30,8 @@ public class MonsterMove : MonoBehaviour
         Move,
         Attack,
         Die,
-        Ready
+        Damaged,
+        Return
     }
 
     MonsterState m_State = MonsterState.Idle;
@@ -42,6 +45,8 @@ public class MonsterMove : MonoBehaviour
         cc = gameObject.GetComponent<CharacterController>();
         player = GameObject.Find("Player").GetComponent<Player>();
         hpSlider.value = (float)myMonster.curruntHP / (float)myMonster.maxHP;
+        playerTransform = player.GetComponentInParent<Transform>();
+        originPos = transform.position;
     }
 
     // Update is called once per frame
@@ -50,6 +55,7 @@ public class MonsterMove : MonoBehaviour
         switch (m_State)
         {
             case MonsterState.Idle:
+                IdleMonster();
                 break;
             case MonsterState.Move:
                 MoveMonster();
@@ -57,14 +63,15 @@ public class MonsterMove : MonoBehaviour
             case MonsterState.Attack:
                 AttackMonster();
                 break;
+            case MonsterState.Return:
+                ReturnMonster();
+                break;
+            case MonsterState.Damaged:
+                DamagedMonster();
+                break;
             case MonsterState.Die:
                 break;
         }
-        if (atkCdw > 0)
-        {
-            atkCdw -= Time.deltaTime;
-        }
-
     }
 
     public void GetDamaged(float hitPower)
@@ -72,48 +79,78 @@ public class MonsterMove : MonoBehaviour
         print(myMonster.mName + " Hit");
         myMonster.curruntHP -= hitPower;
         hpSlider.value = (float)myMonster.curruntHP / (float)myMonster.maxHP;
-        if (m_State == MonsterState.Die)
+        if (m_State == MonsterState.Damaged || m_State == MonsterState.Die)
         {
             return;
         }
-        else if (myMonster.curruntHP <= 0)
+        if (myMonster.curruntHP <= 0)
         {
+            print(myMonster.mName + " State: AnyState -> Die");
             m_State = MonsterState.Die;
             DieMonster();
         }
         else if (m_State == MonsterState.Idle)
         {
-            m_State = MonsterState.Move;
-        }
-        //StartCoroutine(Hitted());
-    }
-
-    /*IEnumerator Hitted()
-    {
-        yield return new WaitForSeconds(0.5f);
-    }*/
-
-    public void MoveMonster()
-    {
-        if (targetTransform == null)
-        {
-            StartCoroutine(MoveToTarget());
+            print(myMonster.mName + " State: Idle -> Damaged");
+            m_State = MonsterState.Damaged;
         }
     }
 
-    IEnumerator MoveToTarget()
+    void IdleMonster()
     {
-        yield return null;
-        targetTransform = SearchTarget();
-        if (targetTransform != null)
+        if (monsterObj.type == MonsterType.Aggressive || monsterObj.type == MonsterType.Boss)
         {
-            if (Vector3.Distance(transform.position, targetTransform.position) > myMonster.attackRange)
+
+            if (Vector3.Distance(transform.position, playerTransform.position) < monsterSight)
+            {
+                m_State = MonsterState.Move;
+                print(myMonster.mName + " State: Idle -> Move");
+            }
+        }
+    }
+
+    void MoveMonster()
+    {
+        if (playerTransform != null)
+        {
+            if (Vector3.Distance(transform.position, originPos) > monsterSight)
+            {
+                m_State = MonsterState.Return;
+                print(myMonster.mName + " State: Move -> Return");
+            }
+            else if (Vector3.Distance(transform.position, playerTransform.position) > myMonster.attackRange)
+            {
+                Vector3 dir = (playerTransform.position - transform.position).normalized;
+                cc.Move(dir * myMonster.moveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                m_State = MonsterState.Attack;
+                print(myMonster.mName + " State: Move -> Attack");
+                atkCdw = 0;
+            }
+        }
+        else
+        {
+            m_State = MonsterState.Idle;
+            print(myMonster.mName + " State: Move -> Idle");
+        }
+        
+    }
+
+/*    IEnumerator MoveToTarget()
+    {
+        //targetTransform = SearchTarget();
+        atkCdw = 0;
+        if (playerTransform != null)
+        {
+            if (Vector3.Distance(transform.position, playerTransform.position) > myMonster.attackRange)
             {
                 monsterNav.isStopped = true;
                 monsterNav.ResetPath();
 
                 monsterNav.stoppingDistance = myMonster.attackRange;
-                monsterNav.destination = targetTransform.position;
+                monsterNav.destination = playerTransform.position;
             }
             else
             {
@@ -124,26 +161,65 @@ public class MonsterMove : MonoBehaviour
         {
             m_State = MonsterState.Idle;
         }
-    }
+        yield return null;
+    }*/
 
-    public void AttackMonster()
+    void AttackMonster()
     {
-        if (Vector3.Distance(transform.position, targetTransform.position) < myMonster.attackRange)
+        if (Vector3.Distance(transform.position, playerTransform.position) < myMonster.attackRange)
         {
+            atkCdw -= Time.deltaTime;
             if (atkCdw <= 0)
             {
                 print(myMonster.mName + " Attack");
-                targetTransform.GetComponentInParent<Player>().GetDamaged(myMonster.attackPower);
+                player.GetDamaged(myMonster.attackPower);
                 atkCdw = 1 / myMonster.attackSpeed;
             }
-            else
-            {
-                m_State = MonsterState.Move;
-            }
+        }
+        else
+        {
+            m_State = MonsterState.Move;
+            print(myMonster.mName + " State: Attack -> Move");
+            atkCdw = 1 / myMonster.attackSpeed;
         }
     }
 
-    public void DieMonster()
+    void ReturnMonster()
+    {
+        if (myMonster.curruntHP < myMonster.maxHP)
+        {
+            myMonster.curruntHP += 10 * Time.deltaTime;
+        }
+        else
+        {
+            myMonster.curruntHP = myMonster.maxHP;
+        }
+        if (Vector3.Distance(transform.position, originPos) > 0.1f)
+        {
+            Vector3 dir = (originPos - transform.position).normalized;
+            cc.Move(dir * myMonster.moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = originPos;
+            myMonster.curruntHP = myMonster.maxHP;
+            m_State = MonsterState.Idle;
+            print(myMonster.mName + " State: Return -> Idle");
+        }
+    }
+
+    void DamagedMonster()
+    {
+        StartCoroutine(DelayedMonster());
+    }
+
+    IEnumerator DelayedMonster()
+    {
+        yield return new WaitForSeconds(0.5f);
+        m_State = MonsterState.Move;
+    }
+
+    void DieMonster()
     {
         print(myMonster.mName + " Die");
         StopAllCoroutines();
@@ -162,7 +238,7 @@ public class MonsterMove : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public Transform SearchTarget()
+/*    public Transform SearchTarget()
     {
         targetTransform = null;
         float targetDistance = monsterSight;//Mathf.Infinity;
@@ -180,5 +256,5 @@ public class MonsterMove : MonoBehaviour
             }
         }
         return targetTransform;
-    }
+    }*/
 }

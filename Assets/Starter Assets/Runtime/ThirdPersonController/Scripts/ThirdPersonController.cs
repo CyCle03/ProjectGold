@@ -81,6 +81,9 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [Tooltip("Controll Weapon Collider.")]
+        public GameObject WeaponObj;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -113,6 +116,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
+        private Collider _weaponCollider;
 
         private const float _threshold = 0.01f;
 
@@ -159,6 +163,10 @@ namespace StarterAssets
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
             _attackTimeoutDelta = AttackTimeout;
+
+            // off Weapon Colliders
+            _weaponCollider = WeaponObj.GetComponent<MeshCollider>();
+            _weaponCollider.enabled = false;
         }
 
         private void Update()
@@ -374,6 +382,7 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
+                        _weaponCollider.enabled = true;
                         _animator.SetBool(_animIDAttack, true);
                         Attacking = true;
                         _attackTimeoutDelta = AttackTimeout;
@@ -399,6 +408,7 @@ namespace StarterAssets
                 }
                 if (_attackTimeoutDelta <= 0.0f)
                 {
+                    _weaponCollider.enabled = false;
                     Attacking = false;
                 }
             }
