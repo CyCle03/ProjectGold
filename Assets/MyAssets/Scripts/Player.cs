@@ -12,6 +12,20 @@ public class Player : MonoBehaviour
 
     public Attribute[] attributes;
 
+    public float maxHP;
+    public float curruntHP;
+    public float attackDamage;
+    public int level = 1;
+    public int exp = 0;
+    public int s_agi;
+    public int l_agi;
+    public int s_int;
+    public int l_int;
+    public int s_stm;
+    public int l_stm;
+    public int s_str;
+    public int l_str;
+
     public bool isUIOn;
 
     private void Start()
@@ -19,6 +33,28 @@ public class Player : MonoBehaviour
         for (int i = 0; i < attributes.Length; i++)
         {
             attributes[i].SetParent(this);
+            switch (attributes[i].type)
+            {
+                case Attributes.Agility:
+                    s_agi = attributes[i].value.ModifiedValue;
+                    l_agi = i;
+                    break;
+                case Attributes.Intellect:
+                    s_int = attributes[i].value.ModifiedValue;
+                    l_int = i;
+                    break;
+                case Attributes.Stamina:
+                    s_stm = attributes[i].value.ModifiedValue;
+                    l_stm = i;
+                    break;
+                case Attributes.Strength:
+                    s_str = attributes[i].value.ModifiedValue;
+                    l_str = i;
+                    break;
+                default:
+                    break;
+            }
+
         }
         for (int i = 0; i < equipment.GetSlots.Length; i++)
         {
@@ -86,13 +122,38 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
-                
+                UpdatePStats();
+                UpdateDmg();
                 break;
             case InterfaceType.Chest:
                 break;
             default:
                 break;
         }
+    }
+
+    public void UpdateDmg()
+    {
+        attackDamage = (float)(s_str + (s_agi * 0.5));
+        print(string.Concat("Damage: ", attackDamage));
+    }
+
+    public void UpdatePStats()
+    {
+        s_agi = GetStats(l_agi);
+        s_int = GetStats(l_int);
+        s_stm = GetStats(l_stm);
+        s_str = GetStats(l_str);
+    }
+
+    public int GetStats(int l_stat)
+    {
+        int _stat = -1;
+        if (attributes[l_stat] != null)
+        {
+            _stat = attributes[l_stat].value.ModifiedValue;
+        }
+        return _stat;
     }
 
     private void OnTriggerEnter(Collider other)
