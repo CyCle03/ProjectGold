@@ -140,6 +140,12 @@ public class Player : MonoBehaviour
         print(string.Concat("Damage: ", attackDamage));
     }
 
+    public float HitDamage()
+    {
+        UpdateDmg();
+        return attackDamage;
+    }
+
     public void UpdatePStats()
     {
         s_agi = GetStats(l_agi);
@@ -157,6 +163,16 @@ public class Player : MonoBehaviour
             _stat = attributes[l_stat].value.ModifiedValue;
         }
         return _stat;
+    }
+
+    public void UpdateEXP(int GetExp)
+    {
+        exp += GetExp;
+        if (exp <= (level * 10))
+        {
+            exp -= level * 10;
+            level++;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -226,6 +242,11 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void GetDamaged(float damage)
+    {
+        curruntHP -= damage;
     }
 
     public void AttributeModified(Attribute attribute)

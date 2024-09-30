@@ -29,10 +29,10 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var monster = other.GetComponent<Monster>();
-        if (monster)
+        var monster = other.GetComponent<MonsterMove>();
+        if (monster != null)
         {
-            Monster _monster = new Monster();
+            monster.GetDamaged(player.HitDamage());
         }
     }
 }
