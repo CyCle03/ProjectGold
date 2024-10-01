@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
     public InventoryObject equipment;
-    public Canvas InventoryCanvas;
     public Slider HPSlider;
 
     public Attribute[] attributes;
@@ -27,8 +26,6 @@ public class Player : MonoBehaviour
     public int l_stm;
     public int s_str;
     public int l_str;
-
-    public bool isUIOn;
 
     private void Start()
     {
@@ -66,9 +63,6 @@ public class Player : MonoBehaviour
         UpdatePStats();
         curruntHP = maxHP;
         UpdateHPSlider();
-
-        InventoryCanvas.enabled = false;
-        isUIOn = false;
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -191,62 +185,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            inventory.Save();
-            equipment.Save();
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            inventory.Load();
-            equipment.Load();
-        }
-        if (Input.GetKeyDown(KeyCode.I)||Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (isUIOn)
-            {
-                CloseInventory();
-                return;
-            }
-            OpenInventory();
-        }
-        if (Input.GetKeyDown(KeyCode.O)||Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isUIOn)
-            {
-                CloseInventory();
-            }
-        }
-    }
-
-    public void OpenInventory()
-    {
-        InventoryCanvas.enabled = true;
-        isUIOn = true;
-        CursorOn();
-    }
-
-    public void CloseInventory()
-    {
-        InventoryCanvas.enabled = false;
-        isUIOn = false;
-        CursorOff();
-    }
-
-
-    public void CursorOn()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    public void CursorOff()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
 
     public void GetDamaged(float damage)
     {
@@ -264,11 +202,7 @@ public class Player : MonoBehaviour
         Debug.Log(string.Concat(attribute.type, " was updated! Value is now ", attribute.value.ModifiedValue));
     }
 
-    private void OnApplicationQuit()
-    {
-        inventory.Clear();
-        equipment.Clear();
-    }
+
 }
 
 [System.Serializable]

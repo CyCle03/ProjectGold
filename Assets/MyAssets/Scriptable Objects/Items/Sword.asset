@@ -19,6 +19,7 @@ MonoBehaviour:
   data:
     Name: 
     Id: 6
+    ItemValue: 1
     buffs:
     - attribute: 3
       value: 0
