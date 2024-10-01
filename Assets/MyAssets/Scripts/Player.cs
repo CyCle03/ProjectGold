@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
     public InventoryObject equipment;
+    public ShopInterface shop;
     public Slider HPSlider;
 
     public Attribute[] attributes;
@@ -27,8 +28,12 @@ public class Player : MonoBehaviour
     public int s_str;
     public int l_str;
 
+    GameManager gm;
+
     private void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         for (int i = 0; i < attributes.Length; i++)
         {
             attributes[i].SetParent(this);
@@ -93,6 +98,9 @@ public class Player : MonoBehaviour
                 break;
             case InterfaceType.Chest:
                 break;
+            case InterfaceType.Shop:
+                shop.RemoveGold(_slot.item.ItemValue);
+                break;
             default:
                 break;
         }
@@ -125,6 +133,9 @@ public class Player : MonoBehaviour
                 UpdateDmg();
                 break;
             case InterfaceType.Chest:
+                break;
+            case InterfaceType.Shop:
+                shop.AddGold(_slot.item.ItemValue);
                 break;
             default:
                 break;
@@ -195,6 +206,7 @@ public class Player : MonoBehaviour
     void UpdateHPSlider()
     {
         HPSlider.value = (float)curruntHP / (float)maxHP;
+        gm.HPTextUpdate(curruntHP, maxHP);
     }
 
     public void AttributeModified(Attribute attribute)

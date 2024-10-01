@@ -10,15 +10,20 @@ public class GameManager : MonoBehaviour
     public InventoryObject inventory;
     public InventoryObject equipment;
     public Canvas InventoryCanvas;
+    public TextMeshProUGUI textHP;
+    public GameObject shopScreen;
 
-    bool isUIOn;
+    bool isInventoryOn;
+    bool isShopOn;
 
     // Start is called before the first frame update
     void Start()
     {
-        UpdateGoldText();
+        GoldTextUpdate();
         InventoryCanvas.enabled = false;
-        isUIOn = false;
+        isInventoryOn = false;
+        shopScreen.SetActive(false);
+        isShopOn = false;
     }
 
     // Update is called once per frame
@@ -34,16 +39,29 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
         {
-            if (isUIOn)
+            if (isInventoryOn)
             {
                 CloseInventory();
                 return;
             }
             OpenInventory();
         }
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (isShopOn)
+            {
+                ShopClose();
+                return;
+            }
+            ShopOpen();
+        }
         if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isUIOn)
+            if (isShopOn)
+            {
+                ShopClose();
+            }
+            else if (isInventoryOn)
             {
                 CloseInventory();
             }
@@ -65,14 +83,28 @@ public class GameManager : MonoBehaviour
     public void OpenInventory()
     {
         InventoryCanvas.enabled = true;
-        isUIOn = true;
+        isInventoryOn = true;
         CursorOn();
     }
 
     public void CloseInventory()
     {
         InventoryCanvas.enabled = false;
-        isUIOn = false;
+        isInventoryOn = false;
+        CursorOff();
+    }
+
+    public void ShopOpen()
+    {
+        shopScreen.SetActive(true);
+        isShopOn = true;
+        CursorOn();
+    }
+
+    public void ShopClose()
+    {
+        shopScreen.SetActive(false);
+        isShopOn = false;
         CursorOff();
     }
 
@@ -88,13 +120,25 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void UpdateGoldText()
+    public void GoldTextUpdate()
     {
         textGold.text = gold + " G";
     }
     public void AddGold(int _gold)
     {
         gold += _gold;
+        GoldTextUpdate();
+    }
+
+    public void RemoveGold(int _gold)
+    {
+        gold -= _gold;
+        GoldTextUpdate();
+    }
+
+    public void HPTextUpdate(float hp, float maxhp)
+    {
+        textHP.text = hp + " / " + maxhp;
     }
 
     private void OnApplicationQuit()
