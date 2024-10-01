@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
             }
             OpenInventory();
         }
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.B))
         {
             if (isShopOn)
             {
