@@ -86,7 +86,7 @@ public class MonsterMove : MonoBehaviour
         print(myMonster.mName + " Hit");
         myMonster.curruntHP -= hitPower;
         UpdateHPbar();
-        if (myMonster.curruntHP <= 0)
+        if (myMonster.curruntHP <= 0 && m_State != MonsterState.Return)
         {
             print(myMonster.mName + " State: AnyState -> Die");
             m_State = MonsterState.Die;
@@ -199,7 +199,13 @@ public class MonsterMove : MonoBehaviour
             myMonster.curruntHP = myMonster.maxHP;
             UpdateHPbar();
         }
-        if (Vector3.Distance(transform.position, originPos) > 0.1f)
+        if (Vector3.Distance(transform.position, playerTransform.position) < Vector3.Distance(transform.position, originPos))
+        {
+            m_State = MonsterState.Move;
+            print(myMonster.mName + " State: Return -> Move");
+            atkCdw = 1 / myMonster.attackSpeed;
+        }
+        else if (Vector3.Distance(transform.position, originPos) > 0.1f)
         {
             Vector3 dir = (originPos - transform.position).normalized;
             cc.Move(dir * myMonster.moveSpeed * Time.deltaTime);
