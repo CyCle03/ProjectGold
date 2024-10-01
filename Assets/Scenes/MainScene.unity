@@ -5069,7 +5069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7445382157811100167, guid: cb372e348d7f59c4796c3dc698574b56, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.27
+      value: 33.46
       objectReference: {fileID: 0}
     - target: {fileID: 7445382157811100167, guid: cb372e348d7f59c4796c3dc698574b56, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5339,7 +5339,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 9209cdc18b4d0944aa2dd8745ab0ae5d, type: 2}
     - target: {fileID: 7445382157811100167, guid: cb372e348d7f59c4796c3dc698574b56, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.23
+      value: 17.42
       objectReference: {fileID: 0}
     - target: {fileID: 7445382157811100167, guid: cb372e348d7f59c4796c3dc698574b56, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5421,7 +5421,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
