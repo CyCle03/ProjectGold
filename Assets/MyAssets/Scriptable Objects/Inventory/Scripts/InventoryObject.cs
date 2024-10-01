@@ -169,6 +169,7 @@ public class InventoryObject : ScriptableObject
     public void Clear()
     {
         Container.Clear();
+        gold = 0;
     }
 
 }

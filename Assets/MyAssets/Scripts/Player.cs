@@ -81,6 +81,9 @@ public class Player : MonoBehaviour
 
         inventory.textGold = invenTextGold.GetComponent<TextMeshProUGUI>();
         shop.textGold = shopTextGold.GetComponent<TextMeshProUGUI>();
+
+        inventory.GoldTextUpdate();
+        shop.GoldTextUpdate();
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -155,7 +158,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ShopReturn()
+    public void ShopReset()
+    {
+        
+    }
+
+    public void ShopSell()
+    {
+        inventory.AddGold(shop.gold);
+        shop.Clear();
+    }
+
+    public void ShopBuy()
     {
         
     }
