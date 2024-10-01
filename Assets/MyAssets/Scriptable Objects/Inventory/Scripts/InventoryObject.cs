@@ -27,7 +27,6 @@ public class InventoryObject : ScriptableObject
     public Inventory Container;
     public InventorySlot[] GetSlots { get { return Container.Slots; } }
     public int gold = 0;
-    public TextMeshProUGUI textGold;
 
     public bool AddItem(Item _item, int _amount)
     {
@@ -55,6 +54,22 @@ public class InventoryObject : ScriptableObject
             for (int i = 0; i < GetSlots.Length; i++)
             {
                 if (GetSlots[i].item.Id <= -1)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+    }
+
+    public int OnSlotCount
+    {
+        get
+        {
+            int counter = 0;
+            for (int i = 0; i < GetSlots.Length; i++)
+            {
+                if (GetSlots[i].item.Id >= 0)
                 {
                     counter++;
                 }
@@ -91,22 +106,6 @@ public class InventoryObject : ScriptableObject
         return null;
     }
 
-    public void GoldTextUpdate()
-    {
-        textGold.text = gold + " G";
-    }
-    public void AddGold(int _gold)
-    {
-        gold += _gold;
-        GoldTextUpdate();
-    }
-
-    public void RemoveGold(int _gold)
-    {
-        gold -= _gold;
-        GoldTextUpdate();
-    }
-
     public void SwapItems(InventorySlot item1, InventorySlot item2)
     {
         if (item2.CanPlaceInSlot(item1.ItemObject) && item1.CanPlaceInSlot(item2.ItemObject))
@@ -128,6 +127,15 @@ public class InventoryObject : ScriptableObject
         }
     }
 
+    public void AddGold(int _gold)
+    {
+        gold += _gold;
+    }
+
+    public void RemoveGold(int _gold)
+    {
+        gold -= _gold;
+    }
 
     [ContextMenu("Save")]
     public void Save()
@@ -237,7 +245,7 @@ public class InventorySlot
         }
         item = _item;
         amount = _amount;
-        totalValue = _item.ItemValue * _amount;
+        totalValue = item.ItemValue * amount;
         if (OnAfterUpdate != null)
         {
             OnAfterUpdate.Invoke(this);

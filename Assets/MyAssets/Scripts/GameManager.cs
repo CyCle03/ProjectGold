@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     bool isInventoryOn;
     bool isShopOn;
+    Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
         isInventoryOn = false;
         shopCanvas.enabled = false;
         isShopOn = false;
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -41,6 +43,11 @@ public class GameManager : MonoBehaviour
             {
                 if (isShopOn)
                 {
+                    if (!ShopResetCheck())
+                    {
+                        print("Clear sell slots first.");
+                        return;
+                    }
                     ShopClose();
                 }
                 CloseInventory();
@@ -52,6 +59,11 @@ public class GameManager : MonoBehaviour
         {
             if (isShopOn)
             {
+                if (!ShopResetCheck())
+                {
+                    print("Clear sell slots first.");
+                    return;
+                }
                 ShopClose();
                 return;
             }
@@ -65,6 +77,11 @@ public class GameManager : MonoBehaviour
         {
             if (isShopOn)
             {
+                if (!ShopResetCheck())
+                {
+                    print("Clear sell slots first.");
+                    return;
+                }
                 ShopClose();
             }
             else if (isInventoryOn)
@@ -72,6 +89,16 @@ public class GameManager : MonoBehaviour
                 CloseInventory();
             }
         }
+    }
+
+    public bool ShopResetCheck()
+    {
+        if (shop.OnSlotCount > inventory.EmptySlotCount)
+        {
+            print("Not enough slots on Inventory");
+            return false;
+        }
+        return true;
     }
 
     public void SaveInventory()
@@ -109,6 +136,7 @@ public class GameManager : MonoBehaviour
 
     public void ShopClose()
     {
+        player.ShopAddInventory();
         shopCanvas.enabled = false;
         isShopOn = false;
         CursorOff();

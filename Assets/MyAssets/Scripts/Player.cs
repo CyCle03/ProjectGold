@@ -13,8 +13,8 @@ public class Player : MonoBehaviour
     public InventoryObject shop;
     public Slider HPSlider;
     public GameObject shopObj;
-    public GameObject invenTextGold;
-    public GameObject shopTextGold;
+    public GameObject invenGoldObj;
+    public GameObject shopGoldObj;
 
     public Attribute[] attributes;
 
@@ -33,7 +33,8 @@ public class Player : MonoBehaviour
     public int l_str;
 
     GameManager gm;
-
+    TextMeshProUGUI invenTextGold;
+    TextMeshProUGUI shopTextGold;
 
     private void Start()
     {
@@ -79,11 +80,18 @@ public class Player : MonoBehaviour
         curruntHP = maxHP;
         UpdateHPSlider();
 
-        inventory.textGold = invenTextGold.GetComponent<TextMeshProUGUI>();
-        shop.textGold = shopTextGold.GetComponent<TextMeshProUGUI>();
+        invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
+        shopTextGold = shopGoldObj.GetComponent<TextMeshProUGUI>();
+    }
 
-        inventory.GoldTextUpdate();
-        shop.GoldTextUpdate();
+    public void InvenGoldUpdate()
+    {
+        invenTextGold.text = inventory.gold.ToString("n0") + " G";
+    }
+
+    public void ShopGoldUpdate()
+    {
+        shopTextGold.text = shop.gold.ToString("n0") + " G";
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -116,6 +124,7 @@ public class Player : MonoBehaviour
                 break;
             case InterfaceType.Shop:
                 shop.RemoveGold(_slot.totalValue);
+                ShopGoldUpdate();
                 break;
             default:
                 break;
@@ -152,6 +161,7 @@ public class Player : MonoBehaviour
                 break;
             case InterfaceType.Shop:
                 shop.AddGold(_slot.totalValue);
+                ShopGoldUpdate();
                 break;
             default:
                 break;
@@ -160,12 +170,44 @@ public class Player : MonoBehaviour
 
     public void ShopReset()
     {
-        
+        if (!ShopResetCheck())
+        {
+            print("Not enough slots on Inventory");
+            return;
+        }
+        ShopAddInventory();
+    }
+
+    public bool ShopResetCheck()
+    {
+        if (shop.OnSlotCount > inventory.EmptySlotCount)
+        {
+            print("Not enough slots on Inventory");
+            return false;
+        }
+        return true;
+    }
+
+    public void ShopAddInventory()
+    {
+        for (int i = 0; i < shop.GetSlots.Length; i++)
+        {
+            if (shop.GetSlots[i].item.Id >= 0)
+            {
+                Item _item = shop.GetSlots[i].item;
+                int _amount = shop.GetSlots[i].amount;
+                if (inventory.AddItem(_item, _amount))
+                {
+                    shop.GetSlots[i].RemoveItem();
+                }
+            }
+        }
     }
 
     public void ShopSell()
     {
         inventory.AddGold(shop.gold);
+        InvenGoldUpdate();
         shop.Clear();
     }
 
@@ -245,8 +287,6 @@ public class Player : MonoBehaviour
     {
         Debug.Log(string.Concat(attribute.type, " was updated! Value is now ", attribute.value.ModifiedValue));
     }
-
-
 }
 
 [System.Serializable]
