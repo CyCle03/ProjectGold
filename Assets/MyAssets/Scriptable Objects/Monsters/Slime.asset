@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   monsterObj: {fileID: 49666126163468060, guid: fcce51cf7d9415045bac3b4ebb39f959, type: 3}
-  type: 0
+  type: 2
   description: 
   data:
     mName: Slime
@@ -21,7 +21,7 @@ MonoBehaviour:
     maxHP: 10
     curruntHP: 0
     attackPower: 1
-    moveSpeed: 1
+    moveSpeed: 1.5
     attackSpeed: 1
-    attackRange: 1
+    attackRange: 2
     mExp: 1

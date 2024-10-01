@@ -33,6 +33,7 @@ public class Weapon : MonoBehaviour
         if (monster != null)
         {
             monster.GetDamaged(player.HitDamage());
+            gameObject.GetComponent<MeshCollider>().enabled = false;
         }
     }
 }

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class MonsterMove : MonoBehaviour
 {
     public Monster myMonster;
-    public float monsterSight = 100;
+    public float monsterSight = 30;
     public MonsterObject monsterObj;
     public Player player;
     public Slider hpSlider;
@@ -76,13 +76,13 @@ public class MonsterMove : MonoBehaviour
 
     public void GetDamaged(float hitPower)
     {
-        print(myMonster.mName + " Hit");
-        myMonster.curruntHP -= hitPower;
-        hpSlider.value = (float)myMonster.curruntHP / (float)myMonster.maxHP;
         if (m_State == MonsterState.Damaged || m_State == MonsterState.Die)
         {
             return;
         }
+        print(myMonster.mName + " Hit");
+        myMonster.curruntHP -= hitPower;
+        UpdateHPbar();
         if (myMonster.curruntHP <= 0)
         {
             print(myMonster.mName + " State: AnyState -> Die");
@@ -100,7 +100,6 @@ public class MonsterMove : MonoBehaviour
     {
         if (monsterObj.type == MonsterType.Aggressive || monsterObj.type == MonsterType.Boss)
         {
-
             if (Vector3.Distance(transform.position, playerTransform.position) < monsterSight)
             {
                 m_State = MonsterState.Move;
@@ -188,11 +187,13 @@ public class MonsterMove : MonoBehaviour
     {
         if (myMonster.curruntHP < myMonster.maxHP)
         {
-            myMonster.curruntHP += 10 * Time.deltaTime;
+            myMonster.curruntHP += myMonster.curruntHP * Time.deltaTime;
+            UpdateHPbar();
         }
         else
         {
             myMonster.curruntHP = myMonster.maxHP;
+            UpdateHPbar();
         }
         if (Vector3.Distance(transform.position, originPos) > 0.1f)
         {
@@ -203,6 +204,7 @@ public class MonsterMove : MonoBehaviour
         {
             transform.position = originPos;
             myMonster.curruntHP = myMonster.maxHP;
+            UpdateHPbar();
             m_State = MonsterState.Idle;
             print(myMonster.mName + " State: Return -> Idle");
         }
@@ -236,6 +238,11 @@ public class MonsterMove : MonoBehaviour
         yield return new WaitForSeconds(1f);
         print("¼Ò¸ê");
         Destroy(gameObject);
+    }
+
+    public void UpdateHPbar()
+    {
+        hpSlider.value = (float)myMonster.curruntHP / (float)myMonster.maxHP;
     }
 
 /*    public Transform SearchTarget()

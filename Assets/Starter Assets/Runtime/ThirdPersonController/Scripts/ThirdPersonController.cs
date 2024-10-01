@@ -47,7 +47,7 @@ namespace StarterAssets
         public float FallTimeout = 0.15f;
 
         [Tooltip("Time required to pass before being able to attack again. Set to 0f to instantly attack again")]
-        public float AttackTimeout = 1.0f;
+        public float AttackTimeout = 1.5f;
 
         [Tooltip("If the character is attacking or not.")]
         public bool Attacking = false;
@@ -382,14 +382,13 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
-                        _weaponCollider.enabled = true;
-                        _animator.SetBool(_animIDAttack, true);
                         Attacking = true;
+                        _animator.SetBool(_animIDAttack, true);
+                        _weaponCollider.enabled = true;
                         _attackTimeoutDelta = AttackTimeout;
                     }
                 }
-                // attack timeout
-                if (_attackTimeoutDelta >= 0.0f)
+                if(_attackTimeoutDelta >= 0.0f)
                 {
                     _attackTimeoutDelta -= Time.deltaTime;
                 }
@@ -408,10 +407,15 @@ namespace StarterAssets
                 }
                 if (_attackTimeoutDelta <= 0.0f)
                 {
-                    _weaponCollider.enabled = false;
                     Attacking = false;
                 }
             }
+        }
+
+        public void AttackingEnd()
+        {
+            _weaponCollider.enabled = false;
+            Attacking = false;
         }
 
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
