@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textGold;
     public InventoryObject inventory;
     public InventoryObject equipment;
+    public InventoryObject shop;
     public Canvas InventoryCanvas;
     public TextMeshProUGUI textHP;
-    public GameObject shopScreen;
+    public Canvas shopCanvas;
 
     bool isInventoryOn;
     bool isShopOn;
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
         GoldTextUpdate();
         InventoryCanvas.enabled = false;
         isInventoryOn = false;
-        shopScreen.SetActive(false);
+        shopCanvas.enabled = false;
         isShopOn = false;
     }
 
@@ -96,14 +97,14 @@ public class GameManager : MonoBehaviour
 
     public void ShopOpen()
     {
-        shopScreen.SetActive(true);
+        shopCanvas.enabled = true;
         isShopOn = true;
         CursorOn();
     }
 
     public void ShopClose()
     {
-        shopScreen.SetActive(false);
+        shopCanvas.enabled = false;
         isShopOn = false;
         CursorOff();
     }
@@ -138,12 +139,13 @@ public class GameManager : MonoBehaviour
 
     public void HPTextUpdate(float hp, float maxhp)
     {
-        textHP.text = hp + " / " + maxhp;
+        textHP.text = hp.ToString("n0") + " / " + maxhp;
     }
 
     private void OnApplicationQuit()
     {
         inventory.Clear();
         equipment.Clear();
+        shop.Clear();
     }
 }

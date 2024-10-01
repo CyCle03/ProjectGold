@@ -37,10 +37,7 @@ public class ShopInterface : UserInterface
             slotsOnInterface.Add(obj, inventory.GetSlots[i]);
         }
     }
-    public void GoldTextUpdate()
-    {
-        textSGold.text = shopGold + " G";
-    }
+
     public void AddGold(int _gold)
     {
         shopGold += _gold;
@@ -51,6 +48,10 @@ public class ShopInterface : UserInterface
     {
         shopGold -= _gold;
         GoldTextUpdate();
+    }
+    public void GoldTextUpdate()
+    {
+        textSGold.text = shopGold.ToString("n0") + " G";
     }
 
     private Vector3 GetPosition(int i)

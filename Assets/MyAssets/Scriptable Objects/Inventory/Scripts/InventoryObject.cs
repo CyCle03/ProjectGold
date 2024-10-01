@@ -184,6 +184,7 @@ public class InventorySlot
 
     public Item item;
     public int amount;
+    public int totalValue;
 
     public ItemObject ItemObject
     {
@@ -215,6 +216,7 @@ public class InventorySlot
         }
         item = _item;
         amount = _amount;
+        totalValue = _item.ItemValue * _amount;
         if (OnAfterUpdate != null)
         {
             OnAfterUpdate.Invoke(this);

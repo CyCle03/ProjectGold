@@ -9,8 +9,9 @@ public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
     public InventoryObject equipment;
-    public ShopInterface shop;
+    public InventoryObject shop;
     public Slider HPSlider;
+    public GameObject shopObj;
 
     public Attribute[] attributes;
 
@@ -29,10 +30,13 @@ public class Player : MonoBehaviour
     public int l_str;
 
     GameManager gm;
+    ShopInterface ShopInterface;
+
 
     private void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        ShopInterface = shopObj.GetComponent<ShopInterface>();
 
         for (int i = 0; i < attributes.Length; i++)
         {
@@ -64,6 +68,11 @@ public class Player : MonoBehaviour
         {
             equipment.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
             equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
+        }
+        for (int i = 0; i < shop.GetSlots.Length; i++)
+        {
+            shop.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
+            shop.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
         UpdatePStats();
         curruntHP = maxHP;
@@ -99,7 +108,7 @@ public class Player : MonoBehaviour
             case InterfaceType.Chest:
                 break;
             case InterfaceType.Shop:
-                shop.RemoveGold(_slot.item.ItemValue);
+                ShopInterface.RemoveGold(_slot.totalValue);
                 break;
             default:
                 break;
@@ -135,11 +144,16 @@ public class Player : MonoBehaviour
             case InterfaceType.Chest:
                 break;
             case InterfaceType.Shop:
-                shop.AddGold(_slot.item.ItemValue);
+                ShopInterface.AddGold(_slot.totalValue);
                 break;
             default:
                 break;
         }
+    }
+
+    public void ShopReturn()
+    {
+        
     }
 
     public void UpdateDmg()

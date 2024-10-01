@@ -44,7 +44,7 @@ public class Item
 {
     public string Name;
     public int Id = -1;
-    public int ItemValue = 1;
+    public int ItemValue = 0;
     public ItemBuff[] buffs;
 
     public Item()
@@ -57,6 +57,7 @@ public class Item
     {
         Name = item.name;
         Id = item.data.Id;
+        ItemValue = item.data.ItemValue;
         buffs = new ItemBuff[item.data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {
