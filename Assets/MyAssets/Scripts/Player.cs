@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
     public InventoryObject equipment;
     public Canvas InventoryCanvas;
+    public Slider HPSlider;
 
     public Attribute[] attributes;
 
@@ -61,8 +63,9 @@ public class Player : MonoBehaviour
             equipment.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
             equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
-
+        UpdatePStats();
         curruntHP = maxHP;
+        UpdateHPSlider();
 
         InventoryCanvas.enabled = false;
         isUIOn = false;
@@ -153,6 +156,7 @@ public class Player : MonoBehaviour
         s_stm = GetStats(l_stm);
         s_str = GetStats(l_str);
         maxHP = 100+(s_stm * 10);
+        UpdateHPSlider();
     }
 
     public int GetStats(int l_stat)
@@ -247,6 +251,12 @@ public class Player : MonoBehaviour
     public void GetDamaged(float damage)
     {
         curruntHP -= damage;
+        UpdateHPSlider();
+    }
+
+    void UpdateHPSlider()
+    {
+        HPSlider.value = (float)curruntHP / (float)maxHP;
     }
 
     public void AttributeModified(Attribute attribute)
