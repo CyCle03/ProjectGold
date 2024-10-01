@@ -15,9 +15,6 @@ public class ShopInterface : UserInterface
     public int NUMBER_OF_COLUMN;
     public int Y_SPACE_BETEEN_ITEM;
 
-    public int shopGold = 0;
-    public TextMeshProUGUI textSGold;
-
     public override void CreateSlots()
     {
         slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
@@ -36,22 +33,6 @@ public class ShopInterface : UserInterface
 
             slotsOnInterface.Add(obj, inventory.GetSlots[i]);
         }
-    }
-
-    public void AddGold(int _gold)
-    {
-        shopGold += _gold;
-        GoldTextUpdate();
-    }
-
-    public void RemoveGold(int _gold)
-    {
-        shopGold -= _gold;
-        GoldTextUpdate();
-    }
-    public void GoldTextUpdate()
-    {
-        textSGold.text = shopGold.ToString("n0") + " G";
     }
 
     private Vector3 GetPosition(int i)

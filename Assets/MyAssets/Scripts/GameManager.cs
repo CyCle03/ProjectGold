@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int gold = 0;
-    public TextMeshProUGUI textGold;
     public InventoryObject inventory;
     public InventoryObject equipment;
     public InventoryObject shop;
@@ -20,7 +18,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GoldTextUpdate();
         InventoryCanvas.enabled = false;
         isInventoryOn = false;
         shopCanvas.enabled = false;
@@ -42,6 +39,10 @@ public class GameManager : MonoBehaviour
         {
             if (isInventoryOn)
             {
+                if (isShopOn)
+                {
+                    ShopClose();
+                }
                 CloseInventory();
                 return;
             }
@@ -53,6 +54,10 @@ public class GameManager : MonoBehaviour
             {
                 ShopClose();
                 return;
+            }
+            if (!isInventoryOn)
+            {
+                OpenInventory();
             }
             ShopOpen();
         }
@@ -119,22 +124,6 @@ public class GameManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
-
-    public void GoldTextUpdate()
-    {
-        textGold.text = gold + " G";
-    }
-    public void AddGold(int _gold)
-    {
-        gold += _gold;
-        GoldTextUpdate();
-    }
-
-    public void RemoveGold(int _gold)
-    {
-        gold -= _gold;
-        GoldTextUpdate();
     }
 
     public void HPTextUpdate(float hp, float maxhp)

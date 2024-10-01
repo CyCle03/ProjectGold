@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,8 @@ public class Player : MonoBehaviour
     public InventoryObject shop;
     public Slider HPSlider;
     public GameObject shopObj;
+    public GameObject invenTextGold;
+    public GameObject shopTextGold;
 
     public Attribute[] attributes;
 
@@ -30,13 +33,11 @@ public class Player : MonoBehaviour
     public int l_str;
 
     GameManager gm;
-    ShopInterface ShopInterface;
 
 
     private void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        ShopInterface = shopObj.GetComponent<ShopInterface>();
 
         for (int i = 0; i < attributes.Length; i++)
         {
@@ -77,6 +78,9 @@ public class Player : MonoBehaviour
         UpdatePStats();
         curruntHP = maxHP;
         UpdateHPSlider();
+
+        inventory.textGold = invenTextGold.GetComponent<TextMeshProUGUI>();
+        shop.textGold = shopTextGold.GetComponent<TextMeshProUGUI>();
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -108,7 +112,7 @@ public class Player : MonoBehaviour
             case InterfaceType.Chest:
                 break;
             case InterfaceType.Shop:
-                ShopInterface.RemoveGold(_slot.totalValue);
+                shop.RemoveGold(_slot.totalValue);
                 break;
             default:
                 break;
@@ -144,7 +148,7 @@ public class Player : MonoBehaviour
             case InterfaceType.Chest:
                 break;
             case InterfaceType.Shop:
-                ShopInterface.AddGold(_slot.totalValue);
+                shop.AddGold(_slot.totalValue);
                 break;
             default:
                 break;

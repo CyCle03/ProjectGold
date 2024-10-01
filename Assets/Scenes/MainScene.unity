@@ -1339,6 +1339,8 @@ MonoBehaviour:
   shop: {fileID: 11400000, guid: 052bfb21565812c4498a149f98247cee, type: 2}
   HPSlider: {fileID: 694023917}
   shopObj: {fileID: 1459185192}
+  invenTextGold: {fileID: 587543683}
+  shopTextGold: {fileID: 719407427}
   attributes:
   - type: 0
     value:
@@ -1976,6 +1978,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1377475986}
   - {fileID: 129059382}
   - {fileID: 62594161}
   m_Father: {fileID: 0}
@@ -2310,8 +2313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 453a4a64fd58a664fa112603f48bd3e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 0
-  textGold: {fileID: 587543685}
   inventory: {fileID: 11400000, guid: a8a1a86a4dca4144faf79ac2113ee504, type: 2}
   equipment: {fileID: 11400000, guid: 75b07770b7df32d4bb0d2627fd3e3408, type: 2}
   shop: {fileID: 11400000, guid: 052bfb21565812c4498a149f98247cee, type: 2}
@@ -3138,7 +3139,7 @@ GameObject:
   - component: {fileID: 587543686}
   - component: {fileID: 587543685}
   m_Layer: 5
-  m_Name: Gold
+  m_Name: InvenGold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3774,7 +3775,7 @@ GameObject:
   - component: {fileID: 719407430}
   - component: {fileID: 719407429}
   m_Layer: 5
-  m_Name: Gold
+  m_Name: ShopGold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5446,19 +5447,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377475982}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1459185193}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 248008363}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 960, y: 540}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1409844211
 GameObject:
   m_ObjectHideFlags: 0
@@ -5603,8 +5604,6 @@ MonoBehaviour:
   X_SPACE_BETEEN_ITEM: 110
   NUMBER_OF_COLUMN: 7
   Y_SPACE_BETEEN_ITEM: 110
-  shopGold: 0
-  textSGold: {fileID: 719407429}
 --- !u!114 &1459185197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6003,7 +6002,7 @@ GameObject:
   - component: {fileID: 1626180834}
   - component: {fileID: 1626180833}
   m_Layer: 5
-  m_Name: GoldBar
+  m_Name: InvenGoldBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6306,7 +6305,7 @@ GameObject:
   - component: {fileID: 1775135524}
   - component: {fileID: 1775135523}
   m_Layer: 5
-  m_Name: GoldBar
+  m_Name: ShopGoldBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6939,7 +6938,6 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 1409844212}
   - {fileID: 248008363}
-  - {fileID: 1377475986}
   - {fileID: 2101212238}
   - {fileID: 749779060}
   - {fileID: 1572940241}

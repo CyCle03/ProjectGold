@@ -6,6 +6,8 @@ using System.IO;
 using UnityEditor;
 using JetBrains.Annotations;
 using System.Runtime.Serialization;
+using TMPro;
+using Unity.VisualScripting;
 
 public enum InterfaceType
 {
@@ -24,6 +26,8 @@ public class InventoryObject : ScriptableObject
     public InterfaceType type;
     public Inventory Container;
     public InventorySlot[] GetSlots { get { return Container.Slots; } }
+    public int gold = 0;
+    public TextMeshProUGUI textGold;
 
     public bool AddItem(Item _item, int _amount)
     {
@@ -85,6 +89,22 @@ public class InventoryObject : ScriptableObject
 
         //set up funcionallity for full inventory
         return null;
+    }
+
+    public void GoldTextUpdate()
+    {
+        textGold.text = gold + " G";
+    }
+    public void AddGold(int _gold)
+    {
+        gold += _gold;
+        GoldTextUpdate();
+    }
+
+    public void RemoveGold(int _gold)
+    {
+        gold -= _gold;
+        GoldTextUpdate();
     }
 
     public void SwapItems(InventorySlot item1, InventorySlot item2)
