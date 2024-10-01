@@ -44,6 +44,7 @@ public class MonsterMove : MonoBehaviour
         //uManager = GameObject.Find("UnitManager").GetComponent<UnitManager>();
         myMonster = new Monster(monsterObj);
         dropItem = myMonster.dropItem;
+        groundItem.GetComponent<GroundItem>().item = dropItem;
         monsterNav = gameObject.GetComponent<NavMeshAgent>();
         cc = gameObject.GetComponent<CharacterController>();
         player = GameObject.Find("Player").GetComponent<Player>();
@@ -199,7 +200,7 @@ public class MonsterMove : MonoBehaviour
             myMonster.curruntHP = myMonster.maxHP;
             UpdateHPbar();
         }
-        if (Vector3.Distance(transform.position, playerTransform.position) < Vector3.Distance(transform.position, originPos))
+        if (Vector3.Distance(transform.position, originPos) < monsterSight / 2 && 2 * Vector3.Distance(transform.position, playerTransform.position) < Vector3.Distance(transform.position, originPos))
         {
             m_State = MonsterState.Move;
             print(myMonster.mName + " State: Return -> Move");
@@ -248,11 +249,11 @@ public class MonsterMove : MonoBehaviour
 
         if (dropItem != null)
         {
-            groundItem.GetComponent<GroundItem>().item = dropItem;
             GameObject droped = Instantiate(groundItem);
-            droped.transform.position = transform.position;
+            droped.transform.position = transform.position + new Vector3(0, 0.5f, 0);
         }
-        print("¼Ò¸ê");
+
+        print(myMonster.mName + "¼Ò¸ê");
         Destroy(gameObject);
     }
 
