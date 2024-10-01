@@ -44,6 +44,7 @@ public class Monster
     public float attackSpeed;
     public float attackRange;
     public int mExp;
+    public ItemObject dropItem;
 
     public Monster()
     {
@@ -62,6 +63,7 @@ public class Monster
         attackSpeed = monster.data.attackSpeed;
         attackRange = monster.data.attackRange;
         mExp = monster.data.mExp;
+        dropItem = monster.data.dropItem;
     }
 
     public void DisplayStats()

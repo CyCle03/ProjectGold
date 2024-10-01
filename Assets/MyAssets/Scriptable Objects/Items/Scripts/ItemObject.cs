@@ -44,6 +44,7 @@ public class Item
 {
     public string Name;
     public int Id = -1;
+    public int ItemValue = 1;
     public ItemBuff[] buffs;
 
     public Item()
@@ -62,6 +63,7 @@ public class Item
             buffs[i] = new ItemBuff(item.data.buffs[i].min, item.data.buffs[i].max);
             {
                 buffs[i].attribute = item.data.buffs[i].attribute;
+                ItemValue += buffs[i].value;
             };
         }
     }
@@ -90,6 +92,5 @@ public class ItemBuff : IModifiers
     public void GenerateValue()
     {
         value = UnityEngine.Random.Range(min, max);
-
     }
 }

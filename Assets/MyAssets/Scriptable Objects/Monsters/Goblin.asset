@@ -25,3 +25,4 @@ MonoBehaviour:
     attackSpeed: 1
     attackRange: 2
     mExp: 10
+    dropItem: {fileID: 11400000, guid: b2f475af1fff7cd41852b5084a5c32d5, type: 2}

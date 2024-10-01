@@ -387,7 +387,7 @@ Transform:
   m_GameObject: {fileID: 8060629548292484975}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.36, y: -0.5, z: -5}
+  m_LocalPosition: {x: 29.36, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -465,10 +465,12 @@ MonoBehaviour:
     attackSpeed: 0
     attackRange: 0
     mExp: 0
+    dropItem: {fileID: 0}
   monsterSight: 30
   monsterObj: {fileID: 11400000, guid: a452560dadc866c4485b104d9ce18234, type: 2}
   player: {fileID: 0}
   hpSlider: {fileID: 4395231710430534882}
+  groundItem: {fileID: 8090519959216403267, guid: e735848a20326b24ea9f6cda920bb400, type: 3}
 --- !u!114 &464039329472600101
 MonoBehaviour:
   m_ObjectHideFlags: 0

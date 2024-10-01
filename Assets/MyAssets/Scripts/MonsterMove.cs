@@ -14,6 +14,7 @@ public class MonsterMove : MonoBehaviour
     public MonsterObject monsterObj;
     public Player player;
     public Slider hpSlider;
+    public GameObject groundItem;
 
     //MonsterManager mManager;
     CharacterController cc;
@@ -21,6 +22,7 @@ public class MonsterMove : MonoBehaviour
     //Transform targetTransform;
     Transform playerTransform;
     Vector3 originPos;
+    ItemObject dropItem;
 
     float atkCdw = 0;
 
@@ -41,6 +43,7 @@ public class MonsterMove : MonoBehaviour
     {
         //uManager = GameObject.Find("UnitManager").GetComponent<UnitManager>();
         myMonster = new Monster(monsterObj);
+        dropItem = myMonster.dropItem;
         monsterNav = gameObject.GetComponent<NavMeshAgent>();
         cc = gameObject.GetComponent<CharacterController>();
         player = GameObject.Find("Player").GetComponent<Player>();
@@ -112,6 +115,7 @@ public class MonsterMove : MonoBehaviour
     {
         if (playerTransform != null)
         {
+            playerTransform = player.GetComponentInParent<Transform>();
             if (Vector3.Distance(transform.position, originPos) > monsterSight)
             {
                 m_State = MonsterState.Return;
@@ -232,10 +236,16 @@ public class MonsterMove : MonoBehaviour
     IEnumerator DieProcess()
     {
         cc.enabled = false;
-
         player.UpdateEXP(myMonster.mExp);
 
         yield return new WaitForSeconds(1f);
+
+        if (dropItem != null)
+        {
+            groundItem.GetComponent<GroundItem>().item = dropItem;
+            GameObject droped = Instantiate(groundItem);
+            droped.transform.position = transform.position;
+        }
         print("¼Ò¸ê");
         Destroy(gameObject);
     }

@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class EquipmentObject : ItemObject
 {
-
     public void Awake()
     {
     }
