@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class GameManager : MonoBehaviour
     public InventoryObject shop;
     public Canvas InventoryCanvas;
     public TextMeshProUGUI textHP;
-    public Canvas shopCanvas;
+    public GameObject shopScreen;
+    public GameObject InvenScreen;
+    public GameObject EquipScreen;
 
     bool isInventoryOn;
     bool isShopOn;
@@ -20,9 +23,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InventoryCanvas.enabled = false;
+        InvenScreen.SetActive(false);
+        EquipScreen.SetActive(false);
         isInventoryOn = false;
-        shopCanvas.enabled = false;
+        shopScreen.SetActive(false);
         isShopOn = false;
+        
         player = GameObject.Find("Player").GetComponent<Player>();
     }
 
@@ -116,6 +122,8 @@ public class GameManager : MonoBehaviour
     public void OpenInventory()
     {
         InventoryCanvas.enabled = true;
+        InvenScreen.SetActive(true);
+        EquipScreen.SetActive(true);
         isInventoryOn = true;
         CursorOn();
     }
@@ -123,13 +131,15 @@ public class GameManager : MonoBehaviour
     public void CloseInventory()
     {
         InventoryCanvas.enabled = false;
+        InvenScreen.SetActive(false);
+        EquipScreen.SetActive(false);
         isInventoryOn = false;
         CursorOff();
     }
 
     public void ShopOpen()
     {
-        shopCanvas.enabled = true;
+        shopScreen.SetActive(true);
         isShopOn = true;
         CursorOn();
     }
@@ -137,7 +147,7 @@ public class GameManager : MonoBehaviour
     public void ShopClose()
     {
         player.ShopAddInventory();
-        shopCanvas.enabled = false;
+        shopScreen.SetActive(false);
         isShopOn = false;
         CursorOff();
     }

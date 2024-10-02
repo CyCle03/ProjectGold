@@ -131,7 +131,6 @@ public class MonsterMove : MonoBehaviour
             {
                 m_State = MonsterState.Attack;
                 print(myMonster.mName + " State: Move -> Attack");
-                atkCdw = 0;
             }
         }
         else
@@ -176,6 +175,7 @@ public class MonsterMove : MonoBehaviour
             if (atkCdw <= 0)
             {
                 print(myMonster.mName + " Attack");
+                StartCoroutine(DelayedMonster());
                 player.GetDamaged(myMonster.attackPower);
                 atkCdw = 1 / myMonster.attackSpeed;
             }
@@ -224,12 +224,14 @@ public class MonsterMove : MonoBehaviour
     void DamagedMonster()
     {
         StartCoroutine(DelayedMonster());
+        m_State = MonsterState.Move;
+        print(myMonster.mName + " State: Damaged -> Move");
     }
 
     IEnumerator DelayedMonster()
     {
+        print(myMonster.mName + " Delayed 0.5f");
         yield return new WaitForSeconds(0.5f);
-        m_State = MonsterState.Move;
     }
 
     void DieMonster()
