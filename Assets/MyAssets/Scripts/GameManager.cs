@@ -150,6 +150,10 @@ public class GameManager : MonoBehaviour
 
     public void CursorOff()
     {
+        if (isInventoryOn)
+        {
+            return;
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
