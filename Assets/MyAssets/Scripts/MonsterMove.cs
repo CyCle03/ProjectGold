@@ -171,6 +171,7 @@ public class MonsterMove : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, playerTransform.position) < myMonster.attackRange)
         {
+            monsterNav.avoidancePriority = 50;
             atkCdw -= Time.deltaTime;
             if (atkCdw <= 0)
             {
@@ -182,6 +183,7 @@ public class MonsterMove : MonoBehaviour
         }
         else
         {
+            monsterNav.avoidancePriority = 51;
             m_State = MonsterState.Move;
             print(myMonster.mName + " State: Attack -> Move");
             atkCdw = 1 / myMonster.attackSpeed;
