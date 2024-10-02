@@ -116,7 +116,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
-        private Collider _weaponCollider;
+        private Collider _wBoxCollider;
 
         private const float _threshold = 0.01f;
 
@@ -165,8 +165,8 @@ namespace StarterAssets
             _attackTimeoutDelta = AttackTimeout;
 
             // off Weapon Colliders
-            _weaponCollider = WeaponObj.GetComponent<MeshCollider>();
-            _weaponCollider.enabled = false;
+            _wBoxCollider = WeaponObj.GetComponent<BoxCollider>();
+            _wBoxCollider.enabled = false;
         }
 
         private void Update()
@@ -387,7 +387,7 @@ namespace StarterAssets
                     {
                         Attacking = true;
                         _animator.SetBool(_animIDAttack, true);
-                        _weaponCollider.enabled = true;
+                        _wBoxCollider.enabled = true;
                         _attackTimeoutDelta = AttackTimeout;
                     }
                 }
@@ -417,7 +417,7 @@ namespace StarterAssets
 
         public void AttackingEnd()
         {
-            _weaponCollider.enabled = false;
+            _wBoxCollider.enabled = false;
             Attacking = false;
         }
 

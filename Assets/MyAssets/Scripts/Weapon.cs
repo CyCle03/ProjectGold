@@ -16,16 +16,6 @@ public class Weapon : MonoBehaviour
     //public WeaponType type;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -33,7 +23,7 @@ public class Weapon : MonoBehaviour
         if (monster != null)
         {
             monster.GetDamaged(player.HitDamage());
-            gameObject.GetComponent<MeshCollider>().enabled = false;
+            gameObject.GetComponent<BoxCollider>().enabled = false;
         }
     }
 }
