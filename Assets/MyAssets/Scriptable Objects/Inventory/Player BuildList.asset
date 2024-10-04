@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d700c9914f710e40842b921201600ab, type: 3}
+  m_Name: Player BuildList
+  m_EditorClassIdentifier: 
+  savePath: /BuildList.Save
+  database: {fileID: 11400000, guid: b38f46ff8359fa048b061c5d37005c02, type: 2}
+  Container:
+    ListSlots:
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+    - AllowedBuilds: 
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        buffs: []
+  gold: 0
