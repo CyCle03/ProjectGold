@@ -32,11 +32,13 @@ public abstract class BuildInterface : MonoBehaviour
         {
             _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.BuildObject.uiDisplay;
             _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            _slot.listSlotDisplay.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
         else
         {
             _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
             _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
+            _slot.listSlotDisplay.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
     }
     public abstract void CreateListSlots();
@@ -133,11 +135,13 @@ public static class ExtensionBuildMethods
             {
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.BuildObject.uiDisplay;
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = "";
             }
             else
             {
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = null;
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0);
+                _slot.Key.GetComponentInChildren<TextMeshProUGUI>().text = "";
             }
         }
     }
