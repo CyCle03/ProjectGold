@@ -20,37 +20,37 @@ MonoBehaviour:
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: -1
+        B_Id: 0
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: -1
+        B_Id: 0
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: -1
+        B_Id: 0
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: -1
+        B_Id: 0
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 02000000
       build:
         BuildName: 
-        B_Id: -1
+        B_Id: 1
         BuildValue: 0
-        type: 0
+        type: 2
         buffs: []
     - AllowedBuilds: 01000000
       build:

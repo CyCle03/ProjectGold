@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BuildingDB
   m_EditorClassIdentifier: 
   BuildObjects:
-  - {fileID: 11400000, guid: b9cc02646984d8c48b33dac981e2c2e9, type: 2}
-  - {fileID: 11400000, guid: 27084aa51b4495644b6625bf438dbba4, type: 2}
+  - {fileID: 11400000, guid: bf113a20246f3c542bdbe5005bf113e9, type: 2}
+  - {fileID: 11400000, guid: 96af064665ebcc74d8dd1534fb0a7945, type: 2}

@@ -124,7 +124,6 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
-
                 break;
             case InterfaceType.Chest:
                 break;
@@ -198,7 +197,6 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
-
                 break;
             case BuildInterfaceList.BuildShop:
                 //buildShop.RemoveGold(_listSlot.build.BuildValue);

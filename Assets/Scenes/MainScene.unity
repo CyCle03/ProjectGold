@@ -2342,6 +2342,7 @@ MonoBehaviour:
   InvenScreen: {fileID: 129059381}
   EquipScreen: {fileID: 62594160}
   BuildScreen: {fileID: 1669767867}
+  TestScreen: {fileID: 1694219268}
 --- !u!1 &358222917
 GameObject:
   m_ObjectHideFlags: 0

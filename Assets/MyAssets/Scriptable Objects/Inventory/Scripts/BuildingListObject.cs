@@ -39,7 +39,7 @@ public class BuildingListObject : ScriptableObject
         {
             return false;
         }
-        SetEmptyListSlot(_build);
+        listslot.UpdateListSlot(_build);
         return true;
     }
 

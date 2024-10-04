@@ -14,101 +14,101 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   savePath: 
   database: {fileID: 11400000, guid: b38f46ff8359fa048b061c5d37005c02, type: 2}
-  type: 1
+  type: 0
   Container:
     ListSlots:
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: 1
+        B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: 1
+        B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: 1
+        B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 00000000
       build:
         BuildName: 
-        B_Id: 1
+        B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
     - AllowedBuilds: 02000000
       build:
         BuildName: 
-        B_Id: 0
+        B_Id: -1
         BuildValue: 0
-        type: 2
+        type: 0
         buffs: []
-    - AllowedBuilds: 01000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 07000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 03000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 04000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 06000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 08000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 05000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 09000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 09000000
+    - AllowedBuilds: 
       build:
         BuildName: 
         B_Id: -1
