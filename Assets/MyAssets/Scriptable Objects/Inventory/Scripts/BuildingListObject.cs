@@ -9,13 +9,19 @@ using System.Runtime.Serialization;
 using TMPro;
 using Unity.VisualScripting;
 
+public enum BuildInterfaceList
+{
+    BuildList,
+    BuildShop,
+    ETC
+}
 
 [CreateAssetMenu(fileName = "New BuildList", menuName = "Inventory System/BuildList")]
-
 public class BuildingListObject : ScriptableObject
 {
     public string savePath;
     public BuildingDBObject database;
+    public BuildInterfaceList type;
     public BuildList Container;
     public ListSlot[] GetListSlots { get { return Container.ListSlots; } }
     public int gold = 0;
@@ -31,9 +37,9 @@ public class BuildingListObject : ScriptableObject
 
         if (listslot == null)
         {
-            SetEmptyListSlot(_build);
-            return true;
+            return false;
         }
+        SetEmptyListSlot(_build);
         return true;
     }
 
@@ -73,9 +79,12 @@ public class BuildingListObject : ScriptableObject
     {
         for (int i = 0; i < GetListSlots.Length; i++)
         {
-            if (GetListSlots[i].build.B_Id == _build.B_Id)
+            if (GetListSlots[i].CanPlaceInListSlot(_build))
             {
-                return GetListSlots[i];
+                if (GetListSlots[i].build.B_Id <= -1)
+                {
+                    return GetListSlots[i];
+                }
             }
         }
         return null;
@@ -99,7 +108,7 @@ public class BuildingListObject : ScriptableObject
 
     public void SwapBuilds(ListSlot build1, ListSlot build2)
     {
-        if (build2.CanPlaceInListSlot(build1.buildObject) && build1.CanPlaceInListSlot(build2.buildObject))
+        if (build2.CanPlaceInListSlot(build1.BuildObject) && build1.CanPlaceInListSlot(build2.BuildObject))
         {
             ListSlot temp = new ListSlot(build2.build);
             build2.UpdateListSlot(build1.build);
@@ -193,7 +202,7 @@ public class ListSlot
 
     public Building build;
 
-    public BuildingObject buildObject
+    public BuildingObject BuildObject
     {
         get
         {
@@ -247,7 +256,23 @@ public class ListSlot
                 return true;
             }
         }
+        return false;
+    }
 
+    public bool CanPlaceInListSlot(Building _build)
+    {
+        if (AllowedBuilds.Length <= 0 || _build == null || _build.B_Id < 0)
+        {
+            return true;
+        }
+
+        for (int i = 0; i < AllowedBuilds.Length; i++)
+        {
+            if (_build.type == AllowedBuilds[i])
+            {
+                return true;
+            }
+        }
         return false;
     }
 }

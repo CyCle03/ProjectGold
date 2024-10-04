@@ -19,5 +19,6 @@ MonoBehaviour:
   data:
     BuildName: 
     B_Id: 0
-    BuildValue: 0
+    BuildValue: 100
+    type: 2
     buffs: []

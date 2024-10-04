@@ -40,6 +40,7 @@ public class Building
     public string BuildName;
     public int B_Id = -1;
     public int BuildValue = 0;
+    public BuildType type;
     public BuildBuff[] buffs;
 
     public Building()
@@ -53,6 +54,7 @@ public class Building
         BuildName = buliding.name;
         B_Id = buliding.data.B_Id;
         BuildValue = buliding.data.BuildValue;
+        type = buliding.type;
         buffs = new BuildBuff[buliding.data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {

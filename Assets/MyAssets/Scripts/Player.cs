@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public InventoryObject inventory;
     public InventoryObject equipment;
     public InventoryObject shop;
+    public BuildingListObject buildList;
     public Slider HPSlider;
     public GameObject shopObj;
     public GameObject invenGoldObj;
@@ -75,6 +76,11 @@ public class Player : MonoBehaviour
         {
             shop.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
             shop.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
+        }
+        for (int i = 0; i < buildList.GetListSlots.Length; i++)
+        {
+            buildList.GetListSlots[i].OnBeforeUpdate += OnBeforeListSlotUpdate;
+            buildList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
         }
         UpdatePStats();
         curruntHP = maxHP;
@@ -162,6 +168,77 @@ public class Player : MonoBehaviour
             case InterfaceType.Shop:
                 shop.AddGold(_slot.totalValue);
                 ShopGoldUpdate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OnBeforeListSlotUpdate(ListSlot _listSlot)
+    {
+        if (_listSlot.BuildObject == null)
+        {
+            return;
+        }
+        switch (_listSlot.parent.buildList.type)
+        {
+            case BuildInterfaceList.ETC:
+
+                break;
+            case BuildInterfaceList.BuildList:
+                print(string.Concat("Removed ", _listSlot.BuildObject, " on ", _listSlot.parent.buildList.type, ", Allowed Building: ", string.Join(", ", _listSlot.AllowedBuilds)));
+
+                for (int i = 0; i < _listSlot.build.buffs.Length; i++)
+                {
+                    for (int j = 0; j < attributes.Length; j++)
+                    {
+                        if (attributes[j].type == _listSlot.build.buffs[i].attribute)
+                        {
+                            attributes[j].value.RemoveModifier(_listSlot.build.buffs[i]);
+                        }
+                    }
+                }
+
+                break;
+            case BuildInterfaceList.BuildShop:
+                //buildShop.RemoveGold(_listSlot.build.BuildValue);
+                //ShopGoldUpdate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void OnAfterListSlotUpdate(ListSlot _listSlot)
+    {
+        if (_listSlot.BuildObject == null)
+        {
+            return;
+        }
+        switch (_listSlot.parent.buildList.type)
+        {
+            case BuildInterfaceList.ETC:
+
+                break;
+            case BuildInterfaceList.BuildList:
+                print(string.Concat("Placed ", _listSlot.BuildObject, " on ", _listSlot.parent.buildList.type, ", Allowed Builds: ", string.Join(", ", _listSlot.AllowedBuilds)));
+
+                for (int i = 0; i < _listSlot.build.buffs.Length; i++)
+                {
+                    for (int j = 0; j < attributes.Length; j++)
+                    {
+                        if (attributes[j].type == _listSlot.build.buffs[i].attribute)
+                        {
+                            attributes[j].value.AddModifier(_listSlot.build.buffs[i]);
+                        }
+                    }
+                }
+                UpdatePStats();
+                UpdateDmg();
+                break;
+            case BuildInterfaceList.BuildShop:
+                //buildShop.AddGold(_listSlot.build.BuildValue);
+                //ShopGoldUpdate();
                 break;
             default:
                 break;

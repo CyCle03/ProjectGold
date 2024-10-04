@@ -14,8 +14,7 @@ public enum InterfaceType
     Inventory,
     Equipment,
     Chest,
-    Shop,
-    Building
+    Shop
 }
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
@@ -277,7 +276,6 @@ public class InventorySlot
                 return true;
             }
         }
-
         return false;
     }
 }

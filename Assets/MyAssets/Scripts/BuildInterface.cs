@@ -30,7 +30,7 @@ public abstract class BuildInterface : MonoBehaviour
     {
         if (_slot.build.B_Id >= 0)
         {
-            _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.buildObject.uiDisplay;
+            _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.BuildObject.uiDisplay;
             _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
         }
         else
@@ -85,7 +85,7 @@ public abstract class BuildInterface : MonoBehaviour
             rt.sizeDelta = new Vector2(100, 100);
             tempbuild.transform.SetParent(transform.parent);
             var img = tempbuild.AddComponent<Image>();
-            img.sprite = listSlotsOnInterface[obj].buildObject.uiDisplay;
+            img.sprite = listSlotsOnInterface[obj].BuildObject.uiDisplay;
             img.raycastTarget = false;
         }
         return tempbuild;
@@ -131,7 +131,7 @@ public static class ExtensionBuildMethods
         {
             if (_slot.Value.build.B_Id >= 0)
             {
-                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.buildObject.uiDisplay;
+                _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.BuildObject.uiDisplay;
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
             }
             else

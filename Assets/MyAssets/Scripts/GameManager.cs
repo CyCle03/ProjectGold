@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -9,14 +11,20 @@ public class GameManager : MonoBehaviour
     public InventoryObject inventory;
     public InventoryObject equipment;
     public InventoryObject shop;
+    public BuildingListObject build;
     public Canvas InventoryCanvas;
     public TextMeshProUGUI textHP;
-    public GameObject shopScreen;
+    public GameObject ShopScreen;
     public GameObject InvenScreen;
     public GameObject EquipScreen;
+    public GameObject BuildScreen;
+    public GameObject TestScreen;
 
     bool isInventoryOn;
     bool isShopOn;
+    bool isBuildOn;
+    bool isTestOn;
+
     Player player;
 
     // Start is called before the first frame update
@@ -26,8 +34,15 @@ public class GameManager : MonoBehaviour
         InvenScreen.SetActive(false);
         EquipScreen.SetActive(false);
         isInventoryOn = false;
-        shopScreen.SetActive(false);
+
+        ShopScreen.SetActive(false);
         isShopOn = false;
+
+        BuildScreen.SetActive(false);
+        isBuildOn = false;
+
+        TestScreen.SetActive(false);
+        isTestOn = false;
         
         player = GameObject.Find("Player").GetComponent<Player>();
     }
@@ -43,6 +58,8 @@ public class GameManager : MonoBehaviour
         {
             LoadInventory();
         }
+
+        //Inventory Window Controll
         if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
         {
             if (isInventoryOn)
@@ -61,7 +78,9 @@ public class GameManager : MonoBehaviour
             }
             OpenInventory();
         }
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.B))
+
+        //Shop Window Controll
+        if (Input.GetKeyDown(KeyCode.P))
         {
             if (isShopOn)
             {
@@ -79,9 +98,81 @@ public class GameManager : MonoBehaviour
             }
             ShopOpen();
         }
+
+        //Build Window Controll
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (isBuildOn)
+            {
+                if (isInventoryOn)
+                {
+                    InvenScreen.SetActive(true);
+                }
+                else
+                {
+                    InventoryCanvas.enabled = false;
+                }
+                BuildClose();
+                return;
+            }
+            if (isInventoryOn)
+            {
+                InvenScreen.SetActive(false);
+            }
+            else
+            {
+                InventoryCanvas.enabled = true;
+            }
+            BuildOpen();
+        }
+
+        //Test Window Controll
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            if (isTestOn)
+            {
+                if (isInventoryOn)
+                {
+                    EquipScreen.SetActive(true);
+                }
+                else
+                {
+                    InventoryCanvas.enabled = false;
+                }
+                TestScreen.SetActive(false);
+                isTestOn = false;
+                CursorOff();
+                return;
+            }
+            if (isInventoryOn)
+            {
+                EquipScreen.SetActive(false);
+            }
+            else
+            {
+                InventoryCanvas.enabled = true;
+            }
+            TestScreen.SetActive(true);
+            isTestOn = true;
+            CursorOn();
+        }
+
+        //Close Window
         if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isShopOn)
+            if (isBuildOn)
+            {
+                if (isInventoryOn)
+                {
+                    InvenScreen.SetActive(true);
+                }
+                else
+                {
+                    InventoryCanvas.enabled = false;
+                }
+                BuildClose();
+            }
+            else if (isShopOn)
             {
                 if (!ShopResetCheck())
                 {
@@ -139,7 +230,7 @@ public class GameManager : MonoBehaviour
 
     public void ShopOpen()
     {
-        shopScreen.SetActive(true);
+        ShopScreen.SetActive(true);
         isShopOn = true;
         CursorOn();
     }
@@ -147,8 +238,22 @@ public class GameManager : MonoBehaviour
     public void ShopClose()
     {
         player.ShopAddInventory();
-        shopScreen.SetActive(false);
+        ShopScreen.SetActive(false);
         isShopOn = false;
+        CursorOff();
+    }
+
+    public void BuildOpen()
+    {
+        BuildScreen.SetActive(true);
+        isBuildOn = true;
+        CursorOn();
+    }
+
+    public void BuildClose()
+    {
+        BuildScreen.SetActive(false);
+        isBuildOn = false;
         CursorOff();
     }
 
