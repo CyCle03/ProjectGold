@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject BuildScreen;
     public GameObject TestScreen;
     public GameObject ItemInfoPrefab;
+    public GameObject BuyItemPrefab;
 
     bool isInventoryOn;
     bool isShopOn;
@@ -290,7 +291,6 @@ public class GameManager : MonoBehaviour
     {
         inventory.Clear();
         equipment.Clear();
-        shop.Clear();
         sell.Clear();
     }
 }

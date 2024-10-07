@@ -98,9 +98,25 @@ public abstract class UserInterface : MonoBehaviour
         if (MouseData.slotItemInfo != null)
         {
             DestroyTempInfo();
-            return;
         }
-        MouseData.slotItemInfo = CreatTempInfo(obj);
+        else
+        {
+            MouseData.slotItemInfo = CreatTempInfo(obj, gm.ItemInfoPrefab);
+        }
+    }
+
+    public void OnBuyItem(GameObject obj)
+    {
+        if (MouseData.buyIteminfo != null)
+        {
+            Destroy(MouseData.buyIteminfo);
+            MouseData.buyIteminfo = null;
+            MouseData.buyItem = null;
+        }
+        else
+        {
+            MouseData.buyIteminfo = CreatTempInfo(obj, gm.BuyItemPrefab);
+        }
     }
 
     public GameObject CreatTempItem(GameObject obj)
@@ -119,7 +135,7 @@ public abstract class UserInterface : MonoBehaviour
         return tempItem;
     }
 
-    public GameObject CreatTempInfo(GameObject obj)
+    public GameObject CreatTempInfo(GameObject obj, GameObject prefab)
     {
         GameObject tempInfo = null;
 
@@ -130,7 +146,7 @@ public abstract class UserInterface : MonoBehaviour
 
         if (slotsOnInterface[obj].item.Id >= 0)
         {
-            tempInfo = Instantiate(gm.ItemInfoPrefab, obj.transform.position, Quaternion.identity, gm.InventoryCanvas.transform);
+            tempInfo = Instantiate(prefab, obj.transform.position, Quaternion.identity, gm.InventoryCanvas.transform);
 
             RectTransform rt = tempInfo.GetComponent<RectTransform>();
             if (rt.anchoredPosition.x > 640)
@@ -141,6 +157,8 @@ public abstract class UserInterface : MonoBehaviour
             {
                 rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -220);
             }
+
+            MouseData.buyItem = slotsOnInterface[obj].item;
 
             var img = tempInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>();
             var amt = tempInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -197,6 +215,8 @@ public static class MouseData
     public static GameObject tempItemBeingDragged;
     public static GameObject slotHoveredOver;
     public static GameObject slotItemInfo;
+    public static GameObject buyIteminfo;
+    public static Item buyItem;
 }
 
 public static class ExtensionMethods

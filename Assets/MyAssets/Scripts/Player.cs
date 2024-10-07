@@ -16,7 +16,6 @@ public class Player : MonoBehaviour
     public Slider HPSlider;
     public GameObject shopObj;
     public GameObject invenGoldObj;
-    public GameObject shopGoldObj;
     public GameObject sellGoldObj;
 
     public Attribute[] attributes;
@@ -37,7 +36,6 @@ public class Player : MonoBehaviour
 
     GameManager gm;
     TextMeshProUGUI invenTextGold;
-    TextMeshProUGUI shopTextGold;
     TextMeshProUGUI sellTextGold;
 
     private void Start()
@@ -89,18 +87,12 @@ public class Player : MonoBehaviour
         UpdateHPSlider();
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
-        shopTextGold = shopGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
     }
 
     public void InvenGoldUpdate()
     {
         invenTextGold.text = inventory.gold.ToString("n0") + " G";
-    }
-
-    public void ShopGoldUpdate()
-    {
-        shopTextGold.text = shop.gold.ToString("n0") + " G";
     }
 
     public void SellGoldUpdate()
@@ -136,8 +128,6 @@ public class Player : MonoBehaviour
             case InterfaceType.Chest:
                 break;
             case InterfaceType.Shop:
-                shop.RemoveGold(_slot.totalValue);
-                ShopGoldUpdate();
                 break;
             case InterfaceType.Sell:
                 sell.RemoveGold(_slot.totalValue);
@@ -177,11 +167,9 @@ public class Player : MonoBehaviour
             case InterfaceType.Chest:
                 break;
             case InterfaceType.Shop:
-                shop.AddGold(_slot.totalValue);
-                ShopGoldUpdate();
                 break;
             case InterfaceType.Sell:
-                shop.AddGold(_slot.totalValue);
+                sell.AddGold(_slot.totalValue);
                 SellGoldUpdate();
                 break;
             default:
@@ -302,11 +290,11 @@ public class Player : MonoBehaviour
         sell.Clear();
     }
 
-    public void ShopBuy()
+    public void ShopBuy(int _itemValue, Item _item, int _amount)
     {
-        inventory.RemoveGold(shop.gold);
+        inventory.RemoveGold(_itemValue);
+        inventory.AddItem(_item, _amount);
         InvenGoldUpdate();
-        shop.Clear();
     }
 
     public void UpdateDmg()
