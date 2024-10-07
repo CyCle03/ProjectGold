@@ -14,7 +14,7 @@ public abstract class UserInterface : MonoBehaviour
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         slotsOnInterface.UpdateSlotDisplay();
         for (int i = 0; i < inventory.GetSlots.Length; i++)

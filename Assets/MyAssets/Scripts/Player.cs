@@ -65,7 +65,6 @@ public class Player : MonoBehaviour
                 default:
                     break;
             }
-
         }
         for (int i = 0; i < equipment.GetSlots.Length; i++)
         {

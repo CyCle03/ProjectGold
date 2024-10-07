@@ -13,7 +13,7 @@ public abstract class BuildInterface : MonoBehaviour
     public Dictionary<GameObject, ListSlot> listSlotsOnInterface = new Dictionary<GameObject, ListSlot>();
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         listSlotsOnInterface.UpdateListSlotDisplay();
         for (int i = 0; i < buildList.GetListSlots.Length; i++)
@@ -99,7 +99,7 @@ public abstract class BuildInterface : MonoBehaviour
 
         if (BuildMouseData.interfaceMouseIsOver == null)
         {
-            listSlotsOnInterface[obj].RemoveBuild();
+            //listSlotsOnInterface[obj].RemoveBuild();
             return;
         }
         if (BuildMouseData.listSlotHoveredOver)

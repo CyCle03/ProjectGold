@@ -61,7 +61,6 @@ public class Building
             buffs[i] = new BuildBuff(buliding.data.buffs[i].buffvalue);
             {
                 buffs[i].attribute = buliding.data.buffs[i].attribute;
-                BuildValue += buffs[i].buffvalue;
             };
         }
     }
