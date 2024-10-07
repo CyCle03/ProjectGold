@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
         TestScreen.SetActive(false);
         isTestOn = false;
-        
+
         player = GameObject.Find("Player").GetComponent<Player>();
     }
 
@@ -202,12 +202,14 @@ public class GameManager : MonoBehaviour
     {
         inventory.Save();
         equipment.Save();
+        build.Save();
     }
 
     public void LoadInventory()
     {
         inventory.Load();
         equipment.Load();
+        build.Load();
     }
 
     public void OpenInventory()
