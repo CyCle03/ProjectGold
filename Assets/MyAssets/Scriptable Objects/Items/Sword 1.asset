@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 2
   description: A sword for slashing and stabbing.
   data:
-    Name: 
+    Name: Wooden Sword
     Id: 7
     ItemValue: 1
     buffs:

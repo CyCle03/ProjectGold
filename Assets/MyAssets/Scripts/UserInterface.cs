@@ -6,14 +6,15 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System;
+using Unity.VisualScripting;
 
 public abstract class UserInterface : MonoBehaviour
 {
-
     public InventoryObject inventory;
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
 
-    // Start is called before the first frame update
+    GameManager gm;
+    
     void Awake()
     {
         for (int i = 0; i < inventory.GetSlots.Length; i++)
@@ -25,6 +26,12 @@ public abstract class UserInterface : MonoBehaviour
         slotsOnInterface.UpdateSlotDisplay();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void OnSlotUpdate(InventorySlot _slot)
@@ -86,6 +93,16 @@ public abstract class UserInterface : MonoBehaviour
         MouseData.tempItemBeingDragged = CreatTempItem(obj);
     }
 
+    public void OnClickItem(GameObject obj)
+    {
+        if (MouseData.slotItemInfo != null)
+        {
+            DestroyTempInfo();
+            return;
+        }
+        MouseData.slotItemInfo = CreatTempInfo(obj);
+    }
+
     public GameObject CreatTempItem(GameObject obj)
     {
         GameObject tempItem = null;
@@ -100,6 +117,44 @@ public abstract class UserInterface : MonoBehaviour
             img.raycastTarget = false;
         }
         return tempItem;
+    }
+
+    public GameObject CreatTempInfo(GameObject obj)
+    {
+        GameObject tempInfo = null;
+
+        TextMeshProUGUI name;
+        TextMeshProUGUI type;
+        TextMeshProUGUI value;
+        TextMeshProUGUI buffsDescript;
+
+        if (slotsOnInterface[obj].item.Id >= 0)
+        {
+            tempInfo = Instantiate(gm.ItemInfoPrefab, obj.transform.position, Quaternion.identity, gm.InventoryCanvas.transform);
+
+            var img = tempInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+            var amt = tempInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+            name = tempInfo.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+            type = tempInfo.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+            value = tempInfo.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+            buffsDescript = tempInfo.transform.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>();
+
+            name.text = slotsOnInterface[obj].ItemObject.data.Name;
+            type.text = slotsOnInterface[obj].ItemObject.type.ToString();
+            value.text = slotsOnInterface[obj].totalValue.ToString("n0") + " G";
+            buffsDescript.text = slotsOnInterface[obj].ItemObject.description;
+
+            img.sprite = slotsOnInterface[obj].ItemObject.uiDisplay;
+            amt.text = slotsOnInterface[obj].amount.ToString("n0");
+        }
+
+        return tempInfo;
+    }
+
+    public void DestroyTempInfo()
+    {
+        Destroy(MouseData.slotItemInfo);
+        MouseData.slotItemInfo = null;
     }
 
     public void OnDragEnd(GameObject obj)
@@ -132,6 +187,7 @@ public static class MouseData
     public static UserInterface interfaceMouseIsOver;
     public static GameObject tempItemBeingDragged;
     public static GameObject slotHoveredOver;
+    public static GameObject slotItemInfo;
 }
 
 public static class ExtensionMethods

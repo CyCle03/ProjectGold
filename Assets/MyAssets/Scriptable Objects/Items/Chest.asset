@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 5
   description: 
   data:
-    Name: 
+    Name: Leather Armor
     Id: 2
     ItemValue: 1
     buffs:

@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 6
   description: The left overs of those you have slain!
   data:
-    Name: 
+    Name: Bone
     Id: 0
     ItemValue: 1
     buffs: []

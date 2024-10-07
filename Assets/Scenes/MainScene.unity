@@ -2348,6 +2348,7 @@ MonoBehaviour:
   EquipScreen: {fileID: 62594160}
   BuildScreen: {fileID: 1669767867}
   TestScreen: {fileID: 1694219268}
+  ItemInfoPrefab: {fileID: 9054322890730752637, guid: bb895f70b01e78b40b2c6a110bba2504, type: 3}
 --- !u!1 &358222917
 GameObject:
   m_ObjectHideFlags: 0
@@ -4998,8 +4999,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -200}
-  m_SizeDelta: {x: 800, y: 400}
+  m_AnchoredPosition: {x: 0, y: -175}
+  m_SizeDelta: {x: 800, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &984404194
 MonoBehaviour:
@@ -5026,10 +5027,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe50a47f31c0004478e61475c799c59b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 11400000, guid: 052bfb21565812c4498a149f98247cee, type: 2}
+  inventory: {fileID: 11400000, guid: 70a75e1dfc4121d409fd78d9d8400871, type: 2}
   inventoryPrefab: {fileID: 5021891023038174841, guid: eed53313f2c8ff94bbd7bbc0a1184167, type: 3}
   X_START: -330
-  Y_START: 250
+  Y_START: 150
   X_SPACE_BETEEN_ITEM: 110
   NUMBER_OF_COLUMN: 7
   Y_SPACE_BETEEN_ITEM: 110
@@ -6305,8 +6306,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 225}
-  m_SizeDelta: {x: 800, y: 350}
+  m_AnchoredPosition: {x: 0, y: 235}
+  m_SizeDelta: {x: 800, y: 340}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1459185194
 MonoBehaviour:
@@ -6361,7 +6362,7 @@ MonoBehaviour:
   inventory: {fileID: 11400000, guid: 052bfb21565812c4498a149f98247cee, type: 2}
   inventoryPrefab: {fileID: 5021891023038174841, guid: eed53313f2c8ff94bbd7bbc0a1184167, type: 3}
   X_START: -330
-  Y_START: 250
+  Y_START: 100
   X_SPACE_BETEEN_ITEM: 110
   NUMBER_OF_COLUMN: 7
   Y_SPACE_BETEEN_ITEM: 110

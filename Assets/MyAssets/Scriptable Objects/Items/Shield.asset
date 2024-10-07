@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 3
   description: A shield for defending
   data:
-    Name: 
+    Name: Wooden Shield
     Id: 5
     ItemValue: 1
     buffs:

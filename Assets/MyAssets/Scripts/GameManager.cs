@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject EquipScreen;
     public GameObject BuildScreen;
     public GameObject TestScreen;
+    public GameObject ItemInfoPrefab;
 
     bool isInventoryOn;
     bool isShopOn;

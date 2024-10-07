@@ -18,7 +18,7 @@ MonoBehaviour:
   description: Can be fished in Piscatoris by player who have a fishing level of
     62 or highter, and have completed the Swan Song quest.
   data:
-    Name: 
+    Name: Monkfish
     Id: 4
     ItemValue: 1
     buffs: []

@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 1
   description: 
   data:
-    Name: 
+    Name: Leather Helmet
     Id: 3
     ItemValue: 1
     buffs:
