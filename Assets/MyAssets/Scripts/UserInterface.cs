@@ -132,6 +132,16 @@ public abstract class UserInterface : MonoBehaviour
         {
             tempInfo = Instantiate(gm.ItemInfoPrefab, obj.transform.position, Quaternion.identity, gm.InventoryCanvas.transform);
 
+            RectTransform rt = tempInfo.GetComponent<RectTransform>();
+            if (rt.anchoredPosition.x > 640)
+            {
+                rt.anchoredPosition = new Vector2(640, rt.anchoredPosition.y);
+            }
+            if (rt.anchoredPosition.y < -220)
+            {
+                rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -220);
+            }
+
             var img = tempInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>();
             var amt = tempInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
             name = tempInfo.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -147,7 +157,6 @@ public abstract class UserInterface : MonoBehaviour
             img.sprite = slotsOnInterface[obj].ItemObject.uiDisplay;
             amt.text = slotsOnInterface[obj].amount.ToString("n0");
         }
-
         return tempInfo;
     }
 
