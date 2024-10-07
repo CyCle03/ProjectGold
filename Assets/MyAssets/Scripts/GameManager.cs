@@ -74,14 +74,19 @@ public class GameManager : MonoBehaviour
                     if (!ShopResetCheck())
                     {
                         print("Clear sell slots first.");
-                        return;
                     }
-                    ShopClose();
+                    else
+                    {
+                        ShopClose();
+                    }
                 }
                 CloseInventory();
-                return;
             }
-            OpenInventory();
+            else
+            {
+                OpenInventory();
+            }
+            
         }
 
         //Shop Window Controll
@@ -92,16 +97,20 @@ public class GameManager : MonoBehaviour
                 if (!ShopResetCheck())
                 {
                     print("Clear sell slots first.");
-                    return;
                 }
-                ShopClose();
-                return;
+                else
+                {
+                    ShopClose();
+                }
             }
-            if (!isInventoryOn)
+            else
             {
-                OpenInventory();
-            }
-            ShopOpen();
+                if (!isInventoryOn)
+                {
+                    OpenInventory();
+                }
+                ShopOpen();
+            } 
         }
 
         //Build Window Controll
@@ -182,8 +191,8 @@ public class GameManager : MonoBehaviour
                 if (!ShopResetCheck())
                 {
                     print("Clear sell slots first.");
-                    return;
                 }
+                else
                 ShopClose();
             }
             else if (isInventoryOn)
@@ -191,11 +200,25 @@ public class GameManager : MonoBehaviour
                 CloseInventory();
             }
         }
+
+        //Cursor Controll
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            CursorOn();
+        }
+    }
+
+    public void ItemInfoClose()
+    {
+        if (MouseData.slotItemInfo != null)
+        {
+            InvenScreen.GetComponent<DynamicInterface>().DestroyTempInfo();
+        }
     }
 
     public bool ShopResetCheck()
     {
-        if (shop.OnSlotCount > inventory.EmptySlotCount)
+        if (sell.OnSlotCount > inventory.EmptySlotCount)
         {
             print("Not enough slots on Inventory");
             return false;
@@ -233,6 +256,7 @@ public class GameManager : MonoBehaviour
         EquipScreen.SetActive(false);
         isInventoryOn = false;
         CursorOff();
+        ItemInfoClose();
     }
 
     public void ShopOpen()
@@ -250,6 +274,7 @@ public class GameManager : MonoBehaviour
         SellScreen.SetActive(false);
         isShopOn = false;
         CursorOff();
+        ItemInfoClose();
     }
 
     public void BuildOpen()
