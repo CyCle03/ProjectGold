@@ -15,13 +15,13 @@ public abstract class BuildInterface : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        listSlotsOnInterface.UpdateListSlotDisplay();
         for (int i = 0; i < buildList.GetListSlots.Length; i++)
         {
             buildList.GetListSlots[i].parent = this;
             buildList.GetListSlots[i].OnAfterUpdate += OnListSlotUpdate;
         }
         CreateListSlots();
+        listSlotsOnInterface.UpdateListSlotDisplay();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnListEnterInterface(gameObject); });
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnListExitInterface(gameObject); });
     }

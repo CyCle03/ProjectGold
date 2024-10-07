@@ -16,13 +16,13 @@ public abstract class UserInterface : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        slotsOnInterface.UpdateSlotDisplay();
         for (int i = 0; i < inventory.GetSlots.Length; i++)
         {
             inventory.GetSlots[i].parent = this;
             inventory.GetSlots[i].OnAfterUpdate += OnSlotUpdate;
         }
         CreateSlots();
+        slotsOnInterface.UpdateSlotDisplay();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
     }

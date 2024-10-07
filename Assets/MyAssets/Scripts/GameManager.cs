@@ -45,8 +45,6 @@ public class GameManager : MonoBehaviour
         isTestOn = false;
 
         player = GameObject.Find("Player").GetComponent<Player>();
-
-        LoadInventory();
     }
 
     // Update is called once per frame
