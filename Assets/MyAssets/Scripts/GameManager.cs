@@ -11,10 +11,12 @@ public class GameManager : MonoBehaviour
     public InventoryObject inventory;
     public InventoryObject equipment;
     public InventoryObject shop;
+    public InventoryObject sell;
     public BuildingListObject build;
     public Canvas InventoryCanvas;
     public TextMeshProUGUI textHP;
     public GameObject ShopScreen;
+    public GameObject SellScreen;
     public GameObject InvenScreen;
     public GameObject EquipScreen;
     public GameObject BuildScreen;
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour
         isInventoryOn = false;
 
         ShopScreen.SetActive(false);
+        SellScreen.SetActive(false);
         isShopOn = false;
 
         BuildScreen.SetActive(false);
@@ -233,6 +236,7 @@ public class GameManager : MonoBehaviour
     public void ShopOpen()
     {
         ShopScreen.SetActive(true);
+        SellScreen.SetActive(true);
         isShopOn = true;
         CursorOn();
     }
@@ -241,6 +245,7 @@ public class GameManager : MonoBehaviour
     {
         player.ShopAddInventory();
         ShopScreen.SetActive(false);
+        SellScreen.SetActive(false);
         isShopOn = false;
         CursorOff();
     }
@@ -285,5 +290,6 @@ public class GameManager : MonoBehaviour
         inventory.Clear();
         equipment.Clear();
         shop.Clear();
+        sell.Clear();
     }
 }

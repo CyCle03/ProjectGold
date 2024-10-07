@@ -14,7 +14,8 @@ public enum InterfaceType
     Inventory,
     Equipment,
     Chest,
-    Shop
+    Shop,
+    Sell
 }
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]

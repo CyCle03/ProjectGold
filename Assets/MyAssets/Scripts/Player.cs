@@ -11,11 +11,13 @@ public class Player : MonoBehaviour
     public InventoryObject inventory;
     public InventoryObject equipment;
     public InventoryObject shop;
+    public InventoryObject sell;
     public BuildingListObject buildList;
     public Slider HPSlider;
     public GameObject shopObj;
     public GameObject invenGoldObj;
     public GameObject shopGoldObj;
+    public GameObject sellGoldObj;
 
     public Attribute[] attributes;
 
@@ -36,6 +38,7 @@ public class Player : MonoBehaviour
     GameManager gm;
     TextMeshProUGUI invenTextGold;
     TextMeshProUGUI shopTextGold;
+    TextMeshProUGUI sellTextGold;
 
     private void Start()
     {
@@ -71,10 +74,10 @@ public class Player : MonoBehaviour
             equipment.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
             equipment.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
-        for (int i = 0; i < shop.GetSlots.Length; i++)
+        for (int i = 0; i < sell.GetSlots.Length; i++)
         {
-            shop.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
-            shop.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
+            sell.GetSlots[i].OnBeforeUpdate += OnBeforeSlotUpdate;
+            sell.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
         for (int i = 0; i < buildList.GetListSlots.Length; i++)
         {
@@ -87,6 +90,7 @@ public class Player : MonoBehaviour
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         shopTextGold = shopGoldObj.GetComponent<TextMeshProUGUI>();
+        sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
     }
 
     public void InvenGoldUpdate()
@@ -97,6 +101,11 @@ public class Player : MonoBehaviour
     public void ShopGoldUpdate()
     {
         shopTextGold.text = shop.gold.ToString("n0") + " G";
+    }
+
+    public void SellGoldUpdate()
+    {
+        sellTextGold.text = sell.gold.ToString("n0") + " G";
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -129,6 +138,10 @@ public class Player : MonoBehaviour
             case InterfaceType.Shop:
                 shop.RemoveGold(_slot.totalValue);
                 ShopGoldUpdate();
+                break;
+            case InterfaceType.Sell:
+                sell.RemoveGold(_slot.totalValue);
+                SellGoldUpdate();
                 break;
             default:
                 break;
@@ -166,6 +179,10 @@ public class Player : MonoBehaviour
             case InterfaceType.Shop:
                 shop.AddGold(_slot.totalValue);
                 ShopGoldUpdate();
+                break;
+            case InterfaceType.Sell:
+                shop.AddGold(_slot.totalValue);
+                SellGoldUpdate();
                 break;
             default:
                 break;
@@ -254,7 +271,7 @@ public class Player : MonoBehaviour
 
     public bool ShopResetCheck()
     {
-        if (shop.OnSlotCount > inventory.EmptySlotCount)
+        if (sell.OnSlotCount > inventory.EmptySlotCount)
         {
             print("Not enough slots on Inventory");
             return false;
@@ -264,15 +281,15 @@ public class Player : MonoBehaviour
 
     public void ShopAddInventory()
     {
-        for (int i = 0; i < shop.GetSlots.Length; i++)
+        for (int i = 0; i < sell.GetSlots.Length; i++)
         {
-            if (shop.GetSlots[i].item.Id >= 0)
+            if (sell.GetSlots[i].item.Id >= 0)
             {
-                Item _item = shop.GetSlots[i].item;
-                int _amount = shop.GetSlots[i].amount;
+                Item _item = sell.GetSlots[i].item;
+                int _amount = sell.GetSlots[i].amount;
                 if (inventory.AddItem(_item, _amount))
                 {
-                    shop.GetSlots[i].RemoveItem();
+                    sell.GetSlots[i].RemoveItem();
                 }
             }
         }
@@ -280,14 +297,16 @@ public class Player : MonoBehaviour
 
     public void ShopSell()
     {
-        inventory.AddGold(shop.gold);
+        inventory.AddGold(sell.gold);
         InvenGoldUpdate();
-        shop.Clear();
+        sell.Clear();
     }
 
     public void ShopBuy()
     {
-        
+        inventory.RemoveGold(shop.gold);
+        InvenGoldUpdate();
+        shop.Clear();
     }
 
     public void UpdateDmg()
