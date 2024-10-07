@@ -46,6 +46,7 @@ public class Item
     public int Id = -1;
     public int ItemValue = 0;
     public ItemBuff[] buffs;
+    public string buffList ="";
 
     public Item()
     {
@@ -59,12 +60,14 @@ public class Item
         Id = item.data.Id;
         ItemValue = item.data.ItemValue;
         buffs = new ItemBuff[item.data.buffs.Length];
+        buffList = item.data.buffList;
         for (int i = 0; i < buffs.Length; i++)
         {
             buffs[i] = new ItemBuff(item.data.buffs[i].min, item.data.buffs[i].max);
             {
                 buffs[i].attribute = item.data.buffs[i].attribute;
                 ItemValue += buffs[i].value;
+                buffList += buffs[i].attribute.ToString() + ": " + buffs[i].value.ToString("n0") + "\n";
             };
         }
     }

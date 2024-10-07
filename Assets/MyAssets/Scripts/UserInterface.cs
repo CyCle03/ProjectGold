@@ -139,10 +139,10 @@ public abstract class UserInterface : MonoBehaviour
             value = tempInfo.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
             buffsDescript = tempInfo.transform.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            name.text = slotsOnInterface[obj].ItemObject.data.Name;
+            name.text = slotsOnInterface[obj].item.Name;
             type.text = slotsOnInterface[obj].ItemObject.type.ToString();
-            value.text = slotsOnInterface[obj].totalValue.ToString("n0") + " G";
-            buffsDescript.text = slotsOnInterface[obj].ItemObject.description;
+            value.text = slotsOnInterface[obj].item.ItemValue.ToString("n0") + " G";
+            buffsDescript.text = slotsOnInterface[obj].item.buffList + slotsOnInterface[obj].ItemObject.description;
 
             img.sprite = slotsOnInterface[obj].ItemObject.uiDisplay;
             amt.text = slotsOnInterface[obj].amount.ToString("n0");
