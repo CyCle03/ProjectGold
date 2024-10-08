@@ -11,19 +11,27 @@ public class ItemInfoPrefab : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
     }
+    public void DestroyBuyInfo()
+    {
+        Destroy(MouseData.buyIteminfo);
+        MouseData.buyIteminfo = null;
+        MouseData.buyItem = null;
+    }
     public void DestroyTempInfo()
     {
         Destroy(MouseData.slotItemInfo);
         MouseData.slotItemInfo = null;
+        MouseData.useItem = null;
     }
 
     public void BuyItem()
     {
         if (MouseData.buyIteminfo != null)
         {
-            if (player.inventory.gold >= MouseData.buyItem.ItemValue && player.inventory.EmptySlotCount >= 1)
+            Item mdBuyItem = MouseData.buyItem.item;
+            if (player.inventory.gold >= mdBuyItem.ItemValue && player.inventory.EmptySlotCount >= 1)
             {
-                player.ShopBuy(MouseData.buyItem.ItemValue, MouseData.buyItem, 1);
+                player.ShopBuy(mdBuyItem.ItemValue, mdBuyItem, 1);
             }
         }
     }
@@ -36,11 +44,7 @@ public class ItemInfoPrefab : MonoBehaviour
             switch (useItemObj.type)
             {
                 case ItemType.Food:
-                    int _foodHP = useItemObj.foodHP;
-                    player.inventory.RemoveItem(useItemObj.data, 1);
-                    if (player.maxHP - player.curruntHP >= _foodHP)
-                    { player.curruntHP += _foodHP; }
-                    else { player.curruntHP = player.maxHP; }
+                    player.EatFood(useItemObj, 1);
                     break;
                 case ItemType.Helmet:
                     player.equipment.SwapItems(MouseData.useItem, player.equipment.GetSlots[0]);

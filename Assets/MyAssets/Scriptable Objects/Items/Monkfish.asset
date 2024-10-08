@@ -16,6 +16,7 @@ MonoBehaviour:
   stackable: 1
   type: 0
   description: Can be fished in Piscatoris.
+  foodHP: 10
   data:
     Name: Monkfish
     Id: 4

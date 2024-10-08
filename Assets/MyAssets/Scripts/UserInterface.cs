@@ -95,26 +95,38 @@ public abstract class UserInterface : MonoBehaviour
 
     public void OnClickItem(GameObject obj)
     {
-        if (MouseData.slotItemInfo != null)
+        if (MouseData.buyItem != null)
         {
+            DestroyBuyInfo();
+        }
+        if (MouseData.useItem != null)
+        {
+            if (MouseData.useItem == slotsOnInterface[obj])
+            {
+                DestroyTempInfo();
+                return;
+            }
             DestroyTempInfo();
         }
-        else
-        {
-            MouseData.slotItemInfo = CreatTempInfo(obj, gm.ItemInfoPrefab);
-        }
+        MouseData.slotItemInfo = CreatTempInfo(obj, gm.ItemInfoPrefab);
     }
 
     public void OnBuyItem(GameObject obj)
     {
-        if (MouseData.buyIteminfo != null)
+        if (MouseData.useItem != null)
         {
-            Destroy(MouseData.buyIteminfo);
+            DestroyTempInfo();
         }
-        else
+        if (MouseData.buyItem != null)
         {
-            MouseData.buyIteminfo = CreatTempInfo(obj, gm.BuyItemPrefab);
+            if (MouseData.buyItem == slotsOnInterface[obj])
+            {
+                DestroyBuyInfo();
+                return;
+            }
+            DestroyBuyInfo();
         }
+        MouseData.buyIteminfo = CreatTempInfo(obj, gm.BuyItemPrefab);
     }
 
     public void OnDragEnd(GameObject obj)
@@ -184,7 +196,9 @@ public abstract class UserInterface : MonoBehaviour
             }
 
             if (prefab == gm.BuyItemPrefab)
-            { MouseData.buyItem = slotsOnInterface[obj].item; }
+            { 
+                MouseData.buyItem = slotsOnInterface[obj];
+            }
             else if (prefab == gm.ItemInfoPrefab)
             {
                 MouseData.useItem = slotsOnInterface[obj];
@@ -212,6 +226,12 @@ public abstract class UserInterface : MonoBehaviour
     {
         Destroy(MouseData.slotItemInfo);
         MouseData.slotItemInfo = null;
+        MouseData.useItem = null;
+    }
+
+    public void DestroyBuyInfo()
+    {
+        Destroy(MouseData.buyIteminfo);
         MouseData.buyIteminfo = null;
         MouseData.buyItem = null;
     }
@@ -224,7 +244,7 @@ public static class MouseData
     public static GameObject slotHoveredOver;
     public static GameObject slotItemInfo;
     public static GameObject buyIteminfo;
-    public static Item buyItem;
+    public static InventorySlot buyItem;
     public static InventorySlot useItem;
 }
 

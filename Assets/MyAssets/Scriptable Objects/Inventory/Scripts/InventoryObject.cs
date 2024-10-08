@@ -47,6 +47,27 @@ public class InventoryObject : ScriptableObject
         return true;
     }
 
+    public bool UseItem(Item _item)
+    {
+        InventorySlot slot = FindItemOnInventory(_item);
+        if (slot == null)
+        {
+            return false;
+        }
+        if (slot.amount == 1)
+        {
+            slot.RemoveItem();
+            Destroy(MouseData.slotItemInfo);
+            MouseData.slotItemInfo = null;
+            MouseData.useItem = null;
+            return true;
+        }
+        slot.AddAmount(-1);
+        var amt = MouseData.slotItemInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        amt.text = slot.amount.ToString("n0");
+        return true;
+    }
+
     public int EmptySlotCount
     {
         get
@@ -124,17 +145,6 @@ public class InventoryObject : ScriptableObject
             if (GetSlots[i].item == _item)
             {
                 GetSlots[i].RemoveItem();
-            }
-        }
-    }
-
-    public void RemoveItem(Item _item, int _amount)
-    {
-        for (int i = 0; i < GetSlots.Length; i++)
-        {
-            if (GetSlots[i].item == _item)
-            {
-                GetSlots[i].AddAmount(-_amount);
             }
         }
     }
@@ -271,7 +281,7 @@ public class InventorySlot
 
     public void AddAmount(int value)
     {
-        UpdateSlot(item, amount += value);
+        UpdateSlot(item, amount + value);
     }
 
     public bool CanPlaceInSlot(ItemObject _itemObject)

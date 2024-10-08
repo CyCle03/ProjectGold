@@ -62,6 +62,7 @@ public class Item
         Name = item.name;
         Id = item.data.Id;
         ItemValue = item.data.ItemValue;
+        foodHP = item.data.foodHP;
         buffs = new ItemBuff[item.data.buffs.Length];
         buffList = item.data.buffList;
         for (int i = 0; i < buffs.Length; i++)

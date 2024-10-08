@@ -297,6 +297,18 @@ public class Player : MonoBehaviour
         InvenGoldUpdate();
     }
 
+    public void EatFood(ItemObject _itemObj, int _amount)
+    {
+        int _foodHP = _itemObj.foodHP;
+        print(_foodHP); 
+        inventory.UseItem(_itemObj.data);
+        if (maxHP - curruntHP >= _foodHP)
+        { curruntHP += _foodHP; }   
+        else
+        { curruntHP = maxHP; }
+        UpdateHPSlider();
+    }
+
     public void UpdateDmg()
     {
         attackDamage = (float)(s_str + (s_agi * 0.5));
