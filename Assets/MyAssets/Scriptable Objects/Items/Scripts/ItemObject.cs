@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +31,7 @@ public class ItemObject : ScriptableObject
     public ItemType type;
     [TextArea(15,20)]
     public string description;
+    public int foodHP;
     public Item data = new Item();
 
     public Item CreateItem()
@@ -47,6 +49,7 @@ public class Item
     public int ItemValue = 0;
     public ItemBuff[] buffs;
     public string buffList ="";
+    public int foodHP;
 
     public Item()
     {

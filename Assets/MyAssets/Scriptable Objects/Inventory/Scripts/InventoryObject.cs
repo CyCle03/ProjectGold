@@ -128,6 +128,17 @@ public class InventoryObject : ScriptableObject
         }
     }
 
+    public void RemoveItem(Item _item, int _amount)
+    {
+        for (int i = 0; i < GetSlots.Length; i++)
+        {
+            if (GetSlots[i].item == _item)
+            {
+                GetSlots[i].AddAmount(-_amount);
+            }
+        }
+    }
+
     public void AddGold(int _gold)
     {
         gold += _gold;

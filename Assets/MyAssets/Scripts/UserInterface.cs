@@ -110,12 +110,37 @@ public abstract class UserInterface : MonoBehaviour
         if (MouseData.buyIteminfo != null)
         {
             Destroy(MouseData.buyIteminfo);
-            MouseData.buyIteminfo = null;
-            MouseData.buyItem = null;
         }
         else
         {
             MouseData.buyIteminfo = CreatTempInfo(obj, gm.BuyItemPrefab);
+        }
+    }
+
+    public void OnDragEnd(GameObject obj)
+    {
+        Destroy(MouseData.tempItemBeingDragged);
+
+        if (MouseData.interfaceMouseIsOver == null)
+        {
+            slotsOnInterface[obj].RemoveItem();
+            return;
+        }
+        if (MouseData.slotHoveredOver)
+        {
+            InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
+            if (mouseHoverSlotData.parent.inventory.type != InterfaceType.Shop && slotsOnInterface[obj].parent.inventory.type != InterfaceType.Shop)
+            {
+                inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
+            }
+        }
+    }
+
+    public void OnDrag(GameObject obj)
+    {
+        if (MouseData.tempItemBeingDragged != null)
+        {
+            MouseData.tempItemBeingDragged.GetComponent<RectTransform>().position = Input.mousePosition;
         }
     }
 
@@ -158,7 +183,12 @@ public abstract class UserInterface : MonoBehaviour
                 rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -220);
             }
 
-            MouseData.buyItem = slotsOnInterface[obj].item;
+            if (prefab == gm.BuyItemPrefab)
+            { MouseData.buyItem = slotsOnInterface[obj].item; }
+            else if (prefab == gm.ItemInfoPrefab)
+            {
+                MouseData.useItem = slotsOnInterface[obj];
+            }
 
             var img = tempInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>();
             var amt = tempInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
@@ -182,33 +212,8 @@ public abstract class UserInterface : MonoBehaviour
     {
         Destroy(MouseData.slotItemInfo);
         MouseData.slotItemInfo = null;
-    }
-
-    public void OnDragEnd(GameObject obj)
-    {
-        Destroy(MouseData.tempItemBeingDragged);
-
-        if (MouseData.interfaceMouseIsOver == null)
-        {
-            slotsOnInterface[obj].RemoveItem();
-            return;
-        }
-        if (MouseData.slotHoveredOver)
-        {
-            InventorySlot mouseHoverSlotData = MouseData.interfaceMouseIsOver.slotsOnInterface[MouseData.slotHoveredOver];
-            if (mouseHoverSlotData.parent.inventory.type != InterfaceType.Shop && slotsOnInterface[obj].parent.inventory.type != InterfaceType.Shop)
-            {
-                inventory.SwapItems(slotsOnInterface[obj], mouseHoverSlotData);
-            }
-        }
-    }
-
-    public void OnDrag(GameObject obj)
-    {
-        if (MouseData.tempItemBeingDragged != null)
-        {
-            MouseData.tempItemBeingDragged.GetComponent<RectTransform>().position = Input.mousePosition;
-        }
+        MouseData.buyIteminfo = null;
+        MouseData.buyItem = null;
     }
 }
 
@@ -220,6 +225,7 @@ public static class MouseData
     public static GameObject slotItemInfo;
     public static GameObject buyIteminfo;
     public static Item buyItem;
+    public static InventorySlot useItem;
 }
 
 public static class ExtensionMethods
