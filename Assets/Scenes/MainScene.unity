@@ -2300,6 +2300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 291001807}
   - component: {fileID: 291001808}
+  - component: {fileID: 291001809}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2349,6 +2350,20 @@ MonoBehaviour:
   TestScreen: {fileID: 1694219268}
   ItemInfoPrefab: {fileID: 9054322890730752637, guid: bb895f70b01e78b40b2c6a110bba2504, type: 3}
   BuyItemPrefab: {fileID: 9054322890730752637, guid: c09793c709e30ac44bfcbb8350a700be, type: 3}
+--- !u!114 &291001809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291001806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82c313d14af9314abc0392ae5440d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shop: {fileID: 11400000, guid: 052bfb21565812c4498a149f98247cee, type: 2}
+  itemDB: {fileID: 11400000, guid: 58bf09996b7970a4487d33e3b816bca6, type: 2}
 --- !u!1 &358222917
 GameObject:
   m_ObjectHideFlags: 0

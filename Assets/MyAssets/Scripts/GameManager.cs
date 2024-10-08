@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         isTestOn = false;
 
         player = GameObject.Find("Player").GetComponent<Player>();
+
     }
 
     // Update is called once per frame
@@ -317,5 +318,6 @@ public class GameManager : MonoBehaviour
         inventory.Clear();
         equipment.Clear();
         sell.Clear();
+        shop.Clear();
     }
 }
