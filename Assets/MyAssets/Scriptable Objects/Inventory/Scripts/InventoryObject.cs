@@ -128,6 +128,18 @@ public class InventoryObject : ScriptableObject
         return null;
     }
 
+    public InventorySlot FindEmptySlot()
+    {
+        for (int i = 0; i < GetSlots.Length; i++)
+        {
+            if (GetSlots[i].item.Id <= -1)
+            {
+                return GetSlots[i];
+            }
+        }
+        return null;
+    }
+    
     public void SwapItems(InventorySlot item1, InventorySlot item2)
     {
         if (item2.CanPlaceInSlot(item1.ItemObject) && item1.CanPlaceInSlot(item2.ItemObject))
@@ -135,6 +147,9 @@ public class InventoryObject : ScriptableObject
             InventorySlot temp = new InventorySlot(item2.item, item2.amount);
             item2.UpdateSlot(item1.item, item1.amount);
             item1.UpdateSlot(temp.item, temp.amount);
+            Destroy(MouseData.slotItemInfo);
+            MouseData.slotItemInfo = null;
+            MouseData.useItem = null;
         }
     }
 

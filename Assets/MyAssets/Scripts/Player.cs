@@ -124,6 +124,8 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
+                UpdatePStats();
+                UpdateDmg();
                 break;
             case InterfaceType.Chest:
                 break;
@@ -318,6 +320,7 @@ public class Player : MonoBehaviour
     public float HitDamage()
     {
         UpdateDmg();
+        print(attackDamage);
         return attackDamage;
     }
 
