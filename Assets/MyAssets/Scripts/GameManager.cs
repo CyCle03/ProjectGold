@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
     bool isTestOn;
     bool isMsgOn;
 
-    int alertCnt;
+    //int alertCnt;
+    float alertTimer;
 
     Building tempBuild;
     Player player;
@@ -59,7 +60,8 @@ public class GameManager : MonoBehaviour
         AlertMsg = AlertScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         AlertScreen.SetActive(false);
         isMsgOn = false;
-        alertCnt = 0;
+        //alertCnt = 0;
+        alertTimer = 0f;
 
         tempBuild = null;
 
@@ -105,7 +107,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (tempBuild.type == BuildType.Store)
+                if (tempBuild != null && tempBuild.type == BuildType.Store)
                 {
                     if (!isInventoryOn)
                         { OpenInventory(); }
@@ -218,6 +220,15 @@ public class GameManager : MonoBehaviour
         //Cursor Controll
         if (Input.GetKeyDown(KeyCode.C))
         { CursorOn(); }
+
+        if (isMsgOn)
+        {
+            alertTimer -= Time.deltaTime;
+            if (alertTimer <= 0)
+            {
+                Alert();
+            }
+        }
     }
 
     public void ItemInfoClose()
@@ -333,27 +344,34 @@ public class GameManager : MonoBehaviour
     public void Alert(string _msg)
     {
         if (isMsgOn)
-        { AlertMsg.text += "\n" + _msg; }
+        {
+            alertTimer += 3f;
+            if (alertTimer >= 5f)
+            { alertTimer = 5f; }
+
+            AlertMsg.text += "\n" + _msg;
+        }
         else
         {
+            alertTimer = 3f;
             AlertScreen.SetActive(true);
             AlertMsg.text = _msg;
             isMsgOn = true;
         }
-        alertCnt++;
-        StartCoroutine(MsgTime(_msg));
+        //alertCnt++;
+        //StartCoroutine(MsgTime(_msg));
     }
 
     IEnumerator MsgTime(string _msg)
     {
-        yield return new WaitForSeconds(5);
-        if (alertCnt == 1)
-        { Alert(); }
-        else
+        yield return new WaitForSeconds(3);
+        //if (alertCnt == 1)
+        Alert();
+        /*else
         {
             AlertMsg.text.Replace("\n" + _msg, "");
             alertCnt--;
-        }
+        }*/
     }
 
     public void Alert()
@@ -362,8 +380,19 @@ public class GameManager : MonoBehaviour
         {
             AlertMsg.text = "";
             AlertScreen.SetActive(false);
+            alertTimer = 0f;
             isMsgOn = false;
         }
+    }
+
+    public bool TempBuildType(BuildType _buildType)
+    {
+        if (tempBuild != null)
+        {
+            if (tempBuild.type == _buildType)
+            { return true; }
+        }
+        return false;
     }
 
     private void OnApplicationQuit()

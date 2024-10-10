@@ -297,16 +297,26 @@ public class Player : MonoBehaviour
 
     public void ShopSell()
     {
-        inventory.AddGold(sell.gold);
-        InvenGoldUpdate();
-        sell.Clear();
+        if (gm.TempBuildType(BuildType.Store))
+        {
+            inventory.AddGold(sell.gold);
+            InvenGoldUpdate();
+            sell.Clear();
+        }
+        else
+        { gm.Alert("You are far away from shop."); }
     }
 
     public void ShopBuy(int _itemValue, Item _item, int _amount)
     {
-        inventory.RemoveGold(_itemValue);
-        inventory.AddItem(_item, _amount);
-        InvenGoldUpdate();
+        if (gm.TempBuildType(BuildType.Store))
+        {
+            inventory.RemoveGold(_itemValue);
+            inventory.AddItem(_item, _amount);
+            InvenGoldUpdate();
+        }
+        else
+        { gm.Alert("You are far away from shop."); }
     }
 
     public void EatFood(ItemObject _itemObj, int _amount)
