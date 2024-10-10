@@ -360,8 +360,8 @@ public class GameManager : MonoBehaviour
     {
         if (isMsgOn)
         {
-            AlertScreen.SetActive(false);
             AlertMsg.text = "";
+            AlertScreen.SetActive(false);
             isMsgOn = false;
         }
     }
