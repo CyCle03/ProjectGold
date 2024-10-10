@@ -396,6 +396,8 @@ public class Player : MonoBehaviour
 
     void UpdateHPSlider()
     {
+        if (curruntHP >= maxHP)
+        { curruntHP = maxHP; }
         HPSlider.value = (float)curruntHP / (float)maxHP;
         gm.HPTextUpdate(curruntHP, maxHP);
     }
