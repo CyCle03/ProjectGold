@@ -17,8 +17,9 @@ MonoBehaviour:
   type: 0
   description: 
   data:
-    BuildName: 
+    BuildName: House
     B_Id: 0
     BuildValue: 50
+    BuildLevel: 1
     type: 0
     buffs: []

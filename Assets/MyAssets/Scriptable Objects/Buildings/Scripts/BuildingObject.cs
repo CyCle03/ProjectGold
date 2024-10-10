@@ -5,7 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public enum BuildType
 {
-    House,
+    House,//House2,
     Farm,
     Store,
     Smith,
@@ -40,6 +40,7 @@ public class Building
     public string BuildName;
     public int B_Id = -1;
     public int BuildValue = 0;
+    public int BuildLevel = 0;
     public BuildType type;
     public BuildBuff[] buffs;
 
@@ -54,6 +55,7 @@ public class Building
         BuildName = buliding.name;
         B_Id = buliding.data.B_Id;
         BuildValue = buliding.data.BuildValue;
+        BuildLevel = buliding.data.BuildLevel;
         type = buliding.type;
         buffs = new BuildBuff[buliding.data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)

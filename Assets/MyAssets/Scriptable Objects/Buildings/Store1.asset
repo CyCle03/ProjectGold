@@ -17,8 +17,9 @@ MonoBehaviour:
   type: 2
   description: 
   data:
-    BuildName: 
+    BuildName: Store
     B_Id: 1
     BuildValue: 100
+    BuildLevel: 1
     type: 2
     buffs: []

@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     bool isTestOn;
     bool isMsgOn;
 
-    //int alertCnt;
+    int alertCnt;
     float alertTimer;
 
     Building tempBuild;
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         AlertMsg = AlertScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         AlertScreen.SetActive(false);
         isMsgOn = false;
-        //alertCnt = 0;
+        alertCnt = 0;
         alertTimer = 0f;
 
         tempBuild = null;
@@ -345,11 +345,15 @@ public class GameManager : MonoBehaviour
     {
         if (isMsgOn)
         {
-            alertTimer += 3f;
-            if (alertTimer >= 5f)
-            { alertTimer = 5f; }
+            if(alertCnt <= 5)
+            {
+                alertTimer += 3f;
 
-            AlertMsg.text += "\n" + _msg;
+                if (alertTimer >= 5f)
+                { alertTimer = 5f; }
+                
+                AlertMsg.text += "\n" + _msg;
+            }
         }
         else
         {
@@ -358,7 +362,7 @@ public class GameManager : MonoBehaviour
             AlertMsg.text = _msg;
             isMsgOn = true;
         }
-        //alertCnt++;
+        alertCnt++;
         //StartCoroutine(MsgTime(_msg));
     }
 
@@ -381,6 +385,7 @@ public class GameManager : MonoBehaviour
             AlertMsg.text = "";
             AlertScreen.SetActive(false);
             alertTimer = 0f;
+            alertCnt = 0;
             isMsgOn = false;
         }
     }
