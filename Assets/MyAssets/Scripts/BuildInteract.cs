@@ -16,20 +16,19 @@ public class BuildInteract : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         var otherPlayer = other.GetComponent<Player>();
 
         if (otherPlayer != null)
-        {
-            
-        }
+        { gm.InteractBuild(myBuild); }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var otherPlayer = other.GetComponent<Player>();
+        if (otherPlayer != null)
+        { gm.InteractBuild(); }
     }
 
 

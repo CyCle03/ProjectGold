@@ -2349,6 +2349,7 @@ MonoBehaviour:
   EquipScreen: {fileID: 62594160}
   BuildScreen: {fileID: 1669767867}
   TestScreen: {fileID: 1694219268}
+  AlertScreen: {fileID: 1377160972}
   ItemInfoPrefab: {fileID: 9054322890730752637, guid: b1dd6990979e14548b8fd6ec08a2f41b, type: 3}
   BuyItemPrefab: {fileID: 9054322890730752637, guid: c09793c709e30ac44bfcbb8350a700be, type: 3}
 --- !u!114 &291001809
@@ -3938,7 +3939,7 @@ MonoBehaviour:
     BuildValue: 0
     type: 0
     buffs: []
-  buildObj: {fileID: 0}
+  buildObj: {fileID: 11400000, guid: 96af064665ebcc74d8dd1534fb0a7945, type: 2}
 --- !u!1 &694023915
 GameObject:
   m_ObjectHideFlags: 0

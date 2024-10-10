@@ -21,14 +21,19 @@ public class GameManager : MonoBehaviour
     public GameObject EquipScreen;
     public GameObject BuildScreen;
     public GameObject TestScreen;
+    public GameObject AlertScreen;
     public GameObject ItemInfoPrefab;
     public GameObject BuyItemPrefab;
+
+    TextMeshProUGUI AlertMsg;
 
     bool isInventoryOn;
     bool isShopOn;
     bool isBuildOn;
     bool isTestOn;
-    bool isInteractOn;
+    bool isMsgOn;
+
+    Building tempBuild;
 
     Player player;
 
@@ -50,7 +55,11 @@ public class GameManager : MonoBehaviour
         TestScreen.SetActive(false);
         isTestOn = false;
 
-        isInteractOn = false;
+        AlertMsg = AlertScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        AlertScreen.SetActive(false);
+        isMsgOn = false;
+
+        tempBuild = null;
 
         player = GameObject.Find("Player").GetComponent<Player>();
     }
@@ -75,9 +84,7 @@ public class GameManager : MonoBehaviour
                 if (isShopOn)
                 {
                     if (!ShopResetCheck())
-                    {
-                        print("Clear sell slots first.");
-                    }
+                    { Alert("Clear sell slots first."); }
                     else
                     {
                         ShopClose();
@@ -99,7 +106,7 @@ public class GameManager : MonoBehaviour
             {
                 if (!ShopResetCheck())
                 {
-                    print("Clear sell slots first.");
+                    Alert("Clear sell slots first.");
                 }
                 else
                 {
@@ -108,11 +115,13 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (!isInventoryOn)
+                if (tempBuild.type == BuildType.Store)
                 {
-                    OpenInventory();
+                    if (!isInventoryOn)
+                        { OpenInventory(); }
+                    ShopOpen();
                 }
-                ShopOpen();
+                
             } 
         }
 
@@ -199,24 +208,51 @@ public class GameManager : MonoBehaviour
                 ShopClose();
             }
             else if (isInventoryOn)
+            { CloseInventory(); }
+        }
+
+        //Interact Build
+        if (tempBuild != null && Input.GetKeyDown(KeyCode.E))
+        {
+            switch (tempBuild.type)
             {
-                CloseInventory();
+                case BuildType.House:
+                    break;
+                case BuildType.Farm:
+                    break;
+                case BuildType.Store:
+                    if (!isInventoryOn)
+                    { OpenInventory(); }
+                    ShopOpen();
+                    break;
+                case BuildType.Smith:
+                    break;
+                case BuildType.Stable:
+                    break;
+                case BuildType.AnimalFarm:
+                    break;
+                case BuildType.Tarvern:
+                    break;
+                case BuildType.Castle:
+                    break;
+                case BuildType.Church:
+                    break;
+                case BuildType.Windmill:
+                    break;
+                default:
+                    break;
             }
         }
 
         //Cursor Controll
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            CursorOn();
-        }
+        if (Input.GetKeyDown(KeyCode.C))
+        { CursorOn(); }
     }
 
     public void ItemInfoClose()
     {
         if (MouseData.slotItemInfo != null)
-        {
-            InvenScreen.GetComponent<DynamicInterface>().DestroyTempInfo();
-        }
+        { InvenScreen.GetComponent<DynamicInterface>().DestroyTempInfo(); }
     }
 
     public bool ShopResetCheck()
@@ -303,16 +339,60 @@ public class GameManager : MonoBehaviour
     public void CursorOff()
     {
         if (isInventoryOn)
-        {
-            return;
-        }
+        { return; }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     public void HPTextUpdate(float hp, float maxhp)
+    { textHP.text = hp.ToString("n0") + " / " + maxhp; }
+
+    public void InteractBuild(Building _build)
     {
-        textHP.text = hp.ToString("n0") + " / " + maxhp;
+        AlertScreen.SetActive(true);
+        AlertMsg.text = "Press 'E' To Interact with " + _build.BuildName;
+        isMsgOn = true;
+        tempBuild = _build;
+    }
+
+    public void InteractBuild()
+    {
+        AlertScreen.SetActive(false);
+        AlertMsg.text = "";
+        isMsgOn = false;
+        tempBuild = null;
+    }
+
+    public void Alert(string _msg)
+    {
+        if (isMsgOn)
+        { AlertMsg.text += "\n" + _msg; }
+        else
+        {
+            AlertScreen.SetActive(true);
+            AlertMsg.text = _msg;
+            isMsgOn = true;
+        }
+        StartCoroutine(MsgTime(_msg));
+    }
+
+    IEnumerator MsgTime(string _msg)
+    {
+        yield return new WaitForSeconds(5);
+        if (AlertMsg.text == _msg)
+        { Alert(); }
+        else
+        { AlertMsg.text.Replace("\n" + _msg, ""); }
+    }
+
+    public void Alert()
+    {
+        if (isMsgOn)
+        {
+            AlertScreen.SetActive(false);
+            AlertMsg.text = "";
+            isMsgOn = false;
+        }
     }
 
     private void OnApplicationQuit()
