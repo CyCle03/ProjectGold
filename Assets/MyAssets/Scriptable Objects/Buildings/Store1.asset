@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Store1
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: c8303e833b0ef184e99c1bc8940fff84, type: 3}
-  buildingMesh: {fileID: -8034638794701760968, guid: 55d284554554cbf479996ce93322d4d5, type: 3}
+  buildingMesh: {fileID: -6317531000590203338, guid: 2842c949db891db4e939318274d70460, type: 3}
   type: 2
   description: 
   data:
