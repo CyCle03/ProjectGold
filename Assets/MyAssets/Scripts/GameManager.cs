@@ -33,8 +33,9 @@ public class GameManager : MonoBehaviour
     bool isTestOn;
     bool isMsgOn;
 
-    Building tempBuild;
+    int alertCnt;
 
+    Building tempBuild;
     Player player;
 
     // Start is called before the first frame update
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
         AlertMsg = AlertScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         AlertScreen.SetActive(false);
         isMsgOn = false;
+        alertCnt = 0;
 
         tempBuild = null;
 
@@ -68,13 +70,9 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SaveInventory();
-        }
+        { SaveInventory(); }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            LoadInventory();
-        }
+        { LoadInventory(); }
 
         //Inventory Window Controll
         if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
@@ -86,16 +84,12 @@ public class GameManager : MonoBehaviour
                     if (!ShopResetCheck())
                     { Alert("Clear sell slots first."); }
                     else
-                    {
-                        ShopClose();
-                    }
+                    { ShopClose(); }
                 }
                 CloseInventory();
             }
             else
-            {
-                OpenInventory();
-            }
+            { OpenInventory(); }
             
         }
 
@@ -105,13 +99,9 @@ public class GameManager : MonoBehaviour
             if (isShopOn)
             {
                 if (!ShopResetCheck())
-                {
-                    Alert("Clear sell slots first.");
-                }
+                { Alert("Clear sell slots first."); }
                 else
-                {
-                    ShopClose();
-                }
+                { ShopClose(); }
             }
             else
             {
@@ -121,7 +111,6 @@ public class GameManager : MonoBehaviour
                         { OpenInventory(); }
                     ShopOpen();
                 }
-                
             } 
         }
 
@@ -131,24 +120,18 @@ public class GameManager : MonoBehaviour
             if (isBuildOn)
             {
                 if (isInventoryOn)
-                {
-                    InvenScreen.SetActive(true);
-                }
+                { InvenScreen.SetActive(true); }
                 else
-                {
-                    InventoryCanvas.enabled = false;
-                }
+                { InventoryCanvas.enabled = false; }
+
                 BuildClose();
                 return;
             }
             if (isInventoryOn)
-            {
-                InvenScreen.SetActive(false);
-            }
+            { InvenScreen.SetActive(false); }
             else
-            {
-                InventoryCanvas.enabled = true;
-            }
+            { InventoryCanvas.enabled = true; }
+
             BuildOpen();
         }
 
@@ -158,26 +141,20 @@ public class GameManager : MonoBehaviour
             if (isTestOn)
             {
                 if (isInventoryOn)
-                {
-                    EquipScreen.SetActive(true);
-                }
+                { EquipScreen.SetActive(true); }
                 else
-                {
-                    InventoryCanvas.enabled = false;
-                }
+                { InventoryCanvas.enabled = false; }
+
                 TestScreen.SetActive(false);
                 isTestOn = false;
                 CursorOff();
                 return;
             }
             if (isInventoryOn)
-            {
-                EquipScreen.SetActive(false);
-            }
+            { EquipScreen.SetActive(false); }
             else
-            {
-                InventoryCanvas.enabled = true;
-            }
+            { InventoryCanvas.enabled = true; }
+
             TestScreen.SetActive(true);
             isTestOn = true;
             CursorOn();
@@ -189,23 +166,17 @@ public class GameManager : MonoBehaviour
             if (isBuildOn)
             {
                 if (isInventoryOn)
-                {
-                    InvenScreen.SetActive(true);
-                }
+                { InvenScreen.SetActive(true); }
                 else
-                {
-                    InventoryCanvas.enabled = false;
-                }
+                { InventoryCanvas.enabled = false; }
                 BuildClose();
             }
             else if (isShopOn)
             {
                 if (!ShopResetCheck())
-                {
-                    print("Clear sell slots first.");
-                }
+                { Alert("Clear sell slots first."); }
                 else
-                ShopClose();
+                { ShopClose(); }
             }
             else if (isInventoryOn)
             { CloseInventory(); }
@@ -259,7 +230,7 @@ public class GameManager : MonoBehaviour
     {
         if (sell.OnSlotCount > inventory.EmptySlotCount)
         {
-            print("Not enough slots on Inventory");
+            Alert("Not enough slots on Inventory");
             return false;
         }
         return true;
@@ -349,17 +320,13 @@ public class GameManager : MonoBehaviour
 
     public void InteractBuild(Building _build)
     {
-        AlertScreen.SetActive(true);
-        AlertMsg.text = "Press 'E' To Interact with " + _build.BuildName;
-        isMsgOn = true;
+        Alert("Press 'E' To Interact with " + _build.BuildName);
         tempBuild = _build;
     }
 
     public void InteractBuild()
     {
-        AlertScreen.SetActive(false);
-        AlertMsg.text = "";
-        isMsgOn = false;
+        Alert();
         tempBuild = null;
     }
 
@@ -373,16 +340,20 @@ public class GameManager : MonoBehaviour
             AlertMsg.text = _msg;
             isMsgOn = true;
         }
+        alertCnt++;
         StartCoroutine(MsgTime(_msg));
     }
 
     IEnumerator MsgTime(string _msg)
     {
         yield return new WaitForSeconds(5);
-        if (AlertMsg.text == _msg)
+        if (alertCnt == 1)
         { Alert(); }
         else
-        { AlertMsg.text.Replace("\n" + _msg, ""); }
+        {
+            AlertMsg.text.Replace("\n" + _msg, "");
+            alertCnt--;
+        }
     }
 
     public void Alert()
