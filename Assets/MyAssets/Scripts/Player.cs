@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public float maxHP = 100;
     public float curruntHP;
     public float attackDamage;
+    public float regenHP = 0;
     public int level = 1;
     public int exp = 0;
     public int s_agi;
@@ -88,6 +89,15 @@ public class Player : MonoBehaviour
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
+    }
+
+    private void Update()
+    {
+        if (curruntHP <= maxHP)
+        {
+            curruntHP += (regenHP * Time.deltaTime / 10);
+            UpdateHPSlider();
+        }
     }
 
     public void InvenGoldUpdate()
@@ -331,6 +341,7 @@ public class Player : MonoBehaviour
         s_stm = GetStats(l_stm);
         s_str = GetStats(l_str);
         maxHP = 100+(s_stm * 10);
+        regenHP = s_stm + (s_int * 0.5f);
         UpdateHPSlider();
     }
 

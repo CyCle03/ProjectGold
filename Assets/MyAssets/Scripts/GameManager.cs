@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     bool isShopOn;
     bool isBuildOn;
     bool isTestOn;
+    bool isInteractOn;
 
     Player player;
 
@@ -49,8 +50,9 @@ public class GameManager : MonoBehaviour
         TestScreen.SetActive(false);
         isTestOn = false;
 
-        player = GameObject.Find("Player").GetComponent<Player>();
+        isInteractOn = false;
 
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
