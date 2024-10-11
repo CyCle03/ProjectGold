@@ -333,7 +333,7 @@ public class Player : MonoBehaviour
 
     public void UpdateDmg()
     {
-        attackDamage = (float)(s_str + (s_agi * 0.5));
+        attackDamage = 1 + (float)(s_str + (s_agi * 0.5));
         print(string.Concat("Damage: ", attackDamage));
     }
 

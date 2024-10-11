@@ -253,6 +253,9 @@ public class MonsterMove : MonoBehaviour
         if (dropItem != null)
         {
             GameObject droped = Instantiate(groundItem);
+            GroundItem gItem = droped.GetComponent<GroundItem>();
+            gItem.item = dropItem;
+            gItem.GItemUpdate();
             droped.transform.position = transform.position + new Vector3(0, 0.5f, 0);
         }
 
