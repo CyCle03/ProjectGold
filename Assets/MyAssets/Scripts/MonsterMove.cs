@@ -9,13 +9,18 @@ using UnityEngine.UI;
 public class MonsterMove : MonoBehaviour
 {
     public Monster myMonster;
-    public float monsterSight = 30;
+    public float monsterSight = 10;
+    public float monsterMoveRange = 20;
     public MonsterObject monsterObj;
     public Player player;
     public Slider hpSlider;
     public GameObject groundItem;
+    public Animator monAnim;
 
-    //MonsterManager mManager;
+    public int m_level;
+    public int indexOfPool;
+
+    MonsterManager mManager;
     CharacterController cc;
     NavMeshAgent monsterNav;
     //Transform targetTransform;
@@ -40,7 +45,7 @@ public class MonsterMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //uManager = GameObject.Find("UnitManager").GetComponent<UnitManager>();
+        mManager = GameObject.Find("GameManager").GetComponent<MonsterManager>();
         myMonster = new Monster(monsterObj);
         dropItem = myMonster.dropItem;
         groundItem.GetComponent<GroundItem>().item = dropItem;
@@ -83,6 +88,8 @@ public class MonsterMove : MonoBehaviour
         {
             return;
         }
+        if (monAnim != null)
+        { monAnim.SetInteger("AnimIndex", 0); monAnim.SetTrigger("Next"); }
         print(myMonster.mName + " Hit");
         myMonster.curruntHP -= hitPower;
         UpdateHPbar();
@@ -101,6 +108,9 @@ public class MonsterMove : MonoBehaviour
 
     void IdleMonster()
     {
+        if (monAnim != null)
+        { monAnim.SetInteger("AnimIndex", 0); monAnim.SetTrigger("Next"); }
+        
         if (monsterObj.type == MonsterType.Aggressive || monsterObj.type == MonsterType.Boss)
         {
             if (Vector3.Distance(transform.position, playerTransform.position) < monsterSight)
@@ -113,10 +123,12 @@ public class MonsterMove : MonoBehaviour
 
     void MoveMonster()
     {
+        if (monAnim != null)
+        { monAnim.SetInteger("AnimIndex", 1); monAnim.SetTrigger("Next"); }
         if (playerTransform != null)
         {
             playerTransform = player.GetComponentInParent<Transform>();
-            if (Vector3.Distance(transform.position, originPos) > monsterSight)
+            if (Vector3.Distance(transform.position, originPos) > monsterMoveRange)
             {
                 m_State = MonsterState.Return;
                 print(myMonster.mName + " State: Move -> Return");
@@ -125,6 +137,7 @@ public class MonsterMove : MonoBehaviour
             {
                 Vector3 dir = (playerTransform.position - transform.position).normalized;
                 cc.Move(dir * myMonster.moveSpeed * Time.deltaTime);
+                transform.forward = dir;
             }
             else
             {
@@ -168,6 +181,8 @@ public class MonsterMove : MonoBehaviour
 
     void AttackMonster()
     {
+        if (monAnim != null)
+        { monAnim.SetInteger("AnimIndex", 1); monAnim.SetTrigger("Next"); }
         if (Vector3.Distance(transform.position, playerTransform.position) < myMonster.attackRange)
         {
             monsterNav.avoidancePriority = 50;
@@ -191,6 +206,8 @@ public class MonsterMove : MonoBehaviour
 
     void ReturnMonster()
     {
+        if (monAnim != null)
+        { monAnim.SetInteger("AnimIndex", 1); monAnim.SetTrigger("Next"); }
         if (myMonster.curruntHP < myMonster.maxHP)
         {
             myMonster.curruntHP += myMonster.curruntHP * Time.deltaTime;
@@ -211,6 +228,7 @@ public class MonsterMove : MonoBehaviour
         {
             Vector3 dir = (originPos - transform.position).normalized;
             cc.Move(dir * myMonster.moveSpeed * Time.deltaTime);
+            transform.forward = dir;
         }
         else
         {
@@ -237,6 +255,8 @@ public class MonsterMove : MonoBehaviour
 
     void DieMonster()
     {
+        if (monAnim != null)
+        { monAnim.SetInteger("AnimIndex", 2); monAnim.SetTrigger("Next"); }
         print(myMonster.mName + " Die");
         StopAllCoroutines();
 
@@ -258,7 +278,7 @@ public class MonsterMove : MonoBehaviour
             gItem.GItemUpdate();
             droped.transform.position = transform.position + new Vector3(0, 0.5f, 0);
         }
-
+        mManager.DespawnMonster(m_level, indexOfPool);
         print(myMonster.mName + "¼Ò¸ê");
         Destroy(gameObject);
     }
