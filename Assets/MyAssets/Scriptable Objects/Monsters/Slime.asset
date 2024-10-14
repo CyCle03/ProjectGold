@@ -18,10 +18,10 @@ MonoBehaviour:
   data:
     mName: Slime
     mId: 0
-    maxHP: 10
+    maxHP: 20
     curruntHP: 0
     attackPower: 1
-    moveSpeed: 1.5
+    moveSpeed: 2
     attackSpeed: 1
     attackRange: 2
     mExp: 1
