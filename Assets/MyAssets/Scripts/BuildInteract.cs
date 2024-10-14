@@ -30,6 +30,4 @@ public class BuildInteract : MonoBehaviour
         if (otherPlayer != null)
         { gm.InteractBuild(); }
     }
-
-
 }

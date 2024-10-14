@@ -17,60 +17,68 @@ MonoBehaviour:
   type: 0
   Container:
     ListSlots:
-    - AllowedBuilds: 00000000
+    - AllowedBuilds: 01000000
       build:
         BuildName: 
         B_Id: 0
         BuildValue: 0
-        type: 0
+        BuildLevel: 0
+        type: 1
         buffs: []
-    - AllowedBuilds: 00000000
+    - AllowedBuilds: 01000000
       build:
         BuildName: 
-        B_Id: 0
+        B_Id: 3
         BuildValue: 0
-        type: 0
-        buffs: []
-    - AllowedBuilds: 00000000
-      build:
-        BuildName: 
-        B_Id: 0
-        BuildValue: 0
-        type: 0
-        buffs: []
-    - AllowedBuilds: 00000000
-      build:
-        BuildName: 
-        B_Id: 0
-        BuildValue: 0
-        type: 0
-        buffs: []
-    - AllowedBuilds: 02000000
-      build:
-        BuildName: 
-        B_Id: 1
-        BuildValue: 0
-        type: 2
+        BuildLevel: 0
+        type: 1
         buffs: []
     - AllowedBuilds: 01000000
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 07000000
+    - AllowedBuilds: 01000000
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
     - AllowedBuilds: 03000000
       build:
         BuildName: 
+        B_Id: 6
+        BuildValue: 0
+        BuildLevel: 0
+        type: 0
+        buffs: []
+    - AllowedBuilds: 02000000
+      build:
+        BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
+        type: 0
+        buffs: []
+    - AllowedBuilds: 02000000
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        BuildLevel: 0
+        type: 0
+        buffs: []
+    - AllowedBuilds: 0b000000
+      build:
+        BuildName: 
+        B_Id: -1
+        BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
     - AllowedBuilds: 04000000
@@ -78,20 +86,23 @@ MonoBehaviour:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 06000000
+    - AllowedBuilds: 07000000
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 08000000
+    - AllowedBuilds: 09000000
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
     - AllowedBuilds: 05000000
@@ -99,20 +110,23 @@ MonoBehaviour:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 09000000
+    - AllowedBuilds: 0a000000
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 09000000
+    - AllowedBuilds: 08000000
       build:
         BuildName: 
         B_Id: -1
         BuildValue: 0
+        BuildLevel: 0
         type: 0
         buffs: []
   gold: 0

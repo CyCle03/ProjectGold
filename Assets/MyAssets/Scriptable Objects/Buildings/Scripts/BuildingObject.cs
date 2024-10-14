@@ -5,6 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public enum BuildType
 {
+    Default,
     House,//House2,
     Farm,
     Store,
@@ -14,7 +15,8 @@ public enum BuildType
     Tarvern,
     Castle,
     Church,
-    Windmill
+    Windmill,
+    Wall
 }
 
 [CreateAssetMenu(fileName = "New Building", menuName = "Inventory System/Buildings/Building")]

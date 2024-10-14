@@ -90,6 +90,18 @@ public class BuildingListObject : ScriptableObject
         return null;
     }
 
+    public ListSlot IsBuildOnList(BuildingObject _build)
+    {
+        for (int i = 0; i < GetListSlots.Length; i++)
+        {
+            if (GetListSlots[i].CanPlaceInListSlot(_build) && GetListSlots[i].build.B_Id == _build.data.B_Id)
+            {
+                return GetListSlots[i];
+            }
+        }
+        return null;
+    }
+
 
     public ListSlot SetEmptyListSlot(Building _build)
     {
