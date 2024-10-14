@@ -268,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 7695998808134068229}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.46, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -314,7 +314,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 51
+  avoidancePriority: 49
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -348,11 +348,14 @@ MonoBehaviour:
     mExp: 0
     dropItem: {fileID: 0}
   monsterSight: 30
+  monsterMoveRange: 20
   monsterObj: {fileID: 11400000, guid: a452560dadc866c4485b104d9ce18234, type: 2}
   player: {fileID: 0}
   hpSlider: {fileID: 7892052862676333968}
   groundItem: {fileID: 8090519959216403267, guid: e735848a20326b24ea9f6cda920bb400, type: 3}
   monAnim: {fileID: 0}
+  m_level: 0
+  indexOfPool: 0
 --- !u!114 &4204074429287532836
 MonoBehaviour:
   m_ObjectHideFlags: 0
