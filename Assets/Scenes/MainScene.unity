@@ -10967,6 +10967,7 @@ MonoBehaviour:
   shop: {fileID: 11400000, guid: 052bfb21565812c4498a149f98247cee, type: 2}
   sell: {fileID: 11400000, guid: 70a75e1dfc4121d409fd78d9d8400871, type: 2}
   build: {fileID: 11400000, guid: a5a901d5ce06df949a4f9e291588324f, type: 2}
+  shopBuild: {fileID: 11400000, guid: 993806d5227f12b488cc1324f3c6d056, type: 2}
   InventoryCanvas: {fileID: 248008362}
   textHP: {fileID: 500887882}
   ShopScreen: {fileID: 1459185192}
@@ -41009,6 +41010,8 @@ MonoBehaviour:
   - {fileID: 1356337382}
   - {fileID: 1097595544}
   buildList: {fileID: 11400000, guid: a5a901d5ce06df949a4f9e291588324f, type: 2}
+  shopList: {fileID: 11400000, guid: 993806d5227f12b488cc1324f3c6d056, type: 2}
+  buildDB: {fileID: 11400000, guid: b38f46ff8359fa048b061c5d37005c02, type: 2}
   townBuilds:
   - buildObj: {fileID: 11400000, guid: bf113a20246f3c542bdbe5005bf113e9, type: 2}
     controllBuild: {fileID: 1886833321}
@@ -56253,7 +56256,7 @@ GameObject:
   - component: {fileID: 1694219271}
   - component: {fileID: 1694219270}
   m_Layer: 5
-  m_Name: TestListScreen
+  m_Name: ShopListScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56303,7 +56306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1a830c7a4fb9649ac69410c093e2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildList: {fileID: 11400000, guid: 4665670c3ab8d1e44842bba8ff105dc0, type: 2}
+  buildList: {fileID: 11400000, guid: 993806d5227f12b488cc1324f3c6d056, type: 2}
   buildListPrefab: {fileID: 5021891023038174841, guid: eed53313f2c8ff94bbd7bbc0a1184167, type: 3}
   X_START: -160
   Y_START: 280

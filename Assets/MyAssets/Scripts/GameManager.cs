@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public InventoryObject shop;
     public InventoryObject sell;
     public BuildingListObject build;
+    public BuildingListObject shopBuild;
     public Canvas InventoryCanvas;
     public TextMeshProUGUI textHP;
     public GameObject ShopScreen;
@@ -406,5 +407,6 @@ public class GameManager : MonoBehaviour
         equipment.Clear();
         sell.Clear();
         shop.Clear();
+        shopBuild.Clear();
     }
 }

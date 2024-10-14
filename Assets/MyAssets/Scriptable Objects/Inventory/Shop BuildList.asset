@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d700c9914f710e40842b921201600ab, type: 3}
-  m_Name: Player BuildList
+  m_Name: Shop BuildList
   m_EditorClassIdentifier: 
-  savePath: /BuildList.Save
+  savePath: 
   database: {fileID: 11400000, guid: b38f46ff8359fa048b061c5d37005c02, type: 2}
-  type: 0
+  type: 1
   Container:
     ListSlots:
     - AllowedBuilds: 01000000
@@ -22,7 +22,7 @@ MonoBehaviour:
         BuildName: 
         B_Id: 0
         BuildValue: 0
-        BuildLevel: 1
+        BuildLevel: 0
         type: 1
         buffs: []
     - AllowedBuilds: 01000000
@@ -30,7 +30,7 @@ MonoBehaviour:
         BuildName: 
         B_Id: 3
         BuildValue: 0
-        BuildLevel: 1
+        BuildLevel: 0
         type: 1
         buffs: []
     - AllowedBuilds: 01000000
@@ -54,8 +54,8 @@ MonoBehaviour:
         BuildName: 
         B_Id: 6
         BuildValue: 0
-        BuildLevel: 1
-        type: 3
+        BuildLevel: 0
+        type: 0
         buffs: []
     - AllowedBuilds: 02000000
       build:
