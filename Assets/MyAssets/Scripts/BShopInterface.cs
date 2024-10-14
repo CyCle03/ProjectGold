@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DynamicBuild : BuildInterface
+public class BShopInterface : BuildInterface
 {
     public GameObject buildListPrefab;
 
@@ -23,7 +23,7 @@ public class DynamicBuild : BuildInterface
 
             AddEvent(obj, EventTriggerType.PointerEnter, delegate { OnListEnter(obj); });
             AddEvent(obj, EventTriggerType.PointerExit, delegate { OnListExit(obj); });
-            AddEvent(obj, EventTriggerType.PointerClick, delegate { OnClickBuild(obj); });
+            AddEvent(obj, EventTriggerType.PointerClick, delegate { OnBuyBuild(obj); });
 
             buildList.GetListSlots[i].listSlotDisplay = obj;
 

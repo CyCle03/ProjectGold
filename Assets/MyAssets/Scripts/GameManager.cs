@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public GameObject AlertScreen;
     public GameObject ItemInfoPrefab;
     public GameObject BuyItemPrefab;
+    public GameObject BuildInfoPrefab;
+    public GameObject BuyBuildPrefab;
 
     TextMeshProUGUI AlertMsg;
 

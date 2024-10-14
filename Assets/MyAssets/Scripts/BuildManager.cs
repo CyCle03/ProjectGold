@@ -42,7 +42,7 @@ public class BuildManager : MonoBehaviour
         var shopSlot = shopList.GetListSlots[_index];
         BuildType bType;
 
-        if (buildSlot.build.B_Id <= -1)
+        if (buildSlot.build.Id <= -1)
         {
             for (int i = 0; i < buildSlot.AllowedBuilds.Length; i++)
             {
@@ -58,7 +58,7 @@ public class BuildManager : MonoBehaviour
         }
         else
         {
-            var DBnextBuild = buildDB.BuildObjects[buildSlot.build.B_Id + 1];
+            var DBnextBuild = buildDB.BuildObjects[buildSlot.build.Id + 1];
             if (DBnextBuild.type == buildSlot.build.type && DBnextBuild.data.BuildLevel > buildSlot.build.BuildLevel)
             {
                 shopSlot.UpdateListSlot(DBnextBuild.data);

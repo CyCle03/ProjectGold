@@ -50,7 +50,7 @@ public class BuildingListObject : ScriptableObject
             int counter = 0;
             for (int i = 0; i < GetListSlots.Length; i++)
             {
-                if (GetListSlots[i].build.B_Id <= -1)
+                if (GetListSlots[i].build.Id <= -1)
                 {
                     counter++;
                 }
@@ -66,7 +66,7 @@ public class BuildingListObject : ScriptableObject
             int counter = 0;
             for (int i = 0; i < GetListSlots.Length; i++)
             {
-                if (GetListSlots[i].build.B_Id >= 0)
+                if (GetListSlots[i].build.Id >= 0)
                 {
                     counter++;
                 }
@@ -81,7 +81,7 @@ public class BuildingListObject : ScriptableObject
         {
             if (GetListSlots[i].CanPlaceInListSlot(_build))
             {
-                if (GetListSlots[i].build.B_Id <= -1)
+                if (GetListSlots[i].build.Id <= -1)
                 {
                     return GetListSlots[i];
                 }
@@ -94,7 +94,7 @@ public class BuildingListObject : ScriptableObject
     {
         for (int i = 0; i < GetListSlots.Length; i++)
         {
-            if (GetListSlots[i].CanPlaceInListSlot(_build) && GetListSlots[i].build.B_Id == _build.data.B_Id)
+            if (GetListSlots[i].CanPlaceInListSlot(_build) && GetListSlots[i].build.Id == _build.data.Id)
             {
                 return GetListSlots[i];
             }
@@ -107,7 +107,7 @@ public class BuildingListObject : ScriptableObject
     {
         for (int i = 0; i < GetListSlots.Length; i++)
         {
-            if (GetListSlots[i].build.B_Id <= -1)
+            if (GetListSlots[i].build.Id <= -1)
             {
                 GetListSlots[i].UpdateListSlot(_build);
                 return GetListSlots[i];
@@ -218,9 +218,9 @@ public class ListSlot
     {
         get
         {
-            if (build.B_Id >= 0)
+            if (build.Id >= 0)
             {
-                return parent.buildList.database.BuildObjects[build.B_Id];
+                return parent.buildList.database.BuildObjects[build.Id];
             }
             return null;
         }
@@ -256,7 +256,7 @@ public class ListSlot
 
     public bool CanPlaceInListSlot(BuildingObject _buildObject)
     {
-        if (AllowedBuilds.Length <= 0 || _buildObject == null || _buildObject.data.B_Id < 0)
+        if (AllowedBuilds.Length <= 0 || _buildObject == null || _buildObject.data.Id < 0)
         {
             return true;
         }
@@ -273,7 +273,7 @@ public class ListSlot
 
     public bool CanPlaceInListSlot(Building _build)
     {
-        if (AllowedBuilds.Length <= 0 || _build == null || _build.B_Id < 0)
+        if (AllowedBuilds.Length <= 0 || _build == null || _build.Id < 0)
         {
             return true;
         }

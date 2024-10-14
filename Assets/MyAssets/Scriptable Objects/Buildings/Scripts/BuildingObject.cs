@@ -41,22 +41,23 @@ public class BuildingObject : ScriptableObject
 public class Building
 {
     public string BuildName;
-    public int B_Id = -1;
+    public int Id = -1;
     public int BuildValue = 0;
     public int BuildLevel = 0;
     public BuildType type;
     public BuildBuff[] buffs;
+    public string buffList = "";
 
     public Building()
     {
         BuildName = "";
-        B_Id = -1;
+        Id = -1;
     }
 
     public Building(BuildingObject building)
     {
         BuildName = building.name;
-        B_Id = building.data.B_Id;
+        Id = building.data.Id;
         BuildValue = building.data.BuildValue;
         BuildLevel = building.data.BuildLevel;
         type = building.data.type;

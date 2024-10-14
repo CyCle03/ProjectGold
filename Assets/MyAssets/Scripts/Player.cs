@@ -319,6 +319,13 @@ public class Player : MonoBehaviour
         { gm.Alert("You are far away from shop."); }
     }
 
+    public void BuildBuy(int _buildValue, ListSlot _build, int _index)
+    {
+        inventory.RemoveGold(_buildValue);
+        buildList.GetListSlots[_index].UpdateListSlot(_build.build);
+        InvenGoldUpdate();
+    }
+
     public void EatFood(ItemObject _itemObj, int _amount)
     {
         int _foodHP = _itemObj.foodHP;

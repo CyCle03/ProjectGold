@@ -12,9 +12,9 @@ public class BuildingDBObject : ScriptableObject, ISerializationCallbackReceiver
     {
         for (int i = 0; i < BuildObjects.Length; i++)
         {
-            if (BuildObjects[i].data.B_Id != i)
+            if (BuildObjects[i].data.Id != i)
             {
-                BuildObjects[i].data.B_Id = i;
+                BuildObjects[i].data.Id = i;
             }
 
         }

@@ -12,6 +12,8 @@ public abstract class BuildInterface : MonoBehaviour
     public BuildingListObject buildList;
     public Dictionary<GameObject, ListSlot> listSlotsOnInterface = new Dictionary<GameObject, ListSlot>();
 
+    GameManager gm;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,9 +28,14 @@ public abstract class BuildInterface : MonoBehaviour
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnListExitInterface(gameObject); });
     }
 
+    private void Start()
+    {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+
     private void OnListSlotUpdate(ListSlot _slot)
     {
-        if (_slot.build.B_Id >= 0)
+        if (_slot.build.Id >= 0)
         {
             _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.BuildObject.uiDisplay;
             _slot.listSlotDisplay.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
@@ -57,6 +64,42 @@ public abstract class BuildInterface : MonoBehaviour
         BuildMouseData.listSlotHoveredOver = obj;
     }
 
+    public void OnClickBuild(GameObject obj)
+    {
+        if (BuildMouseData.buyBuild != null)
+        {
+            DestroyBuyInfo();
+        }
+        if (BuildMouseData.sellBuild != null)
+        {
+            if (BuildMouseData.sellBuild == listSlotsOnInterface[obj])
+            {
+                DestroyTempInfo();
+                return;
+            }
+            DestroyTempInfo();
+        }
+        BuildMouseData.slotBuildInfo = CreatTempInfo(obj, gm.BuildInfoPrefab);
+    }
+
+    public void OnBuyBuild(GameObject obj)
+    {
+        if (BuildMouseData.sellBuild != null)
+        {
+            DestroyTempInfo();
+        }
+        if (BuildMouseData.buyBuild != null)
+        {
+            if (BuildMouseData.buyBuild == listSlotsOnInterface[obj])
+            {
+                DestroyBuyInfo();
+                return;
+            }
+            DestroyBuyInfo();
+        }
+        BuildMouseData.buyBuildinfo = CreatTempInfo(obj, gm.BuyBuildPrefab);
+    }
+
     public void OnListExit(GameObject obj)
     {
         BuildMouseData.listSlotHoveredOver = null;
@@ -72,49 +115,68 @@ public abstract class BuildInterface : MonoBehaviour
         BuildMouseData.interfaceMouseIsOver = null;
     }
 
-    public void OnListDragStart(GameObject obj)
+    public GameObject CreatTempInfo(GameObject obj, GameObject prefab)
     {
-        BuildMouseData.tempBuildBeingDragged = CreatTempBuild(obj);
-    }
+        GameObject tempInfo = null;
 
-    public GameObject CreatTempBuild(GameObject obj)
-    {
-        GameObject tempbuild = null;
-        if (listSlotsOnInterface[obj].build.B_Id >= 0)
+        TextMeshProUGUI name;
+        TextMeshProUGUI type;
+        TextMeshProUGUI value;
+        TextMeshProUGUI buffsDescript;
+
+        if (listSlotsOnInterface[obj].build.Id >= 0)
         {
-            tempbuild = new GameObject();
-            var rt = tempbuild.AddComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(100, 100);
-            tempbuild.transform.SetParent(transform.parent);
-            var img = tempbuild.AddComponent<Image>();
+            tempInfo = Instantiate(prefab, obj.transform.position, Quaternion.identity, gm.InventoryCanvas.transform);
+
+            RectTransform rt = tempInfo.GetComponent<RectTransform>();
+            if (rt.anchoredPosition.x > 640)
+            {
+                rt.anchoredPosition = new Vector2(640, rt.anchoredPosition.y);
+            }
+            if (rt.anchoredPosition.y < -220)
+            {
+                rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -220);
+            }
+
+            if (prefab == gm.BuyBuildPrefab)
+            {
+                BuildMouseData.buyBuild = listSlotsOnInterface[obj];
+            }
+            else if (prefab == gm.BuildInfoPrefab)
+            {
+                BuildMouseData.sellBuild = listSlotsOnInterface[obj];
+            }
+
+            var img = tempInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+            var lv = tempInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+            name = tempInfo.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+            type = tempInfo.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+            value = tempInfo.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+            buffsDescript = tempInfo.transform.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>();
+
+            name.text = listSlotsOnInterface[obj].build.BuildName;
+            type.text = listSlotsOnInterface[obj].build.type.ToString();
+            value.text = listSlotsOnInterface[obj].build.BuildValue.ToString("n0") + " G";
+            buffsDescript.text = listSlotsOnInterface[obj].build.buffList + listSlotsOnInterface[obj].BuildObject.description;
+
             img.sprite = listSlotsOnInterface[obj].BuildObject.uiDisplay;
-            img.raycastTarget = false;
+            lv.text = listSlotsOnInterface[obj].build.BuildLevel.ToString("n0");
         }
-        return tempbuild;
+        return tempInfo;
     }
 
-    public void OnListDragEnd(GameObject obj)
+    public void DestroyTempInfo()
     {
-        Destroy(BuildMouseData.tempBuildBeingDragged);
-
-        if (BuildMouseData.interfaceMouseIsOver == null)
-        {
-            //listSlotsOnInterface[obj].RemoveBuild();
-            return;
-        }
-        if (BuildMouseData.listSlotHoveredOver)
-        {
-            ListSlot mouseHoverSlotData = BuildMouseData.interfaceMouseIsOver.listSlotsOnInterface[BuildMouseData.listSlotHoveredOver];
-            buildList.SwapBuilds(listSlotsOnInterface[obj], mouseHoverSlotData);
-        }
+        Destroy(BuildMouseData.slotBuildInfo);
+        BuildMouseData.slotBuildInfo = null;
+        BuildMouseData.sellBuild = null;
     }
 
-    public void OnListDrag(GameObject obj)
+    public void DestroyBuyInfo()
     {
-        if (BuildMouseData.tempBuildBeingDragged != null)
-        {
-            BuildMouseData.tempBuildBeingDragged.GetComponent<RectTransform>().position = Input.mousePosition;
-        }
+        Destroy(BuildMouseData.buyBuildinfo);
+        BuildMouseData.buyBuildinfo = null;
+        BuildMouseData.buyBuild = null;
     }
 }
 
@@ -123,6 +185,10 @@ public static class BuildMouseData
     public static BuildInterface interfaceMouseIsOver;
     public static GameObject tempBuildBeingDragged;
     public static GameObject listSlotHoveredOver;
+    public static GameObject slotBuildInfo;
+    public static GameObject buyBuildinfo;
+    public static ListSlot buyBuild;
+    public static ListSlot sellBuild;
 }
 
 public static class ExtensionBuildMethods
@@ -131,7 +197,7 @@ public static class ExtensionBuildMethods
     {
         foreach (KeyValuePair<GameObject, ListSlot> _slot in _listSlotsOnInterface)
         {
-            if (_slot.Value.build.B_Id >= 0)
+            if (_slot.Value.build.Id >= 0)
             {
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().sprite = _slot.Value.BuildObject.uiDisplay;
                 _slot.Key.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);

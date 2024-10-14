@@ -10979,6 +10979,8 @@ MonoBehaviour:
   AlertScreen: {fileID: 1382477968}
   ItemInfoPrefab: {fileID: 9054322890730752637, guid: b1dd6990979e14548b8fd6ec08a2f41b, type: 3}
   BuyItemPrefab: {fileID: 9054322890730752637, guid: c09793c709e30ac44bfcbb8350a700be, type: 3}
+  BuildInfoPrefab: {fileID: 9054322890730752637, guid: 602743ad90046ca409f21a8f3a09014d, type: 3}
+  BuyBuildPrefab: {fileID: 9054322890730752637, guid: e864e698095a5114784e2012f1879534, type: 3}
 --- !u!114 &291001809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47737,11 +47739,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myBuild:
     BuildName: 
-    B_Id: -1
+    Id: -1
     BuildValue: 0
     BuildLevel: 0
     type: 0
     buffs: []
+    buffList: 
   buildObj: {fileID: 11400000, guid: 96af064665ebcc74d8dd1534fb0a7945, type: 2}
 --- !u!1001 &1443194320
 PrefabInstance:
