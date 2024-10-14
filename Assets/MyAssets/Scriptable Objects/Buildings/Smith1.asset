@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c20b74eed5b4ced43b650d51be43c243, type: 3}
-  m_Name: Store1
+  m_Script: {fileID: 11500000, guid: b387fcf76fd7fdc40a20a9cf6f43b145, type: 3}
+  m_Name: Smith1
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 21300000, guid: 7972dd97521bb1c44ba8e3774391b996, type: 3}
-  buildingMesh: {fileID: 229812709407629707, guid: fafd1f3752917694f9a87b910d664688, type: 3}
-  type: 2
+  uiDisplay: {fileID: 21300000, guid: 7d58fd33da0c1714e83ed3c55ae05bb9, type: 3}
+  buildingMesh: {fileID: -9123375460469021519, guid: c4066a5b860f897419fa662f28dacc31, type: 3}
+  type: 3
   description: 
   data:
-    BuildName: Store
-    B_Id: 4
-    BuildValue: 50
+    BuildName: Smith
+    B_Id: 10
+    BuildValue: 300
     BuildLevel: 1
-    type: 2
+    type: 3
     buffs: []

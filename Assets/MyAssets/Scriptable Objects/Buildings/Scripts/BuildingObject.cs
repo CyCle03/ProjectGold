@@ -32,6 +32,7 @@ public class BuildingObject : ScriptableObject
         Building newBuild = new Building(this);
         return newBuild;
     }
+
 }
 
 [System.Serializable]
@@ -50,19 +51,19 @@ public class Building
         B_Id = -1;
     }
 
-    public Building(BuildingObject buliding)
+    public Building(BuildingObject building)
     {
-        BuildName = buliding.name;
-        B_Id = buliding.data.B_Id;
-        BuildValue = buliding.data.BuildValue;
-        BuildLevel = buliding.data.BuildLevel;
-        type = buliding.type;
-        buffs = new BuildBuff[buliding.data.buffs.Length];
+        BuildName = building.name;
+        B_Id = building.data.B_Id;
+        BuildValue = building.data.BuildValue;
+        BuildLevel = building.data.BuildLevel;
+        type = building.data.type;
+        buffs = new BuildBuff[building.data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {
-            buffs[i] = new BuildBuff(buliding.data.buffs[i].buffvalue);
+            buffs[i] = new BuildBuff(building.data.buffs[i].buffvalue);
             {
-                buffs[i].attribute = buliding.data.buffs[i].attribute;
+                buffs[i].attribute = building.data.buffs[i].attribute;
             };
         }
     }

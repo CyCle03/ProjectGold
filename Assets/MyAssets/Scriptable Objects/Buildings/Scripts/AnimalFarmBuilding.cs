@@ -9,5 +9,6 @@ public class AnimalFarmBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.AnimalFarm;
+        data.type = type;
     }
 }

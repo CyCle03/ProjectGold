@@ -9,5 +9,6 @@ public class SmithBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.Smith;
+        data.type = type;
     }
 }

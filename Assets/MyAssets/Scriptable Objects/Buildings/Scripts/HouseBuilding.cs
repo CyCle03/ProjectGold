@@ -9,5 +9,6 @@ public class HouseBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.House;
+        data.type = type;
     }
 }

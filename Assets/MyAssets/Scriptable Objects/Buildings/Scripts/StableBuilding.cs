@@ -9,5 +9,6 @@ public class StableBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.Stable;
+        data.type = type;
     }
 }

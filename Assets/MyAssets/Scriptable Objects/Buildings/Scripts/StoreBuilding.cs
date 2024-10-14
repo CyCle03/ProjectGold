@@ -9,5 +9,6 @@ public class StoreBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.Store;
+        data.type = type;
     }
 }

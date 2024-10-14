@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c20b74eed5b4ced43b650d51be43c243, type: 3}
-  m_Name: Store1
+  m_Script: {fileID: 11500000, guid: d0f86c9c125af2449a4eaafd57dacc6a, type: 3}
+  m_Name: Tarvern1
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 21300000, guid: 7972dd97521bb1c44ba8e3774391b996, type: 3}
-  buildingMesh: {fileID: 229812709407629707, guid: fafd1f3752917694f9a87b910d664688, type: 3}
-  type: 2
+  uiDisplay: {fileID: 21300000, guid: d0c05b9125ed56349a5385e1a77547b7, type: 3}
+  buildingMesh: {fileID: 3909233067320746374, guid: 28a6c7f7d67794444972e9c061c6ddc2, type: 3}
+  type: 6
   description: 
   data:
-    BuildName: Store
-    B_Id: 4
-    BuildValue: 50
+    BuildName: Tarvern
+    B_Id: 11
+    BuildValue: 250
     BuildLevel: 1
-    type: 2
+    type: 6
     buffs: []

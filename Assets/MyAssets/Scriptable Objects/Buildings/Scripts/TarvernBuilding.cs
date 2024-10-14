@@ -9,5 +9,6 @@ public class TarvernBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.Tarvern;
+        data.type = type;
     }
 }

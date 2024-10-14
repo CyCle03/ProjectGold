@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc2b335a7bf7d4749866cfc4c60dab66, type: 3}
-  m_Name: House1_1
+  m_Name: House1_2
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 21300000, guid: e30e7f1121c83ed469e6242c11d18e05, type: 3}
-  buildingMesh: {fileID: 6725828573961113365, guid: 9d31f5e8054799d43bd3bbf1767c7c86, type: 3}
+  uiDisplay: {fileID: 21300000, guid: 17c2d0550f9d2f9418f458279eb57c65, type: 3}
+  buildingMesh: {fileID: 7840277498404754840, guid: 3b1c2e3a727198c4299ea9dd98de9d11, type: 3}
   type: 0
   description: 
   data:
     BuildName: House
-    B_Id: 0
-    BuildValue: 100
-    BuildLevel: 1
+    B_Id: 1
+    BuildValue: 300
+    BuildLevel: 2
     type: 0
     buffs: []

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c20b74eed5b4ced43b650d51be43c243, type: 3}
-  m_Name: Store1
+  m_Name: Store2
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 21300000, guid: 7972dd97521bb1c44ba8e3774391b996, type: 3}
-  buildingMesh: {fileID: 229812709407629707, guid: fafd1f3752917694f9a87b910d664688, type: 3}
+  uiDisplay: {fileID: 21300000, guid: 1c82fa18a9230df4f9a0aa981fe3a341, type: 3}
+  buildingMesh: {fileID: -8415185304862072451, guid: fa3af234c0695d14ca39d83484484776, type: 3}
   type: 2
   description: 
   data:
     BuildName: Store
-    B_Id: 4
-    BuildValue: 50
-    BuildLevel: 1
+    B_Id: -1
+    BuildValue: 200
+    BuildLevel: 2
     type: 2
     buffs: []

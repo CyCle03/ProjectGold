@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aef84ad1050b8147897cbebb03831f0, type: 3}
+  m_Name: Castle2
+  m_EditorClassIdentifier: 
+  uiDisplay: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
+  buildingMesh: {fileID: 3909233067320746374, guid: 27cdf6ddb7390cc4284d7a7a6501105a, type: 3}
+  type: 7
+  description: 
+  data:
+    BuildName: Castle
+    B_Id: -1
+    BuildValue: 500
+    BuildLevel: 2
+    type: 7
+    buffs: []

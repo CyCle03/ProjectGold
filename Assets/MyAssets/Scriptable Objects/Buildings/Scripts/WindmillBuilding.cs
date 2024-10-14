@@ -9,5 +9,6 @@ public class WindmillBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.Windmill;
+        data.type = type;
     }
 }

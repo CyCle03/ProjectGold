@@ -9,5 +9,6 @@ public class FarmBuilding : BuildingObject
     public void Awake()
     {
         type = BuildType.Farm;
+        data.type = type;
     }
 }

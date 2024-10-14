@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc2b335a7bf7d4749866cfc4c60dab66, type: 3}
-  m_Name: House1_1
+  m_Script: {fileID: 11500000, guid: 0ca06ae0433044d4c969f3b3a45fbc15, type: 3}
+  m_Name: Farm2
   m_EditorClassIdentifier: 
-  uiDisplay: {fileID: 21300000, guid: e30e7f1121c83ed469e6242c11d18e05, type: 3}
-  buildingMesh: {fileID: 6725828573961113365, guid: 9d31f5e8054799d43bd3bbf1767c7c86, type: 3}
+  uiDisplay: {fileID: 21300000, guid: da7129ed6a246f048a49d8d97de2d2d4, type: 3}
+  buildingMesh: {fileID: 3052129982705999162, guid: 223d1189396cfe0459357f9604d302ec, type: 3}
   type: 0
   description: 
   data:
-    BuildName: House
-    B_Id: 0
-    BuildValue: 100
-    BuildLevel: 1
+    BuildName: Farm
+    B_Id: -1
+    BuildValue: 300
+    BuildLevel: 2
     type: 0
     buffs: []
