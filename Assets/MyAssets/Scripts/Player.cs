@@ -223,8 +223,7 @@ public class Player : MonoBehaviour
                 }
                 break;
             case BuildInterfaceList.BuildShop:
-                bm.ShopListUpdate(_listSlot.indexNum);
-                bm.BuildTownUpdate();
+                //bm.BuildTownUpdate();
                 break;
             default:
                 break;
@@ -258,7 +257,7 @@ public class Player : MonoBehaviour
                 UpdateDmg();
                 break;
             case BuildInterfaceList.BuildShop:
-                bm.BuildTownUpdate();
+                //bm.BuildTownUpdate();
                 break;
             default:
                 break;
@@ -331,6 +330,7 @@ public class Player : MonoBehaviour
         buildList.GetListSlots[_build.indexNum].UpdateListSlot(_build.build);
         gm.BuildShopClose();
         bm.ShopListUpdate(_build.indexNum);
+        bm.BuildTownUpdate();
         InvenGoldUpdate();
     }
     public void BuildSell(ListSlot _build)
@@ -338,6 +338,8 @@ public class Player : MonoBehaviour
         inventory.RemoveGold(_build.build.BuildValue);
         buildList.GetListSlots[_build.indexNum].RemoveBuild();
         gm.BuildInfoClose();
+        bm.ShopListUpdate(_build.indexNum);
+        bm.BuildTownUpdate();
         InvenGoldUpdate();
     }
 
