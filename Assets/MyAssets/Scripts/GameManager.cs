@@ -21,19 +21,17 @@ public class GameManager : MonoBehaviour
     public GameObject InvenScreen;
     public GameObject EquipScreen;
     public GameObject BuildScreen;
-    public GameObject TestScreen;
+    public GameObject BuildShopScreen;
     public GameObject AlertScreen;
     public GameObject ItemInfoPrefab;
     public GameObject BuyItemPrefab;
-    public GameObject BuildInfoPrefab;
-    public GameObject BuyBuildPrefab;
 
     TextMeshProUGUI AlertMsg;
 
     bool isInventoryOn;
     bool isShopOn;
     bool isBuildOn;
-    bool isTestOn;
+    bool isBShopOn;
     bool isMsgOn;
 
     int alertCnt;
@@ -57,8 +55,8 @@ public class GameManager : MonoBehaviour
         BuildScreen.SetActive(false);
         isBuildOn = false;
 
-        TestScreen.SetActive(false);
-        isTestOn = false;
+        BuildShopScreen.SetActive(false);
+        isBShopOn = false;
 
         AlertMsg = AlertScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         AlertScreen.SetActive(false);
@@ -136,33 +134,27 @@ public class GameManager : MonoBehaviour
             { InvenScreen.SetActive(false); }
             else
             { InventoryCanvas.enabled = true; }
-
             BuildOpen();
         }
 
         //Test Window Controll
         if (Input.GetKeyDown(KeyCode.T))
         {
-            if (isTestOn)
+            if (isBShopOn)
             {
                 if (isInventoryOn)
                 { EquipScreen.SetActive(true); }
                 else
                 { InventoryCanvas.enabled = false; }
 
-                TestScreen.SetActive(false);
-                isTestOn = false;
-                CursorOff();
+                BShopClose();
                 return;
             }
             if (isInventoryOn)
             { EquipScreen.SetActive(false); }
             else
             { InventoryCanvas.enabled = true; }
-
-            TestScreen.SetActive(true);
-            isTestOn = true;
-            CursorOn();
+            BShopOpen();
         }
 
         //Close Window
@@ -240,6 +232,24 @@ public class GameManager : MonoBehaviour
         { InvenScreen.GetComponent<DynamicInterface>().DestroyTempInfo(); }
     }
 
+    public void ShopInfoClose()
+    {
+        if (MouseData.buyIteminfo != null)
+        { ShopScreen.GetComponent<ShopInterface>().DestroyBuyInfo(); }
+    }
+
+    public void BuildInfoClose()
+    {
+        if (BuildMouseData.slotBuildInfo != null)
+        { BuildScreen.GetComponent<DynamicBuild>().DestroyTempInfo(); }
+    }
+
+    public void BuildShopClose()
+    {
+        if (BuildMouseData.buyBuildinfo != null)
+        { BuildShopScreen.GetComponent<BShopInterface>().DestroyBuyInfo(); }
+    }
+
     public bool ShopResetCheck()
     {
         if (sell.OnSlotCount > inventory.EmptySlotCount)
@@ -298,7 +308,7 @@ public class GameManager : MonoBehaviour
         SellScreen.SetActive(false);
         isShopOn = false;
         CursorOff();
-        ItemInfoClose();
+        ShopInfoClose();
     }
 
     public void BuildOpen()
@@ -313,6 +323,22 @@ public class GameManager : MonoBehaviour
         BuildScreen.SetActive(false);
         isBuildOn = false;
         CursorOff();
+        BuildInfoClose();
+    }
+
+    public void BShopOpen()
+    {
+        BuildShopScreen.SetActive(true);
+        isBShopOn = true;
+        CursorOn();
+    }
+
+    public void BShopClose()
+    {
+        BuildShopScreen.SetActive(false);
+        isBShopOn = false;
+        CursorOff();
+        BuildShopClose();
     }
 
     public void CursorOn()
@@ -410,5 +436,6 @@ public class GameManager : MonoBehaviour
         sell.Clear();
         shop.Clear();
         shopBuild.Clear();
+        build.Clear();
     }
 }

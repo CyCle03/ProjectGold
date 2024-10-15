@@ -10,6 +10,8 @@ public class BuildManager : MonoBehaviour
     public BuildingListObject shopList;
     public BuildingDBObject buildDB;
     public TownBuild[] townBuilds;
+    public GameObject BuildInfoPrefab;
+    public GameObject BuyBuildPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +32,21 @@ public class BuildManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void BuildTownUpdate()
     {
-        
+        for (int i = 0; i < townBuilds.Length; i++)
+        {
+            ListSlot slot;
+            slot = buildList.IsBuildOnList(townBuilds[i].buildObj);
+            if (slot == null)
+            {
+                townBuilds[i].controllBuild.SetActive(false);
+            }
+            else
+            {
+                townBuilds[i].controllBuild.SetActive(true);
+            }
+        } 
     }
 
     public void ShopListUpdate(int _index)
@@ -41,18 +54,16 @@ public class BuildManager : MonoBehaviour
         var buildSlot = buildList.GetListSlots[_index];
         var shopSlot = shopList.GetListSlots[_index];
         BuildType bType;
-
+        print("_index: " + _index);
         if (buildSlot.build.Id <= -1)
         {
-            for (int i = 0; i < buildSlot.AllowedBuilds.Length; i++)
+            bType = buildSlot.AllowedBuild;
+            for (int i = 0; i < buildDB.BuildObjects.Length; i++)
             {
-                bType = buildSlot.AllowedBuilds[i];
-                for (int j = 0; j < buildDB.BuildObjects.Length; j++)
+                if (buildDB.BuildObjects[i].type == bType)
                 {
-                    if (buildDB.BuildObjects[j].type == bType)
-                    {
-                        shopSlot.UpdateListSlot(buildDB.BuildObjects[j].data);
-                    }
+                    shopSlot.UpdateListSlot(buildDB.BuildObjects[i].data);
+                    return;
                 }
             }
         }

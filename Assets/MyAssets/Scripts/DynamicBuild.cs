@@ -26,7 +26,7 @@ public class DynamicBuild : BuildInterface
             AddEvent(obj, EventTriggerType.PointerClick, delegate { OnClickBuild(obj); });
 
             buildList.GetListSlots[i].listSlotDisplay = obj;
-
+            buildList.GetListSlots[i].indexNum = i;
             listSlotsOnInterface.Add(obj, buildList.GetListSlots[i]);
         }
     }

@@ -61,12 +61,14 @@ public class Building
         BuildValue = building.data.BuildValue;
         BuildLevel = building.data.BuildLevel;
         type = building.data.type;
+        buffList = building.data.buffList;
         buffs = new BuildBuff[building.data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {
             buffs[i] = new BuildBuff(building.data.buffs[i].buffvalue);
             {
                 buffs[i].attribute = building.data.buffs[i].attribute;
+                buffList += buffs[i].attribute.ToString() + ": " + buffs[i].buffvalue.ToString("n0") + "\n";
             };
         }
     }

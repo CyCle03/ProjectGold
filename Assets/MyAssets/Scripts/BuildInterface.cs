@@ -12,6 +12,7 @@ public abstract class BuildInterface : MonoBehaviour
     public BuildingListObject buildList;
     public Dictionary<GameObject, ListSlot> listSlotsOnInterface = new Dictionary<GameObject, ListSlot>();
 
+    BuildManager bm;
     GameManager gm;
 
     // Start is called before the first frame update
@@ -30,6 +31,7 @@ public abstract class BuildInterface : MonoBehaviour
 
     private void Start()
     {
+        bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
@@ -79,7 +81,7 @@ public abstract class BuildInterface : MonoBehaviour
             }
             DestroyTempInfo();
         }
-        BuildMouseData.slotBuildInfo = CreatTempInfo(obj, gm.BuildInfoPrefab);
+        BuildMouseData.slotBuildInfo = CreatTempInfo(obj, bm.BuildInfoPrefab);
     }
 
     public void OnBuyBuild(GameObject obj)
@@ -97,7 +99,7 @@ public abstract class BuildInterface : MonoBehaviour
             }
             DestroyBuyInfo();
         }
-        BuildMouseData.buyBuildinfo = CreatTempInfo(obj, gm.BuyBuildPrefab);
+        BuildMouseData.buyBuildinfo = CreatTempInfo(obj, bm.BuyBuildPrefab);
     }
 
     public void OnListExit(GameObject obj)
@@ -138,11 +140,11 @@ public abstract class BuildInterface : MonoBehaviour
                 rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, -220);
             }
 
-            if (prefab == gm.BuyBuildPrefab)
+            if (prefab == bm.BuyBuildPrefab)
             {
                 BuildMouseData.buyBuild = listSlotsOnInterface[obj];
             }
-            else if (prefab == gm.BuildInfoPrefab)
+            else if (prefab == bm.BuildInfoPrefab)
             {
                 BuildMouseData.sellBuild = listSlotsOnInterface[obj];
             }

@@ -26,7 +26,7 @@ public class BShopInterface : BuildInterface
             AddEvent(obj, EventTriggerType.PointerClick, delegate { OnBuyBuild(obj); });
 
             buildList.GetListSlots[i].listSlotDisplay = obj;
-
+            buildList.GetListSlots[i].indexNum = i;
             listSlotsOnInterface.Add(obj, buildList.GetListSlots[i]);
         }
     }

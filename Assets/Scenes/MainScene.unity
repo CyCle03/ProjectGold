@@ -4467,6 +4467,7 @@ MonoBehaviour:
   shop: {fileID: 11400000, guid: 052bfb21565812c4498a149f98247cee, type: 2}
   sell: {fileID: 11400000, guid: 70a75e1dfc4121d409fd78d9d8400871, type: 2}
   buildList: {fileID: 11400000, guid: a5a901d5ce06df949a4f9e291588324f, type: 2}
+  shopList: {fileID: 11400000, guid: 993806d5227f12b488cc1324f3c6d056, type: 2}
   HPSlider: {fileID: 694023917}
   shopObj: {fileID: 1459185192}
   invenGoldObj: {fileID: 587543683}
@@ -10975,12 +10976,10 @@ MonoBehaviour:
   InvenScreen: {fileID: 129059381}
   EquipScreen: {fileID: 62594160}
   BuildScreen: {fileID: 1669767867}
-  TestScreen: {fileID: 1694219268}
+  BuildShopScreen: {fileID: 1694219268}
   AlertScreen: {fileID: 1382477968}
   ItemInfoPrefab: {fileID: 9054322890730752637, guid: b1dd6990979e14548b8fd6ec08a2f41b, type: 3}
   BuyItemPrefab: {fileID: 9054322890730752637, guid: c09793c709e30ac44bfcbb8350a700be, type: 3}
-  BuildInfoPrefab: {fileID: 9054322890730752637, guid: 602743ad90046ca409f21a8f3a09014d, type: 3}
-  BuyBuildPrefab: {fileID: 9054322890730752637, guid: e864e698095a5114784e2012f1879534, type: 3}
 --- !u!114 &291001809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41057,6 +41056,8 @@ MonoBehaviour:
     controllBuild: {fileID: 751909848}
   - buildObj: {fileID: 11400000, guid: b770c6c0c38140242905fc27ecb8e4c9, type: 2}
     controllBuild: {fileID: 1040377637}
+  BuildInfoPrefab: {fileID: 9054322890730752637, guid: 602743ad90046ca409f21a8f3a09014d, type: 3}
+  BuyBuildPrefab: {fileID: 9054322890730752637, guid: e864e698095a5114784e2012f1879534, type: 3}
 --- !u!4 &1235772815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4383281184719468, guid: 860cb32684b3a554ca851ba50a94d0cc, type: 3}
@@ -56256,7 +56257,7 @@ GameObject:
   - component: {fileID: 1694219269}
   - component: {fileID: 1694219273}
   - component: {fileID: 1694219272}
-  - component: {fileID: 1694219271}
+  - component: {fileID: 1694219274}
   - component: {fileID: 1694219270}
   m_Layer: 5
   m_Name: ShopListScreen
@@ -56297,25 +56298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
---- !u!114 &1694219271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1694219268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1a830c7a4fb9649ac69410c093e2ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildList: {fileID: 11400000, guid: 993806d5227f12b488cc1324f3c6d056, type: 2}
-  buildListPrefab: {fileID: 5021891023038174841, guid: eed53313f2c8ff94bbd7bbc0a1184167, type: 3}
-  X_START: -160
-  Y_START: 280
-  X_SPACE_BETEEN_BUILD: 110
-  NUMBER_OF_COLUMN: 4
-  Y_SPACE_BETEEN_BUILD: 110
 --- !u!114 &1694219272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56354,6 +56336,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1694219268}
   m_CullTransparentMesh: 1
+--- !u!114 &1694219274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694219268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a890287d187934aacd62947ba4a7c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildList: {fileID: 11400000, guid: 993806d5227f12b488cc1324f3c6d056, type: 2}
+  buildListPrefab: {fileID: 5021891023038174841, guid: eed53313f2c8ff94bbd7bbc0a1184167, type: 3}
+  X_START: -160
+  Y_START: 280
+  X_SPACE_BETEEN_BUILD: 110
+  NUMBER_OF_COLUMN: 4
+  Y_SPACE_BETEEN_BUILD: 110
 --- !u!1001 &1695052733
 PrefabInstance:
   m_ObjectHideFlags: 0

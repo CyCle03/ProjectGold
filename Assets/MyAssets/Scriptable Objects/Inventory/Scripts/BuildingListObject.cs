@@ -201,7 +201,7 @@ public delegate void ListSlotUpdated(ListSlot _slot);
 [System.Serializable]
 public class ListSlot
 {
-    public BuildType[] AllowedBuilds = new BuildType[0];
+    public BuildType AllowedBuild = new BuildType();
 
     [System.NonSerialized]
     public BuildInterface parent;
@@ -211,6 +211,8 @@ public class ListSlot
     public ListSlotUpdated OnAfterUpdate;
     [System.NonSerialized]
     public ListSlotUpdated OnBeforeUpdate;
+    [System.NonSerialized]
+    public int indexNum;
 
     public Building build;
 
@@ -256,34 +258,26 @@ public class ListSlot
 
     public bool CanPlaceInListSlot(BuildingObject _buildObject)
     {
-        if (AllowedBuilds.Length <= 0 || _buildObject == null || _buildObject.data.Id < 0)
+        if (AllowedBuild == BuildType.Default || _buildObject == null || _buildObject.data.Id < 0)
         {
             return true;
         }
-
-        for (int i = 0; i < AllowedBuilds.Length; i++)
+        if (_buildObject.type == AllowedBuild)
         {
-            if (_buildObject.type == AllowedBuilds[i])
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }
 
     public bool CanPlaceInListSlot(Building _build)
     {
-        if (AllowedBuilds.Length <= 0 || _build == null || _build.Id < 0)
+        if (AllowedBuild == BuildType.Default || _build == null || _build.Id < 0)
         {
             return true;
         }
-
-        for (int i = 0; i < AllowedBuilds.Length; i++)
+        if (_build.type == AllowedBuild)
         {
-            if (_build.type == AllowedBuilds[i])
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }

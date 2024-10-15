@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public InventoryObject shop;
     public InventoryObject sell;
     public BuildingListObject buildList;
+    public BuildingListObject shopList;
     public Slider HPSlider;
     public GameObject shopObj;
     public GameObject invenGoldObj;
@@ -36,12 +37,14 @@ public class Player : MonoBehaviour
     public int l_str;
 
     GameManager gm;
+    BuildManager bm;
     TextMeshProUGUI invenTextGold;
     TextMeshProUGUI sellTextGold;
 
     private void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
 
         for (int i = 0; i < attributes.Length; i++)
         {
@@ -79,6 +82,11 @@ public class Player : MonoBehaviour
             sell.GetSlots[i].OnAfterUpdate += OnAfterSlotUpdate;
         }
         for (int i = 0; i < buildList.GetListSlots.Length; i++)
+        {
+            buildList.GetListSlots[i].OnBeforeUpdate += OnBeforeListSlotUpdate;
+            buildList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
+        }
+        for (int i = 0; i < shopList.GetListSlots.Length; i++)
         {
             buildList.GetListSlots[i].OnBeforeUpdate += OnBeforeListSlotUpdate;
             buildList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
@@ -201,7 +209,7 @@ public class Player : MonoBehaviour
 
                 break;
             case BuildInterfaceList.BuildList:
-                print(string.Concat("Removed ", _listSlot.BuildObject, " on ", _listSlot.parent.buildList.type, ", Allowed Building: ", string.Join(", ", _listSlot.AllowedBuilds)));
+                print(string.Concat("Removed ", _listSlot.BuildObject, " on ", _listSlot.parent.buildList.type, ", Allowed Building: ", string.Join(", ", _listSlot.AllowedBuild)));
 
                 for (int i = 0; i < _listSlot.build.buffs.Length; i++)
                 {
@@ -215,8 +223,8 @@ public class Player : MonoBehaviour
                 }
                 break;
             case BuildInterfaceList.BuildShop:
-                //buildShop.RemoveGold(_listSlot.build.BuildValue);
-                //ShopGoldUpdate();
+                bm.ShopListUpdate(_listSlot.indexNum);
+                bm.BuildTownUpdate();
                 break;
             default:
                 break;
@@ -232,10 +240,9 @@ public class Player : MonoBehaviour
         switch (_listSlot.parent.buildList.type)
         {
             case BuildInterfaceList.ETC:
-
                 break;
             case BuildInterfaceList.BuildList:
-                print(string.Concat("Placed ", _listSlot.BuildObject, " on ", _listSlot.parent.buildList.type, ", Allowed Builds: ", string.Join(", ", _listSlot.AllowedBuilds)));
+                print(string.Concat("Placed ", _listSlot.BuildObject, " on ", _listSlot.parent.buildList.type, ", Allowed Builds: ", string.Join(", ", _listSlot.AllowedBuild)));
 
                 for (int i = 0; i < _listSlot.build.buffs.Length; i++)
                 {
@@ -251,8 +258,7 @@ public class Player : MonoBehaviour
                 UpdateDmg();
                 break;
             case BuildInterfaceList.BuildShop:
-                //buildShop.AddGold(_listSlot.build.BuildValue);
-                //ShopGoldUpdate();
+                bm.BuildTownUpdate();
                 break;
             default:
                 break;
@@ -319,10 +325,19 @@ public class Player : MonoBehaviour
         { gm.Alert("You are far away from shop."); }
     }
 
-    public void BuildBuy(int _buildValue, ListSlot _build, int _index)
+    public void BuildBuy(int _buildValue, ListSlot _build)
     {
         inventory.RemoveGold(_buildValue);
-        buildList.GetListSlots[_index].UpdateListSlot(_build.build);
+        buildList.GetListSlots[_build.indexNum].UpdateListSlot(_build.build);
+        gm.BuildShopClose();
+        bm.ShopListUpdate(_build.indexNum);
+        InvenGoldUpdate();
+    }
+    public void BuildSell(ListSlot _build)
+    {
+        inventory.RemoveGold(_build.build.BuildValue);
+        buildList.GetListSlots[_build.indexNum].RemoveBuild();
+        gm.BuildInfoClose();
         InvenGoldUpdate();
     }
 

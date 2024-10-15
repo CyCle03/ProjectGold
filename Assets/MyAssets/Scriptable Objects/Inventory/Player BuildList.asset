@@ -17,116 +17,130 @@ MonoBehaviour:
   type: 0
   Container:
     ListSlots:
-    - AllowedBuilds: 01000000
+    - AllowedBuild: 1
       build:
         BuildName: 
-        B_Id: 0
-        BuildValue: 0
-        BuildLevel: 1
-        type: 1
-        buffs: []
-    - AllowedBuilds: 01000000
-      build:
-        BuildName: 
-        B_Id: 3
-        BuildValue: 0
-        BuildLevel: 1
-        type: 1
-        buffs: []
-    - AllowedBuilds: 01000000
-      build:
-        BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 01000000
+        buffList: 
+    - AllowedBuild: 1
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 03000000
+        buffList: 
+    - AllowedBuild: 1
       build:
         BuildName: 
-        B_Id: 6
-        BuildValue: 0
-        BuildLevel: 1
-        type: 3
-        buffs: []
-    - AllowedBuilds: 02000000
-      build:
-        BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 02000000
+        buffList: 
+    - AllowedBuild: 1
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 0b000000
+        buffList: 
+    - AllowedBuild: 3
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 04000000
+        buffList: 
+    - AllowedBuild: 2
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 07000000
+        buffList: 
+    - AllowedBuild: 2
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 09000000
+        buffList: 
+    - AllowedBuild: 11
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 05000000
+        buffList: 
+    - AllowedBuild: 4
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 0a000000
+        buffList: 
+    - AllowedBuild: 7
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
-    - AllowedBuilds: 08000000
+        buffList: 
+    - AllowedBuild: 9
       build:
         BuildName: 
-        B_Id: -1
+        Id: -1
         BuildValue: 0
         BuildLevel: 0
         type: 0
         buffs: []
+        buffList: 
+    - AllowedBuild: 5
+      build:
+        BuildName: 
+        Id: -1
+        BuildValue: 0
+        BuildLevel: 0
+        type: 0
+        buffs: []
+        buffList: 
+    - AllowedBuild: 10
+      build:
+        BuildName: 
+        Id: -1
+        BuildValue: 0
+        BuildLevel: 0
+        type: 0
+        buffs: []
+        buffList: 
+    - AllowedBuild: 8
+      build:
+        BuildName: 
+        Id: -1
+        BuildValue: 0
+        BuildLevel: 0
+        type: 0
+        buffs: []
+        buffList: 
   gold: 0
