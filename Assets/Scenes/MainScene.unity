@@ -5555,20 +5555,37 @@ MonoBehaviour:
     value:
       baseValue: 0
       modifiedValue: 0
+  stats:
+  - type: 0
+    value:
+      baseValue: 0
+      modifiedValue: 0
+  - type: 1
+    value:
+      baseValue: 0
+      modifiedValue: 0
+  - type: 2
+    value:
+      baseValue: 0
+      modifiedValue: 0
+  - type: 3
+    value:
+      baseValue: 0
+      modifiedValue: 0
+  - type: 4
+    value:
+      baseValue: 0
+      modifiedValue: 0
+  - type: 5
+    value:
+      baseValue: 0
+      modifiedValue: 0
   maxHP: 0
   curruntHP: 0
   attackDamage: 0
   regenHP: 0
   level: 1
   exp: 0
-  s_agi: 0
-  l_agi: 0
-  s_int: 0
-  l_int: 0
-  s_stm: 0
-  l_stm: 0
-  s_str: 0
-  l_str: 0
 --- !u!4 &101479977 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3893294197879345259, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}

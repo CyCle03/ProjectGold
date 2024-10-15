@@ -1,10 +1,21 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum Stat
+{
+    HP,
+    Heal,
+    Attack,
+    AttackSpeed,
+    MoveSpeed,
+    MoneyEarn
+}
 
 public class Player : MonoBehaviour
 {
@@ -20,6 +31,7 @@ public class Player : MonoBehaviour
     public GameObject sellGoldObj;
 
     public Attribute[] attributes;
+    public PlayerStat[] stats;
 
     public float maxHP = 100;
     public float curruntHP;
@@ -27,14 +39,6 @@ public class Player : MonoBehaviour
     public float regenHP = 0;
     public int level = 1;
     public int exp = 0;
-    public int s_agi;
-    public int l_agi;
-    public int s_int;
-    public int l_int;
-    public int s_stm;
-    public int l_stm;
-    public int s_str;
-    public int l_str;
 
     GameManager gm;
     BuildManager bm;
@@ -49,23 +53,25 @@ public class Player : MonoBehaviour
         for (int i = 0; i < attributes.Length; i++)
         {
             attributes[i].SetParent(this);
-            switch (attributes[i].type)
+        }
+        for (int i = 0; i < stats.Length; i++)
+        {
+            stats[i].SetParent(this);
+            switch (stats[i].type)
             {
-                case Attributes.Agility:
-                    s_agi = attributes[i].value.ModifiedValue;
-                    l_agi = i;
+                case Stat.HP:
+                    stats[i].value.BaseValue = 100;
                     break;
-                case Attributes.Intellect:
-                    s_int = attributes[i].value.ModifiedValue;
-                    l_int = i;
+                case Stat.Heal:
                     break;
-                case Attributes.Stamina:
-                    s_stm = attributes[i].value.ModifiedValue;
-                    l_stm = i;
+                case Stat.Attack:
+                    stats[i].value.BaseValue = 1;
                     break;
-                case Attributes.Strength:
-                    s_str = attributes[i].value.ModifiedValue;
-                    l_str = i;
+                case Stat.AttackSpeed:
+                    break;
+                case Stat.MoveSpeed:
+                    break;
+                case Stat.MoneyEarn:
                     break;
                 default:
                     break;
@@ -106,6 +112,58 @@ public class Player : MonoBehaviour
             curruntHP += (regenHP * Time.deltaTime / 10);
             UpdateHPSlider();
         }
+    }
+
+    public ModifiableInt GetAttributes(Attributes _attribute)
+    {
+        ModifiableInt _value = new ModifiableInt();
+        for (int i = 0; i < attributes.Length; i++)
+        {
+            if (attributes[i].type == _attribute)
+            {
+                _value = attributes[i].value;
+            }
+        }
+        return _value;
+    }
+
+    public int GetIntAttributes(Attributes _attribute)
+    {
+        int _value =  0;
+        for (int i = 0; i < attributes.Length; i++)
+        {
+            if (attributes[i].type == _attribute)
+            {
+                _value = attributes[i].value.ModifiedValue;
+            }
+        }
+        return _value;
+    }
+
+    public ModifiableInt GetStats(Stat _stat)
+    {
+        ModifiableInt _value = new ModifiableInt();
+        for (int i = 0; i < stats.Length; i++)
+        {
+            if (stats[i].type == _stat)
+            {
+                _value = stats[i].value;
+            }
+        }
+        return _value;
+    }
+
+    public int GetIntStats(Stat _stat)
+    {
+        int _value  = 0;
+        for (int i = 0; i < stats.Length; i++)
+        {
+            if (stats[i].type == _stat)
+            {
+                _value = stats[i].value.ModifiedValue;
+            }
+        }
+        return _value;
     }
 
     public void InvenGoldUpdate()
@@ -213,11 +271,11 @@ public class Player : MonoBehaviour
 
                 for (int i = 0; i < _listSlot.build.buffs.Length; i++)
                 {
-                    for (int j = 0; j < attributes.Length; j++)
+                    for (int j = 0; j < stats.Length; j++)
                     {
-                        if (attributes[j].type == _listSlot.build.buffs[i].attribute)
+                        if (stats[j].type == _listSlot.build.buffs[i].stat)
                         {
-                            attributes[j].value.RemoveModifier(_listSlot.build.buffs[i]);
+                            stats[j].value.RemoveModifier(_listSlot.build.buffs[i]);
                         }
                     }
                 }
@@ -245,11 +303,11 @@ public class Player : MonoBehaviour
 
                 for (int i = 0; i < _listSlot.build.buffs.Length; i++)
                 {
-                    for (int j = 0; j < attributes.Length; j++)
+                    for (int j = 0; j < stats.Length; j++)
                     {
-                        if (attributes[j].type == _listSlot.build.buffs[i].attribute)
+                        if (stats[j].type == _listSlot.build.buffs[i].stat)
                         {
-                            attributes[j].value.AddModifier(_listSlot.build.buffs[i]);
+                            stats[j].value.AddModifier(_listSlot.build.buffs[i]);
                         }
                     }
                 }
@@ -357,7 +415,7 @@ public class Player : MonoBehaviour
 
     public void UpdateDmg()
     {
-        attackDamage = 1 + (float)(s_str + (s_agi * 0.5));
+        attackDamage = 1 + (float)(GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) * 0.5));
         print(string.Concat("Damage: ", attackDamage));
     }
 
@@ -370,23 +428,11 @@ public class Player : MonoBehaviour
 
     public void UpdatePStats()
     {
-        s_agi = GetStats(l_agi);
-        s_int = GetStats(l_int);
-        s_stm = GetStats(l_stm);
-        s_str = GetStats(l_str);
-        maxHP = 100+(s_stm * 10);
-        regenHP = s_stm + (s_int * 0.5f);
+        int _int = GetIntAttributes(Attributes.Intellect);
+        int _stm = GetIntAttributes(Attributes.Stamina);
+        maxHP = 100 + (_stm * 10);
+        regenHP = _stm + (_int * 0.5f);
         UpdateHPSlider();
-    }
-
-    public int GetStats(int l_stat)
-    {
-        int _stat = -1;
-        if (attributes[l_stat] != null)
-        {
-            _stat = attributes[l_stat].value.ModifiedValue;
-        }
-        return _stat;
     }
 
     public void UpdateEXP(int GetExp)
@@ -420,15 +466,21 @@ public class Player : MonoBehaviour
 
     void UpdateHPSlider()
     {
-        if (curruntHP >= maxHP)
-        { curruntHP = maxHP; }
-        HPSlider.value = (float)curruntHP / (float)maxHP;
-        gm.HPTextUpdate(curruntHP, maxHP);
+        int HPStat = GetIntStats(Stat.HP);
+        if (curruntHP >= HPStat)
+        { curruntHP = HPStat; }
+        HPSlider.value = (float)curruntHP / (float)HPStat;
+        gm.HPTextUpdate(curruntHP, HPStat);
     }
 
     public void AttributeModified(Attribute attribute)
     {
         Debug.Log(string.Concat(attribute.type, " was updated! Value is now ", attribute.value.ModifiedValue));
+    }
+
+    public void StatModified(PlayerStat stat)
+    {
+        Debug.Log(string.Concat(stat.type, " was updated! Value is now ", stat.value.ModifiedValue));
     }
 }
 
@@ -448,5 +500,24 @@ public class Attribute
     public void AttributeModified()
     {
         parent.AttributeModified(this);
+    }
+}
+
+[System.Serializable]
+public class PlayerStat
+{
+    [System.NonSerialized]
+    public Player parent;
+    public Stat type;
+    public ModifiableInt value;
+
+    public void SetParent(Player _parent)
+    {
+        parent = _parent;
+        value = new ModifiableInt(StatModified);
+    }
+    public void StatModified()
+    {
+        parent.StatModified(this);
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public enum BuildType
 {
@@ -67,8 +66,8 @@ public class Building
         {
             buffs[i] = new BuildBuff(building.data.buffs[i].buffvalue);
             {
-                buffs[i].attribute = building.data.buffs[i].attribute;
-                buffList += buffs[i].attribute.ToString() + ": " + buffs[i].buffvalue.ToString("n0") + "\n";
+                buffs[i].stat = building.data.buffs[i].stat;
+                buffList += buffs[i].stat.ToString() + ": " + buffs[i].buffvalue.ToString("n0") + "\n";
             };
         }
     }
@@ -77,10 +76,8 @@ public class Building
 [System.Serializable]
 public class BuildBuff : IModifiers
 {
-    public Attributes attribute;
+    public Stat stat;
     public int buffvalue;
-    public int min;
-    public int max;
 
     public BuildBuff(int _buffValue)
     {
