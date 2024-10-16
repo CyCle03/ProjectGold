@@ -92,7 +92,15 @@ public class GameManager : MonoBehaviour
                 CloseInventory();
             }
             else
-            { OpenInventory(); }
+            {
+                if (isBShopOn)
+                {
+                    BShopClose();
+                    if (isBuildOn)
+                    { BuildClose(); }
+                }
+                OpenInventory();
+            }
             
         }
 
@@ -110,6 +118,12 @@ public class GameManager : MonoBehaviour
             {
                 if (tempBuild != null && tempBuild.type == BuildType.Store)
                 {
+                    if (isBuildOn)
+                    {
+                        if (isBShopOn)
+                        { BShopClose(); }
+                        BuildClose();
+                    }
                     if (!isInventoryOn)
                         { OpenInventory(); }
                     ShopOpen();
@@ -122,50 +136,48 @@ public class GameManager : MonoBehaviour
         {
             if (isBuildOn)
             {
-                if (isInventoryOn)
-                { InvenScreen.SetActive(true); }
-                else
-                { InventoryCanvas.enabled = false; }
-
+                if (isBShopOn)
+                { BShopClose(); }
                 BuildClose();
                 return;
             }
             if (isInventoryOn)
-            { InvenScreen.SetActive(false); }
-            else
-            { InventoryCanvas.enabled = true; }
+            {
+                if (isShopOn)
+                { ShopClose(); }
+                CloseInventory();
+            }
             BuildOpen();
         }
 
-        //Test Window Controll
+        //Build Shop Window Controll
         if (Input.GetKeyDown(KeyCode.T))
         {
             if (isBShopOn)
             {
-                if (isInventoryOn)
-                { EquipScreen.SetActive(true); }
-                else
-                { InventoryCanvas.enabled = false; }
-
                 BShopClose();
                 return;
             }
             if (isInventoryOn)
-            { EquipScreen.SetActive(false); }
-            else
-            { InventoryCanvas.enabled = true; }
+            {
+                if (isShopOn)
+                { ShopClose(); }
+                CloseInventory();
+            }
+            if (!isBuildOn)
+            { BuildOpen(); }
             BShopOpen();
         }
 
         //Close Window
         if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isBuildOn)
+            if (isBShopOn)
             {
-                if (isInventoryOn)
-                { InvenScreen.SetActive(true); }
-                else
-                { InventoryCanvas.enabled = false; }
+                BShopClose();
+            }
+            else if (isBuildOn)
+            {
                 BuildClose();
             }
             else if (isShopOn)
@@ -317,6 +329,7 @@ public class GameManager : MonoBehaviour
 
     public void BuildOpen()
     {
+        InventoryCanvas.enabled = true;
         BuildScreen.SetActive(true);
         isBuildOn = true;
         CursorOn();
@@ -324,6 +337,7 @@ public class GameManager : MonoBehaviour
 
     public void BuildClose()
     {
+        InventoryCanvas.enabled = false;
         BuildScreen.SetActive(false);
         isBuildOn = false;
         CursorOff();
