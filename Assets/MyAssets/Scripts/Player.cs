@@ -406,7 +406,7 @@ public class Player : MonoBehaviour
     }
     public void BuildSell(ListSlot _build)
     {
-        inventory.RemoveGold(_build.build.BuildValue);
+        inventory.AddGold(_build.build.BuildValue);
         buildList.GetListSlots[_build.indexNum].RemoveBuild();
         gm.BuildInfoClose();
         bm.ShopListUpdate(_build.indexNum);

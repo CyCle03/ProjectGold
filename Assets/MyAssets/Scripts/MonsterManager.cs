@@ -24,9 +24,11 @@ public class MonsterManager : MonoBehaviour
     int[] mobs;
     bool[] canSpawnMonster;
 
+    int m_levelType;
+
     private void Awake()
     {
-        var m_levelType = m_RegenPoints.Length;
+        m_levelType = m_RegenPoints.Length;
         mobs = new int[m_levelType];
         currentRegenTimes = new float[m_levelType];
         spawnCnt = new int[m_levelType];
@@ -65,23 +67,14 @@ public class MonsterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canSpawnMonster[0])
+        for (int i = 0; i < m_levelType; i++)
         {
-            if (currentRegenTimes[0] <= 0)
-            { SpawnMonster(0); }
-            else { currentRegenTimes[0] -= Time.deltaTime; }
-        }
-        if (canSpawnMonster[1])
-        {
-            if (currentRegenTimes[1] <= 0)
-            { SpawnMonster(1); }
-            else { currentRegenTimes[1] -= Time.deltaTime; }
-        }
-        if (canSpawnMonster[2])
-        {
-            if (currentRegenTimes[2] <= 0)
-            { SpawnMonster(2); }
-            else { currentRegenTimes[2] -= Time.deltaTime; }
+            if (canSpawnMonster[i])
+            {
+                if (currentRegenTimes[i] <= 0)
+                { SpawnMonster(i); }
+                else { currentRegenTimes[i] -= Time.deltaTime; }
+            }
         }
     }
 
