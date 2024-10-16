@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum Stat
 {
@@ -98,6 +99,7 @@ public class Player : MonoBehaviour
             buildList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
         }
         UpdatePStats();
+        maxHP = GetIntStats(Stat.HP);
         curruntHP = maxHP;
         UpdateHPSlider();
 
@@ -153,6 +155,17 @@ public class Player : MonoBehaviour
         return _value;
     }
 
+    public void SetHP()
+    {
+        for (int i = 0; i < stats.Length; i++)
+        {
+            if (stats[i].type == Stat.HP)
+            {
+                stats[i].value.BaseValue = 100 + 10 * (GetIntAttributes(Attributes.Stamina));
+                maxHP = stats[i].value.ModifiedValue;
+            }
+        }
+    }
     public int GetIntStats(Stat _stat)
     {
         int _value  = 0;
@@ -430,7 +443,7 @@ public class Player : MonoBehaviour
     {
         int _int = GetIntAttributes(Attributes.Intellect);
         int _stm = GetIntAttributes(Attributes.Stamina);
-        maxHP = 100 + (_stm * 10);
+        SetHP();
         regenHP = _stm + (_int * 0.5f);
         UpdateHPSlider();
     }

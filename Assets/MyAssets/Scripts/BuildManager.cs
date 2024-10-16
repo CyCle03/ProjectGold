@@ -54,7 +54,6 @@ public class BuildManager : MonoBehaviour
         var buildSlot = buildList.GetListSlots[_index];
         var shopSlot = shopList.GetListSlots[_index];
         BuildType bType;
-        print("_index: " + _index);
         if (buildSlot.build.Id <= -1)
         {
             bType = buildSlot.AllowedBuild;
