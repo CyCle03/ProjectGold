@@ -68,11 +68,16 @@ public class BuildManager : MonoBehaviour
         }
         else
         {
-            var DBnextBuild = buildDB.BuildObjects[buildSlot.build.Id + 1];
-            if (DBnextBuild.type == buildSlot.build.type && DBnextBuild.data.BuildLevel > buildSlot.build.BuildLevel)
+            if (buildSlot.build.Id < buildDB.BuildObjects.Length - 1)
             {
-                shopSlot.UpdateListSlot(DBnextBuild.data);
+                var DBnextBuild = buildDB.BuildObjects[buildSlot.build.Id + 1];
+                if (DBnextBuild.type == buildSlot.build.type && DBnextBuild.data.BuildLevel > buildSlot.build.BuildLevel)
+                {
+                    shopSlot.UpdateListSlot(DBnextBuild.data);
+                    return;
+                }
             }
+            shopSlot.UpdateListSlot(new Building());
         }
     }
 }

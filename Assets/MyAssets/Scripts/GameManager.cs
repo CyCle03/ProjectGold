@@ -216,6 +216,10 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         { CursorOn(); }
 
+        //gold cheat
+        if (Input.GetKeyDown(KeyCode.G))
+        { inventory.AddGold(1000); player.InvenGoldUpdate(); }
+
         if (isMsgOn)
         {
             alertTimer -= Time.deltaTime;
