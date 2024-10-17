@@ -93,11 +93,11 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                if (isBShopOn)
+                if (isBuildOn)
                 {
-                    BShopClose();
-                    if (isBuildOn)
-                    { BuildClose(); }
+                    if (isBShopOn)
+                    { BShopClose(); }
+                    BuildClose();
                 }
                 OpenInventory();
             }
@@ -139,15 +139,17 @@ public class GameManager : MonoBehaviour
                 if (isBShopOn)
                 { BShopClose(); }
                 BuildClose();
-                return;
             }
-            if (isInventoryOn)
+            else
             {
-                if (isShopOn)
-                { ShopClose(); }
-                CloseInventory();
+                if(isInventoryOn)
+                {
+                    if (isShopOn)
+                    { ShopClose(); }
+                    CloseInventory();
+                }
+                BuildOpen();
             }
-            BuildOpen();
         }
 
         //Build Shop Window Controll
@@ -301,10 +303,10 @@ public class GameManager : MonoBehaviour
 
     public void CloseInventory()
     {
-        InventoryCanvas.enabled = false;
         InvenScreen.SetActive(false);
         EquipScreen.SetActive(false);
         isInventoryOn = false;
+        InventoryCanvas.enabled = false;
         CursorOff();
         ItemInfoClose();
     }
@@ -337,9 +339,9 @@ public class GameManager : MonoBehaviour
 
     public void BuildClose()
     {
-        InventoryCanvas.enabled = false;
         BuildScreen.SetActive(false);
         isBuildOn = false;
+        InventoryCanvas.enabled = false;
         CursorOff();
         BuildInfoClose();
     }
