@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: 34102981c7e63b646b05313914b723a6, type: 3}
   buildingMesh: {fileID: 5060444177187149915, guid: 061a904077894f44c93fd3bdbc43ec07, type: 3}
-  type: 7
+  type: 8
   description: 
   data:
     BuildName: Castle
-    B_Id: 20
+    Id: 20
     BuildValue: 3000
     BuildLevel: 1
-    type: 7
+    type: 8
     buffs: []
+    buffList: 
