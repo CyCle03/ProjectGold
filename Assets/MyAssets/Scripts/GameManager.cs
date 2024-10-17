@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour
                 }
                 OpenInventory();
             }
-            
         }
 
         //Shop Window Controll

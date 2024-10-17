@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     public BuildingListObject buildList;
     public BuildingListObject shopList;
     public Slider HPSlider;
+    public TextMeshProUGUI lvText;
+    public TextMeshProUGUI expText;
+    public Slider expSlider;
     public GameObject shopObj;
     public GameObject invenGoldObj;
     public GameObject sellGoldObj;
@@ -102,6 +105,7 @@ public class Player : MonoBehaviour
         UpdatePStats();
         curruntHP = maxHP;
         UpdateHPSlider();
+        UpdateEXP(0);
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
@@ -472,7 +476,10 @@ public class Player : MonoBehaviour
         {
             exp -= level * 10;
             level++;
+            lvText.text = level.ToString("n0");
         }
+        expText.text = exp.ToString("n0") + " / " + level * 10;
+        expSlider.value = exp / level / 10;
     }
 
     private void OnTriggerEnter(Collider other)
