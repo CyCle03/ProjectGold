@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: c1d0e6764d9c5f8458571840fb1d57d3, type: 3}
   buildingMesh: {fileID: 2198256089030194469, guid: 3427157faba317742b547ff0122ffbe6, type: 3}
-  type: 1
+  type: 2
   description: 
   data:
     BuildName: Farm
-    B_Id: 7
+    Id: 9
     BuildValue: 150
     BuildLevel: 1
-    type: 1
+    type: 2
     buffs: []
+    buffList: 

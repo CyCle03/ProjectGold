@@ -64,6 +64,7 @@ public class Player : MonoBehaviour
                     stats[i].value.BaseValue = 100;
                     break;
                 case Stat.Heal:
+                    stats[i].value.BaseValue = 1;
                     break;
                 case Stat.Attack:
                     stats[i].value.BaseValue = 1;
@@ -99,9 +100,7 @@ public class Player : MonoBehaviour
             buildList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
         }
         UpdatePStats();
-        maxHP = GetIntStats(Stat.HP);
         curruntHP = maxHP;
-        regenHP = GetIntStats(Stat.Heal);
         UpdateHPSlider();
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
@@ -110,7 +109,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (curruntHP <= maxHP)
+        if (curruntHP < maxHP)
         {
             curruntHP += (regenHP * Time.deltaTime / 10);
             UpdateHPSlider();
@@ -162,8 +161,10 @@ public class Player : MonoBehaviour
         {
             if (stats[i].type == Stat.HP)
             {
+                float hpRatio = curruntHP / maxHP;
                 stats[i].value.BaseValue = 100 + 10 * (GetIntAttributes(Attributes.Stamina));
                 maxHP = stats[i].value.ModifiedValue;
+                curruntHP = (int)(maxHP * hpRatio);
             }
         }
     }
@@ -174,10 +175,23 @@ public class Player : MonoBehaviour
         {
             if (stats[i].type == Stat.Heal)
             {
-                stats[i].value.BaseValue = 1 + GetIntAttributes(Attributes.Stamina);
+                stats[i].value.BaseValue = 1 + GetIntAttributes(Attributes.Stamina) + (GetIntAttributes(Attributes.Intellect)/2);
                 regenHP = stats[i].value.ModifiedValue;
             }
         }
+    }
+
+    public void SetDmg()
+    {
+        for (int i = 0; i < stats.Length; i++)
+        {
+            if (stats[i].type == Stat.Attack)
+            {
+                stats[i].value.BaseValue = 1 + GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) / 2);
+                attackDamage = stats[i].value.ModifiedValue;
+            }
+        }
+        print(string.Concat("Damage: ", attackDamage));
     }
 
     public int GetIntStats(Stat _stat)
@@ -228,7 +242,6 @@ public class Player : MonoBehaviour
                     }
                 }
                 UpdatePStats();
-                UpdateDmg();
                 break;
             case InterfaceType.Chest:
                 break;
@@ -267,7 +280,6 @@ public class Player : MonoBehaviour
                     }
                 }
                 UpdatePStats();
-                UpdateDmg();
                 break;
             case InterfaceType.Chest:
                 break;
@@ -339,7 +351,6 @@ public class Player : MonoBehaviour
                     }
                 }
                 UpdatePStats();
-                UpdateDmg();
                 break;
             case BuildInterfaceList.BuildShop:
                 //bm.BuildTownUpdate();
@@ -440,26 +451,18 @@ public class Player : MonoBehaviour
         UpdateHPSlider();
     }
 
-    public void UpdateDmg()
-    {
-        attackDamage = 1 + (float)(GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) * 0.5));
-        print(string.Concat("Damage: ", attackDamage));
-    }
-
     public float HitDamage()
     {
-        UpdateDmg();
         print(attackDamage);
         return attackDamage;
     }
 
     public void UpdatePStats()
     {
-        int _int = GetIntAttributes(Attributes.Intellect);
-        int _stm = GetIntAttributes(Attributes.Stamina);
         SetHP();
         SetHeal();
         UpdateHPSlider();
+        SetDmg();
     }
 
     public void UpdateEXP(int GetExp)
@@ -493,11 +496,10 @@ public class Player : MonoBehaviour
 
     void UpdateHPSlider()
     {
-        int HPStat = GetIntStats(Stat.HP);
-        if (curruntHP >= HPStat)
-        { curruntHP = HPStat; }
-        HPSlider.value = (float)curruntHP / (float)HPStat;
-        gm.HPTextUpdate(curruntHP, HPStat);
+        if (curruntHP >= maxHP)
+        { curruntHP = maxHP; }
+        HPSlider.value = curruntHP / maxHP;
+        gm.HPTextUpdate(curruntHP, maxHP);
     }
 
     public void AttributeModified(Attribute attribute)

@@ -122,7 +122,7 @@ public abstract class BuildInterface : MonoBehaviour
         GameObject tempInfo = null;
 
         TextMeshProUGUI name;
-        TextMeshProUGUI type;
+        TextMeshProUGUI lv;
         TextMeshProUGUI value;
         TextMeshProUGUI buffsDescript;
 
@@ -150,19 +150,17 @@ public abstract class BuildInterface : MonoBehaviour
             }
 
             var img = tempInfo.transform.GetChild(0).GetChild(0).GetComponent<Image>();
-            var lv = tempInfo.transform.GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
             name = tempInfo.transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
-            type = tempInfo.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
+            lv = tempInfo.transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
             value = tempInfo.transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
             buffsDescript = tempInfo.transform.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>();
 
             name.text = listSlotsOnInterface[obj].build.BuildName;
-            type.text = listSlotsOnInterface[obj].build.type.ToString();
+            lv.text = listSlotsOnInterface[obj].build.BuildLevel.ToString();
             value.text = listSlotsOnInterface[obj].build.BuildValue.ToString("n0") + " G";
             buffsDescript.text = listSlotsOnInterface[obj].build.buffList + listSlotsOnInterface[obj].BuildObject.description;
 
             img.sprite = listSlotsOnInterface[obj].BuildObject.uiDisplay;
-            lv.text = listSlotsOnInterface[obj].build.BuildLevel.ToString("n0");
         }
         return tempInfo;
     }
