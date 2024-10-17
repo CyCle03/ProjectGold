@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: 4408269a96438e84796304f4ac0ed623, type: 3}
   buildingMesh: {fileID: 3909233067320746374, guid: 06b06cb3564875540aaa2e9492864b61, type: 3}
-  type: 8
+  type: 9
   description: 
   data:
     BuildName: Church
-    B_Id: 12
+    Id: 16
     BuildValue: 700
     BuildLevel: 1
-    type: 8
-    buffs: []
+    type: 9
+    buffs:
+    - stat: 1
+      buffvalue: 20
+    buffList: 

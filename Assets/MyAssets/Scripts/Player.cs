@@ -15,7 +15,8 @@ public enum Stat
     Attack,
     AttackSpeed,
     MoveSpeed,
-    MoneyEarn
+    MoneyEarn,
+    Armor
 }
 
 public class Player : MonoBehaviour
@@ -322,6 +323,7 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
+                UpdatePStats();
                 break;
             case BuildInterfaceList.BuildShop:
                 //bm.BuildTownUpdate();

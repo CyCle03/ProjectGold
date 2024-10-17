@@ -14,12 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
   buildingMesh: {fileID: 3909233067320746374, guid: 27cdf6ddb7390cc4284d7a7a6501105a, type: 3}
-  type: 10
+  type: 11
   description: 
   data:
     BuildName: Wall
-    B_Id: -1
+    Id: -1
     BuildValue: 1200
     BuildLevel: 2
-    type: 10
-    buffs: []
+    type: 11
+    buffs:
+    - stat: 6
+      buffvalue: 3
+    buffList: 
