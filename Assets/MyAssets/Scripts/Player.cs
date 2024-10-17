@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
         UpdatePStats();
         maxHP = GetIntStats(Stat.HP);
         curruntHP = maxHP;
+        regenHP = GetIntStats(Stat.Heal);
         UpdateHPSlider();
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
@@ -166,6 +167,19 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    public void SetHeal()
+    {
+        for (int i = 0; i < stats.Length; i++)
+        {
+            if (stats[i].type == Stat.Heal)
+            {
+                stats[i].value.BaseValue = 1 + GetIntAttributes(Attributes.Stamina);
+                regenHP = stats[i].value.ModifiedValue;
+            }
+        }
+    }
+
     public int GetIntStats(Stat _stat)
     {
         int _value  = 0;
@@ -444,7 +458,7 @@ public class Player : MonoBehaviour
         int _int = GetIntAttributes(Attributes.Intellect);
         int _stm = GetIntAttributes(Attributes.Stamina);
         SetHP();
-        regenHP = _stm + (_int * 0.5f);
+        SetHeal();
         UpdateHPSlider();
     }
 
