@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public GameObject BuildScreen;
     public GameObject BuildShopScreen;
     public GameObject AlertScreen;
+    public GameObject StatScreen;
+    public GameObject InvenGoldBar;
     public GameObject ItemInfoPrefab;
     public GameObject BuyItemPrefab;
 
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
     bool isBuildOn;
     bool isBShopOn;
     bool isMsgOn;
+    bool isStatOn;
 
     int alertCnt;
     float alertTimer;
@@ -57,6 +60,11 @@ public class GameManager : MonoBehaviour
 
         BuildShopScreen.SetActive(false);
         isBShopOn = false;
+
+        StatScreen.SetActive(false);
+        isStatOn = false;
+
+        InvenGoldBar.SetActive(false);
 
         AlertMsg = AlertScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         AlertScreen.SetActive(false);
@@ -171,7 +179,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Close Window
-        if (Input.GetKeyDown(KeyCode.O) || Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isBShopOn)
             {
@@ -190,6 +198,8 @@ public class GameManager : MonoBehaviour
             }
             else if (isInventoryOn)
             { CloseInventory(); }
+            else
+            { CursorOff(); }
         }
 
         //Interact Build
@@ -202,6 +212,12 @@ public class GameManager : MonoBehaviour
                 case BuildType.Farm:
                     break;
                 case BuildType.Store:
+                    if (isBuildOn)
+                    {
+                        if (isBShopOn)
+                        { BShopClose(); }
+                        BuildClose();
+                    }
                     if (!isInventoryOn)
                     { OpenInventory(); }
                     ShopOpen();
@@ -225,9 +241,31 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        //Stat Screen Controll
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            if (isStatOn)
+            {
+                StatClose();
+            }
+            else
+            {
+                if (isBuildOn)
+                {
+                    if (isBShopOn)
+                    { BShopClose(); }
+                    BuildClose();
+                }
+                StatOpen();
+            }
+        }
+
         //Cursor Controll
         if (Input.GetKeyDown(KeyCode.C))
         { CursorOn(); }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        { CursorOff(); }
 
         //gold cheat
         if (Input.GetKeyDown(KeyCode.G))
@@ -293,29 +331,29 @@ public class GameManager : MonoBehaviour
 
     public void OpenInventory()
     {
-        InventoryCanvas.enabled = true;
+        CursorOn();
         InvenScreen.SetActive(true);
         EquipScreen.SetActive(true);
+        InvenGoldBar.SetActive(true);
         isInventoryOn = true;
-        CursorOn();
     }
 
     public void CloseInventory()
     {
         InvenScreen.SetActive(false);
         EquipScreen.SetActive(false);
+        InvenGoldBar.SetActive(false);
         isInventoryOn = false;
-        InventoryCanvas.enabled = false;
         CursorOff();
         ItemInfoClose();
     }
 
     public void ShopOpen()
     {
+        CursorOn();
         ShopScreen.SetActive(true);
         SellScreen.SetActive(true);
         isShopOn = true;
-        CursorOn();
     }
 
     public void ShopClose()
@@ -329,27 +367,27 @@ public class GameManager : MonoBehaviour
     }
 
     public void BuildOpen()
-    {
-        InventoryCanvas.enabled = true;
-        BuildScreen.SetActive(true);
-        isBuildOn = true;
+    {   
         CursorOn();
+        BuildScreen.SetActive(true);
+        InvenGoldBar.SetActive(true);
+        isBuildOn = true;
     }
 
     public void BuildClose()
     {
         BuildScreen.SetActive(false);
+        InvenGoldBar.SetActive(false);
         isBuildOn = false;
-        InventoryCanvas.enabled = false;
         CursorOff();
         BuildInfoClose();
     }
 
     public void BShopOpen()
-    {
+    {   
+        CursorOn();
         BuildShopScreen.SetActive(true);
         isBShopOn = true;
-        CursorOn();
     }
 
     public void BShopClose()
@@ -360,18 +398,34 @@ public class GameManager : MonoBehaviour
         BuildShopClose();
     }
 
+    public void StatOpen()
+    {
+        CursorOn();
+        StatScreen.SetActive(true);
+        isStatOn = true;
+    }
+
+    public void StatClose()
+    {
+        StatScreen.SetActive(false);
+        isStatOn= false;
+        CursorOff();
+    }
+
     public void CursorOn()
     {
+        InventoryCanvas.enabled = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     public void CursorOff()
     {
-        if (isInventoryOn)
+        if (isInventoryOn || isStatOn || isBuildOn)
         { return; }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        InventoryCanvas.enabled = false;
     }
 
     public void HPTextUpdate(float hp, float maxhp)
