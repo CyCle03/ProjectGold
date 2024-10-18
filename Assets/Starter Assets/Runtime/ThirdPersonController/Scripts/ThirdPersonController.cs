@@ -380,7 +380,7 @@ namespace StarterAssets
                     _animator.SetBool(_animIDAttack, false);
                 }
                 //attack
-                if (_input.attack && _attackTimeoutDelta <= 0.0f)
+                if (Grounded && _input.attack && _attackTimeoutDelta <= 0.0f)
                 {
                     // update animator if using character
                     if (_hasAnimator)
@@ -404,7 +404,7 @@ namespace StarterAssets
                     _animator.SetBool(_animIDAttack, false);
                     _input.attack = false;
                 }
-                if (_attackTimeoutDelta >= 0.0f)
+                if (_attackTimeoutDelta > 0.0f)
                 {
                     _attackTimeoutDelta -= Time.deltaTime;
                 }
