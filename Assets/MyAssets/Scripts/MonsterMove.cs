@@ -138,9 +138,11 @@ public class MonsterMove : MonoBehaviour
             }
             else if (Vector3.Distance(transform.position, playerTransform.position) > myMonster.attackRange)
             {
-                Vector3 dir = (playerTransform.position - transform.position).normalized;
-                cc.Move(dir * myMonster.moveSpeed * Time.deltaTime);
-                transform.forward = dir;
+                monsterNav.isStopped = true;
+                monsterNav.ResetPath();
+                monsterNav.SetDestination(playerTransform.position);
+                monsterNav.stoppingDistance = myMonster.attackRange;
+                monsterNav.speed = myMonster.moveSpeed;
             }
             else
             {
@@ -232,6 +234,7 @@ public class MonsterMove : MonoBehaviour
         }
         else if (Vector3.Distance(transform.position, originPos) > 0.1f)
         {
+            //navMeshAgent
             Vector3 dir = (originPos - transform.position).normalized;
             cc.Move(dir * myMonster.moveSpeed * Time.deltaTime);
             transform.forward = dir;
