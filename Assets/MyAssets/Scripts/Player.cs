@@ -19,6 +19,7 @@ public enum Stat
     Armor
 }
 
+
 public class Player : MonoBehaviour
 {
     public InventoryObject inventory;
@@ -47,6 +48,8 @@ public class Player : MonoBehaviour
     public int level = 1;
     public int exp = 0;
 
+    public Dictionary<Stat, int> StatOnIndex = new Dictionary<Stat, int>();
+
     GameManager gm;
     BuildManager bm;
     TextMeshProUGUI invenTextGold;
@@ -64,6 +67,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < stats.Length; i++)
         {
             stats[i].SetParent(this);
+            //StatOnIndex
             switch (stats[i].type)
             {
                 case Stat.HP:
@@ -481,10 +485,9 @@ public class Player : MonoBehaviour
             exp -= level * 10;
             level++;
             lvText.text = "LV : " + level.ToString("n0");
-            UpdateEXP(0);
         }
         expText.text = exp.ToString("n0") + " / " + level * 10;
-        expSlider.value = exp / level / 10;
+        expSlider.value = exp / level;
     }
 
     public void StatDisplayUpdate()
