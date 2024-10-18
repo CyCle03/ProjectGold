@@ -189,6 +189,7 @@ public class MonsterMove : MonoBehaviour
         Vector3 transformY0 = transform.position;
         Vector3 playerY0 = playerTransform.position;
         playerY0.y = transformY0.y = 0;
+        Debug.Log("Dis0 " + Vector3.Distance(playerY0, transformY0) + " DisNor " + Vector3.Distance(playerTransform.position, transform.position));
         if (Vector3.Distance(playerY0, transformY0) < myMonster.attackRange)
         {
             monsterNav.avoidancePriority = 50;
