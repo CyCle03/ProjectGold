@@ -102,8 +102,8 @@ public class Player : MonoBehaviour
         }
         for (int i = 0; i < shopList.GetListSlots.Length; i++)
         {
-            buildList.GetListSlots[i].OnBeforeUpdate += OnBeforeListSlotUpdate;
-            buildList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
+            shopList.GetListSlots[i].OnBeforeUpdate += OnBeforeListSlotUpdate;
+            shopList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
         }
         UpdatePStats();
         curruntHP = maxHP;
@@ -196,6 +196,7 @@ public class Player : MonoBehaviour
             {
                 stats[i].value.BaseValue = 1 + GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) / 2);
                 attackDamage = stats[i].value.ModifiedValue;
+                Debug.Log("attackDamage : " + attackDamage + " BaseVaule : " + stats[i].value.BaseValue + "ModifiedValue" + stats[i].value.ModifiedValue);
             }
         }
         print(string.Concat("Damage: ", attackDamage));
@@ -248,7 +249,6 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
-                UpdatePStats();
                 break;
             case InterfaceType.Chest:
                 break;
@@ -325,7 +325,6 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
-                UpdatePStats();
                 break;
             case BuildInterfaceList.BuildShop:
                 //bm.BuildTownUpdate();
@@ -461,7 +460,7 @@ public class Player : MonoBehaviour
 
     public float HitDamage()
     {
-        print(attackDamage);
+        Debug.Log(attackDamage);
         return attackDamage;
     }
 
@@ -482,6 +481,7 @@ public class Player : MonoBehaviour
             exp -= level * 10;
             level++;
             lvText.text = "LV : " + level.ToString("n0");
+            UpdateEXP(0);
         }
         expText.text = exp.ToString("n0") + " / " + level * 10;
         expSlider.value = exp / level / 10;
