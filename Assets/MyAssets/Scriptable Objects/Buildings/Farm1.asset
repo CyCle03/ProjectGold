@@ -22,5 +22,7 @@ MonoBehaviour:
     BuildValue: 150
     BuildLevel: 1
     type: 2
-    buffs: []
+    buffs:
+    - stat: 5
+      buffvalue: 1
     buffList: 

@@ -15,7 +15,8 @@ public enum Stat
     Attack,
     AttackSpeed,
     MoveSpeed,
-    MoneyEarn
+    MoneyEarn,
+    Armor
 }
 
 public class Player : MonoBehaviour
@@ -27,6 +28,11 @@ public class Player : MonoBehaviour
     public BuildingListObject buildList;
     public BuildingListObject shopList;
     public Slider HPSlider;
+    public TextMeshProUGUI lvText;
+    public TextMeshProUGUI expText;
+    public Slider expSlider;
+    public TextMeshProUGUI attText;
+    public TextMeshProUGUI statText;
     public GameObject shopObj;
     public GameObject invenGoldObj;
     public GameObject sellGoldObj;
@@ -102,6 +108,7 @@ public class Player : MonoBehaviour
         UpdatePStats();
         curruntHP = maxHP;
         UpdateHPSlider();
+        UpdateEXP(0);
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
@@ -318,6 +325,7 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
+                UpdatePStats();
                 break;
             case BuildInterfaceList.BuildShop:
                 //bm.BuildTownUpdate();
@@ -463,16 +471,39 @@ public class Player : MonoBehaviour
         SetHeal();
         UpdateHPSlider();
         SetDmg();
+        StatDisplayUpdate();
     }
 
     public void UpdateEXP(int GetExp)
     {
         exp += GetExp;
-        if (exp <= (level * 10))
+        if (exp >= (level * 10))
         {
             exp -= level * 10;
             level++;
+            lvText.text = "LV : " + level.ToString("n0");
         }
+        expText.text = exp.ToString("n0") + " / " + level * 10;
+        expSlider.value = exp / level / 10;
+    }
+
+    public void StatDisplayUpdate()
+    {
+        string att ="";
+        for (int i = 0; i < attributes.Length; i++)
+        {
+            ModifiableInt _value = GetAttributes(attributes[i].type);
+            att += "\n" + attributes[i].type + " : " + _value.ModifiedValue.ToString("n0") + " (" + _value.BaseValue.ToString("n0") + " + " + (_value.ModifiedValue - _value.BaseValue).ToString("n0") + ")";
+        }
+        attText.text = "Attributes\n" + att;
+
+        string _stat = "";
+        for (int i = 0; i < stats.Length; i++)
+        {
+            ModifiableInt _value = GetStats(stats[i].type);
+            _stat += "\n" + stats[i].type + " : " + _value.ModifiedValue.ToString("n0") + " (" + _value.BaseValue.ToString("n0") + " + " + (_value.ModifiedValue - _value.BaseValue).ToString("n0") + ")";
+        }
+        statText.text = "Stats\n" + _stat;
     }
 
     private void OnTriggerEnter(Collider other)
