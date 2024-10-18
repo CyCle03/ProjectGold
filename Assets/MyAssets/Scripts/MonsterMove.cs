@@ -113,7 +113,10 @@ public class MonsterMove : MonoBehaviour
         
         if (monsterObj.type == MonsterType.Aggressive || monsterObj.type == MonsterType.Boss)
         {
-            if (Vector3.Distance(transform.position, playerTransform.position) < monsterSight)
+            Vector3 transformY0 = transform.position;
+            Vector3 playerY0 = playerTransform.position;
+            playerY0.y = transformY0.y = 0;
+            if (Vector3.Distance(transformY0, playerY0) < monsterSight)
             {
                 m_State = MonsterState.Move;
                 print(myMonster.mName + " State: Idle -> Move");
@@ -183,7 +186,10 @@ public class MonsterMove : MonoBehaviour
     {
         if (monAnim != null)
         { monAnim.SetInteger("AnimIndex", 1); monAnim.SetTrigger("Next"); }
-        if (Vector3.Distance(transform.position, playerTransform.position) < myMonster.attackRange)
+        Vector3 transformY0 = transform.position;
+        Vector3 playerY0 = playerTransform.position;
+        playerY0.y = transformY0.y = 0;
+        if (Vector3.Distance(playerY0, transformY0) < myMonster.attackRange)
         {
             monsterNav.avoidancePriority = 50;
             atkCdw -= Time.deltaTime;
