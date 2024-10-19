@@ -183,8 +183,8 @@ MonoBehaviour:
     attackRange: 0
     mExp: 0
     dropItem: {fileID: 0}
-  monsterSight: 30
-  monsterMoveRange: 20
+  monsterSight: 20
+  monsterMoveRange: 30
   monsterObj: {fileID: 11400000, guid: 68647c8347648af428d05ab26ce659fd, type: 2}
   player: {fileID: 0}
   hpSlider: {fileID: 1845571189954406766}

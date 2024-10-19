@@ -16,6 +16,8 @@ public class BuildManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        buildList.database.UpdateID();
+
         for (int i = 0; i < townBuilds.Length; i++)
         {
             ListSlot slot;
