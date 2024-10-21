@@ -18,11 +18,11 @@ MonoBehaviour:
   description: 
   data:
     BuildName: Wall
-    Id: -1
+    Id: 13
     BuildValue: 1200
     BuildLevel: 2
     type: 11
     buffs:
     - stat: 6
-      buffvalue: 3
+      buffvalue: 10
     buffList: 

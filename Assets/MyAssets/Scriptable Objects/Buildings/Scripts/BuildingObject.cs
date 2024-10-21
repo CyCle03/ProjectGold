@@ -67,7 +67,7 @@ public class Building
             buffs[i] = new BuildBuff(building.data.buffs[i].buffvalue);
             {
                 buffs[i].stat = building.data.buffs[i].stat;
-                buffList += buffs[i].stat.ToString() + ": " + buffs[i].buffvalue.ToString("n0") + "\n";
+                buffList += buffs[i].stat.ToString() + ": " + buffs[i].buffvalue.ToString("n0") + "%\n";
             };
         }
     }

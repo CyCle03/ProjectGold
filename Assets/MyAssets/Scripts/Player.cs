@@ -194,7 +194,7 @@ public class Player : MonoBehaviour
         {
             stats[_attack].value.BaseValue = 1 + GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) / 2);
             attackDamage = stats[_attack].value.ModifiedValue;
-            Debug.Log("attackDamage : " + attackDamage + " BaseVaule : " + stats[_attack].value.BaseValue + "ModifiedValue" + stats[_attack].value.ModifiedValue);
+            Debug.Log("attackDamage: " + attackDamage + " BaseVaule: " + stats[_attack].value.BaseValue);
         }
         print(string.Concat("Damage: ", attackDamage));
     }
@@ -320,6 +320,7 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
+                UpdatePStats();
                 break;
             case BuildInterfaceList.BuildShop:
                 //bm.BuildTownUpdate();
@@ -495,8 +496,8 @@ public class Player : MonoBehaviour
         string _stat = "";
         for (int i = 0; i < stats.Length; i++)
         {
-            ModifiableInt _value = stats[i].value;
-            _stat += "\n" + stats[i].type + " : " + _value.ModifiedValue.ToString("n0") + " (" + _value.BaseValue.ToString("n0") + " + " + (_value.ModifiedValue - _value.BaseValue).ToString("n0") + ")";
+            ModifiableFloat _value = stats[i].value;
+            _stat += "\n" + stats[i].type + " : " + _value.ModifiedValue.ToString("f1") + " (" + _value.BaseValue.ToString("f1") + " + " + (_value.ModifiedValue - _value.BaseValue).ToString("f1") + ")";
         }
         statText.text = "Stats\n" + _stat;
     }
@@ -567,12 +568,12 @@ public class PlayerStat
     [System.NonSerialized]
     public Player parent;
     public Stat type;
-    public ModifiableInt value;
+    public ModifiableFloat value;
 
     public void SetParent(Player _parent)
     {
         parent = _parent;
-        value = new ModifiableInt(StatModified);
+        value = new ModifiableFloat(StatModified);
     }
     public void StatModified()
     {
