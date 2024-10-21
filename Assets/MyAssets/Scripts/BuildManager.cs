@@ -63,7 +63,7 @@ public class BuildManager : MonoBehaviour
             {
                 if (buildDB.BuildObjects[i].type == bType)
                 {
-                    shopSlot.UpdateListSlot(buildDB.BuildObjects[i].data);
+                    shopSlot.UpdateListSlot(new Building(buildDB.BuildObjects[i]));
                     return;
                 }
             }
@@ -75,7 +75,7 @@ public class BuildManager : MonoBehaviour
                 var DBnextBuild = buildDB.BuildObjects[buildSlot.build.Id + 1];
                 if (DBnextBuild.type == buildSlot.build.type && DBnextBuild.data.BuildLevel > buildSlot.build.BuildLevel)
                 {
-                    shopSlot.UpdateListSlot(DBnextBuild.data);
+                    shopSlot.UpdateListSlot(new Building(DBnextBuild));
                     return;
                 }
             }

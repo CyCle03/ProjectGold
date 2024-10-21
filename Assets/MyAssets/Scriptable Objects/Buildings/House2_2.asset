@@ -15,7 +15,7 @@ MonoBehaviour:
   uiDisplay: {fileID: 21300000, guid: 3a481bc5b3972b54ab4918d5226622af, type: 3}
   buildingMesh: {fileID: -3319365643369098329, guid: ce2f961df11cd6a40a863389acfe4b18, type: 3}
   type: 1
-  description: 
+  description: Second house of type B
   data:
     BuildName: House
     Id: 4

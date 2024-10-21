@@ -60,8 +60,8 @@ public class Building
         BuildValue = building.data.BuildValue;
         BuildLevel = building.data.BuildLevel;
         type = building.data.type;
-        buffList = building.data.buffList;
         buffs = new BuildBuff[building.data.buffs.Length];
+        buffList = building.data.buffList;
         for (int i = 0; i < buffs.Length; i++)
         {
             buffs[i] = new BuildBuff(building.data.buffs[i].buffvalue);

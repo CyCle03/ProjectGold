@@ -15,8 +15,8 @@ public enum Stat
     Attack,
     AttackSpeed,
     MoveSpeed,
-    MoneyEarn,
-    Armor
+    Armor,
+    MoneyEarn
 }
 
 
@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     public float curruntHP;
     public float attackDamage;
     public float regenHP = 0;
+    public float armor = 0;
     public int level = 1;
     public int exp = 0;
 
@@ -67,7 +68,7 @@ public class Player : MonoBehaviour
         for (int i = 0; i < stats.Length; i++)
         {
             stats[i].SetParent(this);
-            //StatOnIndex
+            StatOnIndex.Add(stats[i].type, i);
             switch (stats[i].type)
             {
                 case Stat.HP:
@@ -84,6 +85,8 @@ public class Player : MonoBehaviour
                 case Stat.MoveSpeed:
                     break;
                 case Stat.MoneyEarn:
+                    break;
+                case Stat.Armor:
                     break;
                 default:
                     break;
@@ -127,6 +130,15 @@ public class Player : MonoBehaviour
         }
     }
 
+    public int FindStatIndex(Stat _stat)
+    {
+        if (StatOnIndex.ContainsKey(_stat))
+        {
+            return StatOnIndex[_stat];
+        }
+        else { return -1; }
+    }
+
     public ModifiableInt GetAttributes(Attributes _attribute)
     {
         ModifiableInt _value = new ModifiableInt();
@@ -153,71 +165,50 @@ public class Player : MonoBehaviour
         return _value;
     }
 
-    public ModifiableInt GetStats(Stat _stat)
-    {
-        ModifiableInt _value = new ModifiableInt();
-        for (int i = 0; i < stats.Length; i++)
-        {
-            if (stats[i].type == _stat)
-            {
-                _value = stats[i].value;
-            }
-        }
-        return _value;
-    }
-
     public void SetHP()
     {
-        for (int i = 0; i < stats.Length; i++)
+        int _hp = FindStatIndex(Stat.HP);
+        if (_hp != -1)
         {
-            if (stats[i].type == Stat.HP)
-            {
-                float hpRatio = curruntHP / maxHP;
-                stats[i].value.BaseValue = 100 + 10 * (GetIntAttributes(Attributes.Stamina));
-                maxHP = stats[i].value.ModifiedValue;
-                curruntHP = (int)(maxHP * hpRatio);
-            }
+            float hpRatio = curruntHP / maxHP;
+            stats[_hp].value.BaseValue = 100 + 10 * (GetIntAttributes(Attributes.Stamina));
+            maxHP = stats[_hp].value.ModifiedValue;
+            curruntHP = (int)(maxHP * hpRatio);
         }
     }
 
     public void SetHeal()
     {
-        for (int i = 0; i < stats.Length; i++)
+        int _heal = FindStatIndex(Stat.Heal);
+        if (_heal != -1)
         {
-            if (stats[i].type == Stat.Heal)
-            {
-                stats[i].value.BaseValue = 1 + GetIntAttributes(Attributes.Stamina) + (GetIntAttributes(Attributes.Intellect)/2);
-                regenHP = stats[i].value.ModifiedValue;
-            }
+            stats[_heal].value.BaseValue = 1 + GetIntAttributes(Attributes.Stamina) + (GetIntAttributes(Attributes.Intellect)/2);
+            regenHP = stats[_heal].value.ModifiedValue;
         }
     }
 
     public void SetDmg()
     {
-        for (int i = 0; i < stats.Length; i++)
+        int _attack = FindStatIndex(Stat.Attack);
+        if(_attack != -1)
         {
-            if (stats[i].type == Stat.Attack)
-            {
-                stats[i].value.BaseValue = 1 + GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) / 2);
-                attackDamage = stats[i].value.ModifiedValue;
-                Debug.Log("attackDamage : " + attackDamage + " BaseVaule : " + stats[i].value.BaseValue + "ModifiedValue" + stats[i].value.ModifiedValue);
-            }
+            stats[_attack].value.BaseValue = 1 + GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) / 2);
+            attackDamage = stats[_attack].value.ModifiedValue;
+            Debug.Log("attackDamage : " + attackDamage + " BaseVaule : " + stats[_attack].value.BaseValue + "ModifiedValue" + stats[_attack].value.ModifiedValue);
         }
         print(string.Concat("Damage: ", attackDamage));
     }
 
-    public int GetIntStats(Stat _stat)
+    public void SetArmor()
     {
-        int _value  = 0;
-        for (int i = 0; i < stats.Length; i++)
+        int _armor = FindStatIndex(Stat.Armor);
+        if (_armor != -1)
         {
-            if (stats[i].type == _stat)
-            {
-                _value = stats[i].value.ModifiedValue;
-            }
+            stats[_armor].value.BaseValue = (GetIntAttributes(Attributes.Intellect) + GetIntAttributes(Attributes.Agility)) / 2;
+            armor = stats[_armor].value.ModifiedValue;
         }
-        return _value;
     }
+
 
     public void InvenGoldUpdate()
     {
@@ -474,6 +465,7 @@ public class Player : MonoBehaviour
         SetHeal();
         UpdateHPSlider();
         SetDmg();
+        SetArmor();
         StatDisplayUpdate();
     }
 
@@ -503,7 +495,7 @@ public class Player : MonoBehaviour
         string _stat = "";
         for (int i = 0; i < stats.Length; i++)
         {
-            ModifiableInt _value = GetStats(stats[i].type);
+            ModifiableInt _value = stats[i].value;
             _stat += "\n" + stats[i].type + " : " + _value.ModifiedValue.ToString("n0") + " (" + _value.BaseValue.ToString("n0") + " + " + (_value.ModifiedValue - _value.BaseValue).ToString("n0") + ")";
         }
         statText.text = "Stats\n" + _stat;
@@ -524,6 +516,9 @@ public class Player : MonoBehaviour
 
     public void GetDamaged(float damage)
     {
+        damage -= armor;
+        if(damage < 0)
+        { damage = 0; }
         curruntHP -= damage;
         UpdateHPSlider();
     }

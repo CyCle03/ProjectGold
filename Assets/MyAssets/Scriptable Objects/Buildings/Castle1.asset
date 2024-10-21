@@ -15,7 +15,7 @@ MonoBehaviour:
   uiDisplay: {fileID: 21300000, guid: 34102981c7e63b646b05313914b723a6, type: 3}
   buildingMesh: {fileID: 5060444177187149915, guid: 061a904077894f44c93fd3bdbc43ec07, type: 3}
   type: 8
-  description: 
+  description: 'Castle '
   data:
     BuildName: Castle
     Id: 20
