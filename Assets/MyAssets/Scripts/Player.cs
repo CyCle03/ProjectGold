@@ -227,8 +227,8 @@ public class Player : MonoBehaviour
             moveSpeed = stats[_mvSpd ].value.ModifiedValue;
             tpc.MoveSpeed = moveSpeed;
             tpc.SprintSpeed = moveSpeed * 2;
-            float motionSpd = moveSpeed * 0.2f;
-            anim.SetFloat("MotionSpeed", motionSpd);
+            float moveSpd = moveSpeed * 0.2f;
+            anim.SetFloat("MoveSpeed", moveSpd);
         }
     }
 
