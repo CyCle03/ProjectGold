@@ -232,11 +232,12 @@ public class MonsterMove : MonoBehaviour
             print(myMonster.mName + " State: Return -> Move");
             atkCdw = 1 / myMonster.attackSpeed;
         }
-        else if (Vector3.Distance(transform.position, originPos) > 0.1f)
+        else if (Vector3.Distance(transform.position, originPos) >= 0.1f)
         {
             monsterNav.isStopped = true;
             monsterNav.ResetPath();
             monsterNav.SetDestination(originPos);
+            monsterNav.stoppingDistance = 0f;
             monsterNav.speed = myMonster.moveSpeed;
         }
         else
