@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
     public GameObject shopObj;
     public GameObject invenGoldObj;
     public GameObject sellGoldObj;
+    public Animator anim;
 
     public Attribute[] attributes;
     public PlayerStat[] stats;
@@ -209,9 +210,11 @@ public class Player : MonoBehaviour
         int _atkSpd = FindStatIndex(Stat.AttackSpeed);
         if (_atkSpd != -1)
         {
-            stats[_atkSpd].value.BaseValue = 0.5f + GetIntAttributes(Attributes.Agility) / 10;
+            stats[_atkSpd].value.BaseValue = 0.5f + ((float)GetIntAttributes(Attributes.Agility) / 10);
             attackSpeed = stats[_atkSpd ].value.ModifiedValue;
             tpc.AttackTimeout = 1.0f / attackSpeed;
+            float animAtkSpd = attackSpeed * 2.0f;
+            anim.SetFloat("AttackSpeed", animAtkSpd);
         }
     }
 
@@ -220,10 +223,12 @@ public class Player : MonoBehaviour
         int _mvSpd = FindStatIndex(Stat.MoveSpeed);
         if (_mvSpd != -1)
         {
-            stats[_mvSpd].value.BaseValue = 5.0f + GetIntAttributes(Attributes.Agility) / 10;
+            stats[_mvSpd].value.BaseValue = 5.0f + ((float)GetIntAttributes(Attributes.Agility) / 10);
             moveSpeed = stats[_mvSpd ].value.ModifiedValue;
             tpc.MoveSpeed = moveSpeed;
             tpc.SprintSpeed = moveSpeed * 2;
+            float motionSpd = moveSpeed * 0.2f;
+            anim.SetFloat("MotionSpeed", motionSpd);
         }
     }
 
