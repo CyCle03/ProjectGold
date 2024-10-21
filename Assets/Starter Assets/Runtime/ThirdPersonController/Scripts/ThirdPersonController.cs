@@ -47,7 +47,7 @@ namespace StarterAssets
         public float FallTimeout = 0.15f;
 
         [Tooltip("Time required to pass before being able to attack again. Set to 0f to instantly attack again")]
-        public float AttackTimeout = 1.5f;
+        public float AttackTimeout = 2.0f;
 
         [Tooltip("If the character is attacking or not.")]
         public bool Attacking = false;

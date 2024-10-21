@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using StarterAssets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,6 +47,9 @@ public class Player : MonoBehaviour
     public float attackDamage;
     public float regenHP = 0;
     public float armor = 0;
+    public float attackSpeed = 0.5f;
+    public float moveSpeed = 5.0f;
+    public float moneyEarn = 1.00f;
     public int level = 1;
     public int exp = 0;
 
@@ -55,11 +59,13 @@ public class Player : MonoBehaviour
     BuildManager bm;
     TextMeshProUGUI invenTextGold;
     TextMeshProUGUI sellTextGold;
+    ThirdPersonController tpc;
 
     private void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
+        tpc = GetComponentInParent<ThirdPersonController>();
 
         for (int i = 0; i < attributes.Length; i++)
         {
@@ -192,11 +198,33 @@ public class Player : MonoBehaviour
         int _attack = FindStatIndex(Stat.Attack);
         if(_attack != -1)
         {
-            stats[_attack].value.BaseValue = 1 + GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Agility) / 2);
+            stats[_attack].value.BaseValue = 1 + GetIntAttributes(Attributes.Strength) + (GetIntAttributes(Attributes.Intellect) / 2);
             attackDamage = stats[_attack].value.ModifiedValue;
             Debug.Log("attackDamage: " + attackDamage + " BaseVaule: " + stats[_attack].value.BaseValue);
         }
-        print(string.Concat("Damage: ", attackDamage));
+    }
+
+    public void SetAtkSpeed()
+    {
+        int _atkSpd = FindStatIndex(Stat.AttackSpeed);
+        if (_atkSpd != -1)
+        {
+            stats[_atkSpd].value.BaseValue = 0.5f + GetIntAttributes(Attributes.Agility) / 10;
+            attackSpeed = stats[_atkSpd ].value.ModifiedValue;
+            tpc.AttackTimeout = 1.0f / attackSpeed;
+        }
+    }
+
+    public void SetMoveSpeed()
+    {
+        int _mvSpd = FindStatIndex(Stat.MoveSpeed);
+        if (_mvSpd != -1)
+        {
+            stats[_mvSpd].value.BaseValue = 5.0f + GetIntAttributes(Attributes.Agility) / 10;
+            moveSpeed = stats[_mvSpd ].value.ModifiedValue;
+            tpc.MoveSpeed = moveSpeed;
+            tpc.SprintSpeed = moveSpeed * 2;
+        }
     }
 
     public void SetArmor()
@@ -204,8 +232,17 @@ public class Player : MonoBehaviour
         int _armor = FindStatIndex(Stat.Armor);
         if (_armor != -1)
         {
-            stats[_armor].value.BaseValue = (GetIntAttributes(Attributes.Intellect) + GetIntAttributes(Attributes.Agility)) / 2;
+            stats[_armor].value.BaseValue = (GetIntAttributes(Attributes.Intellect)) / 2;
             armor = stats[_armor].value.ModifiedValue;
+        }
+    }
+
+    public void SetMoneyEarn()
+    {
+        int _money = FindStatIndex(Stat.MoneyEarn);
+        if (_money != -1)
+        {
+            moneyEarn = stats[_money].value.ModifiedValue;
         }
     }
 
@@ -466,6 +503,8 @@ public class Player : MonoBehaviour
         SetHeal();
         UpdateHPSlider();
         SetDmg();
+        SetAtkSpeed();
+        SetMoveSpeed();
         SetArmor();
         StatDisplayUpdate();
     }
