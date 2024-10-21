@@ -29,10 +29,9 @@ namespace StarterAssets
 
 		public void OnLook(InputValue value)
 		{
-			if(cursorInputForLook)
-			{
-				LookInput(value.Get<Vector2>());
-			}
+			if (cursorInputForLook && Mouse.current.rightButton.isPressed)
+			{ LookInput(value.Get<Vector2>()); }
+			else { LookInput(Vector2.zero); }
 		}
 
 		public void OnJump(InputValue value)
