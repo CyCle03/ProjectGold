@@ -29,7 +29,7 @@ public class BuildInfoPrefab : MonoBehaviour
         if (BuildMouseData.buyBuildinfo != null)
         {
             ListSlot bmdBuyBuild = BuildMouseData.buyBuild;
-            if (player.inventory.gold >= bmdBuyBuild.build.BuildValue)
+            if (player.inventory.GetGold >= bmdBuyBuild.build.BuildValue)
             {
                 player.BuildBuy(bmdBuyBuild.build.BuildValue, bmdBuyBuild); 
             }

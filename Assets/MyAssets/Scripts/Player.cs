@@ -3,6 +3,9 @@ using StarterAssets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -24,6 +27,7 @@ public enum Stat
 
 public class Player : MonoBehaviour
 {
+    public string savePath;
     public InventoryObject inventory;
     public InventoryObject equipment;
     public InventoryObject shop;
@@ -272,12 +276,12 @@ public class Player : MonoBehaviour
 
     public void InvenGoldUpdate()
     {
-        invenTextGold.text = inventory.gold.ToString("n0") + " G";
+        invenTextGold.text = inventory.GetGold.ToString("n0") + " G";
     }
 
     public void SellGoldUpdate()
     {
-        sellTextGold.text = sell.gold.ToString("n0") + " G";
+        sellTextGold.text = sell.GetGold.ToString("n0") + " G";
     }
 
     public void OnBeforeSlotUpdate(InventorySlot _slot)
@@ -463,7 +467,7 @@ public class Player : MonoBehaviour
     {
         if (gm.TempBuildType(BuildType.Store))
         {
-            inventory.AddGold(sell.gold);
+            inventory.AddGold(sell.GetGold);
             InvenGoldUpdate();
             sell.Clear();
         }
@@ -619,6 +623,87 @@ public class Player : MonoBehaviour
     {
         Debug.Log(string.Concat(stat.type, " was updated! Value is now ", stat.value.ModifiedValue));
     }
+
+    [ContextMenu("Save")]
+    public void Save()
+    {
+        IFormatter formatter1 = new BinaryFormatter();
+        Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath), FileMode.Create, FileAccess.Write);
+        formatter1.Serialize(stream1, attributes);
+        stream1.Close();
+        IFormatter formatter2 = new BinaryFormatter();
+        Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath), FileMode.Create, FileAccess.Write);
+        formatter2.Serialize(stream2, stats);
+        stream2.Close();
+    }
+
+    public void Save(int _saveSlot)
+    {
+
+        IFormatter formatter1 = new BinaryFormatter();
+        Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath + _saveSlot), FileMode.Create, FileAccess.Write);
+        formatter1.Serialize(stream1, attributes);
+        stream1.Close();
+
+        IFormatter formatter2 = new BinaryFormatter();
+        Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath + _saveSlot), FileMode.Create, FileAccess.Write);
+        formatter2.Serialize(stream2, stats);
+        stream2.Close();
+    }
+
+    [ContextMenu("Load")]
+    public void Load()
+    {
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath)))
+        {
+            IFormatter formatter1 = new BinaryFormatter();
+            Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath), FileMode.Open, FileAccess.Read);
+            Attribute newAttribute = (Attribute)formatter1.Deserialize(stream1);
+            for (int i = 0; i < attributes.Length; i++)
+            {
+                attributes[i].type = newAttribute.type;
+                attributes[i].value = newAttribute.value;
+            }
+            stream1.Close();
+
+            IFormatter formatter2 = new BinaryFormatter();
+            Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath), FileMode.Open, FileAccess.Read);
+            PlayerStat newStat = (PlayerStat)formatter2.Deserialize(stream2);
+            for (int i = 0; i < stats.Length; i++)
+            {
+                stats[i].type = newStat.type;
+                stats[i].value = newStat.value;
+            }
+            stream2.Close();
+        }
+    }
+
+    public void Load(int _saveSlot)
+    {
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + _saveSlot)))
+        {
+            IFormatter formatter1 = new BinaryFormatter();
+            Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath + _saveSlot), FileMode.Open, FileAccess.Read);
+            Attribute newAttribute = (Attribute)formatter1.Deserialize(stream1);
+            for (int i = 0; i < attributes.Length; i++)
+            {
+                attributes[i].type = newAttribute.type;
+                attributes[i].value = newAttribute.value;
+            }
+            stream1.Close();
+
+            IFormatter formatter2 = new BinaryFormatter();
+            Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath + _saveSlot), FileMode.Open, FileAccess.Read);
+            PlayerStat newStat = (PlayerStat)formatter2.Deserialize(stream2);
+            for (int i = 0; i < stats.Length; i++)
+            {
+                stats[i].type = newStat.type;
+                stats[i].value = newStat.value;
+            }
+            stream2.Close();
+        }
+    }
+
 }
 
 [System.Serializable]

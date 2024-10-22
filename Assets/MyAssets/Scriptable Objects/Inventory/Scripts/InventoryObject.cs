@@ -28,7 +28,7 @@ public class InventoryObject : ScriptableObject
     public InterfaceType type;
     public Inventory Container;
     public InventorySlot[] GetSlots { get { return Container.Slots; } }
-    public int gold = 0;
+    public int GetGold { get { return Container.gold; } set { Container.gold = value; } }
 
     public bool AddItem(Item _item, int _amount)
     {
@@ -167,12 +167,12 @@ public class InventoryObject : ScriptableObject
 
     public void AddGold(int _gold)
     {
-        gold += _gold;
+        GetGold += _gold;
     }
 
     public void RemoveGold(int _gold)
     {
-        gold -= _gold;
+        Container.gold -= _gold;
     }
 
     [ContextMenu("Save")]
@@ -187,6 +187,15 @@ public class InventoryObject : ScriptableObject
         IFormatter formatter = new BinaryFormatter();
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
         formatter.Serialize (stream, Container);
+        stream.Close();
+    }
+
+    public void Save(int _saveSlot)
+    {
+
+        IFormatter formatter = new BinaryFormatter();
+        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath + _saveSlot), FileMode.Create, FileAccess.Write);
+        formatter.Serialize(stream, Container);
         stream.Close();
     }
 
@@ -207,7 +216,24 @@ public class InventoryObject : ScriptableObject
             {
                 GetSlots[i].UpdateSlot(newContainer.Slots[i].item, newContainer.Slots[i].amount);
             }
+            GetGold = newContainer.gold;
             stream.Close ();
+        }
+    }
+
+    public void Load(int _saveSlot)
+    {
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + _saveSlot)))
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath + _saveSlot), FileMode.Open, FileAccess.Read);
+            Inventory newContainer = (Inventory)formatter.Deserialize(stream);
+            for (int i = 0; i < GetSlots.Length; i++)
+            {
+                GetSlots[i].UpdateSlot(newContainer.Slots[i].item, newContainer.Slots[i].amount);
+            }
+            GetGold = newContainer.gold;
+            stream.Close();
         }
     }
 
@@ -215,7 +241,7 @@ public class InventoryObject : ScriptableObject
     public void Clear()
     {
         Container.Clear();
-        gold = 0;
+        Container.gold = 0;
     }
 
 }
@@ -224,6 +250,7 @@ public class InventoryObject : ScriptableObject
 public class Inventory
 {
     public InventorySlot[] Slots = new InventorySlot[24];
+    public int gold = 0;
     public void Clear()
     {
         for (int i = 0; i < Slots.Length; i++)

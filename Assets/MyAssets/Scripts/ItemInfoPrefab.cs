@@ -29,7 +29,7 @@ public class ItemInfoPrefab : MonoBehaviour
         if (MouseData.buyIteminfo != null)
         {
             Item mdBuyItem = MouseData.buyItem.item;
-            if (player.inventory.gold >= mdBuyItem.ItemValue && player.inventory.EmptySlotCount >= 1)
+            if (player.inventory.GetGold >= mdBuyItem.ItemValue && player.inventory.EmptySlotCount >= 1)
             {
                 player.ShopBuy(mdBuyItem.ItemValue, mdBuyItem, 1);
             }
