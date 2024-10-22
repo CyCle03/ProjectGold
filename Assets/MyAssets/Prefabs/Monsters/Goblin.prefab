@@ -576,6 +576,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: minotaur1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 63e974d9ec82619419e69ae2287be94e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
