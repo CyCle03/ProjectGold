@@ -119,9 +119,10 @@ public class Player : MonoBehaviour
             shopList.GetListSlots[i].OnBeforeUpdate += OnBeforeListSlotUpdate;
             shopList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
         }
+
+        //When after load stats, change.
+        curruntHP = maxHP = 100;
         UpdatePStats();
-        curruntHP = maxHP;
-        UpdateHPSlider();
         UpdateEXP(0);
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();

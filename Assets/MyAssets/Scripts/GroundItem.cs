@@ -9,13 +9,13 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 
     public void GItemUpdate()
     {
-#if UNITY_EDITOR
         if (item != null)
         {
             GetComponentInChildren<SpriteRenderer>().sprite = item.uiDisplay;
+#if UNITY_EDITOR
             EditorUtility.SetDirty(GetComponentInChildren<SpriteRenderer>());
-        }
 #endif
+        }
     }
 
     public void OnAfterDeserialize()
@@ -25,12 +25,6 @@ public class GroundItem : MonoBehaviour, ISerializationCallbackReceiver
 
     public void OnBeforeSerialize()
     {
-#if UNITY_EDITOR
-        if (item != null)
-        {
-            GetComponentInChildren<SpriteRenderer>().sprite = item.uiDisplay;
-            EditorUtility.SetDirty(GetComponentInChildren<SpriteRenderer>());
-        }
-#endif
+        GItemUpdate();
     }
 }

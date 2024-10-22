@@ -18,19 +18,31 @@ public class BuildManager : MonoBehaviour
     {
         buildList.database.UpdateID();
 
+        for (int i = 0; i < shopList.GetListSlots.Length; i++)
+        {
+            if (buildList.GetListSlots[i].AllowedBuild == BuildType.Store && buildList.GetListSlots[i].build.Id <= -1)
+            {
+                for (int j = 0; j < buildDB.BuildObjects.Length; j++)
+                {
+                    if (buildDB.BuildObjects[j].type == BuildType.Store)
+                    {
+                        buildList.GetListSlots[i].UpdateListSlot(new Building(buildDB.BuildObjects[j]));
+                        break;
+                    }
+                }
+            }
+            ShopListUpdate(i);
+        }
+
         for (int i = 0; i < townBuilds.Length; i++)
         {
             ListSlot slot;
+
             slot = buildList.IsBuildOnList(townBuilds[i].buildObj);
             if (slot == null)
             {
                 townBuilds[i].controllBuild.SetActive(false);
             }
-        }
-
-        for (int i = 0; i < shopList.GetListSlots.Length; i++)
-        {
-            ShopListUpdate(i);
         }
     }
 
