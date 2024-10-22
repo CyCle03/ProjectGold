@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System;
 using Unity.VisualScripting;
+using StarterAssets;
 
 public abstract class UserInterface : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public abstract class UserInterface : MonoBehaviour
     public Dictionary<GameObject, InventorySlot> slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
 
     GameManager gm;
-    
+
     void Awake()
     {
         for (int i = 0; i < inventory.GetSlots.Length; i++)
@@ -90,11 +91,19 @@ public abstract class UserInterface : MonoBehaviour
 
     public void OnDragStart(GameObject obj)
     {
+        if (MouseData.tempItemBeingDragged != null)
+        {
+            Destroy(MouseData.tempItemBeingDragged);
+        }
         MouseData.tempItemBeingDragged = CreatTempItem(obj);
     }
 
     public void OnClickItem(GameObject obj)
     {
+        if (MouseData.tempItemBeingDragged != null)
+        {
+            Destroy(MouseData.tempItemBeingDragged);
+        }
         if (MouseData.buyItem != null)
         {
             DestroyBuyInfo();
@@ -113,6 +122,10 @@ public abstract class UserInterface : MonoBehaviour
 
     public void OnBuyItem(GameObject obj)
     {
+        if (MouseData.tempItemBeingDragged != null)
+        {
+            Destroy(MouseData.tempItemBeingDragged);
+        }
         if (MouseData.useItem != null)
         {
             DestroyTempInfo();
@@ -159,6 +172,7 @@ public abstract class UserInterface : MonoBehaviour
     public GameObject CreatTempItem(GameObject obj)
     {
         GameObject tempItem = null;
+
         if (slotsOnInterface[obj].item.Id >= 0)
         {
             tempItem = new GameObject();
