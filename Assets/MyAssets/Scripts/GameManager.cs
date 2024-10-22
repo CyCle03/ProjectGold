@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject InvenGoldBar;
     public GameObject ItemInfoPrefab;
     public GameObject BuyItemPrefab;
+    public InventoryObject tutorial;
 
     TextMeshProUGUI AlertMsg;
 
@@ -510,5 +511,6 @@ public class GameManager : MonoBehaviour
         shop.Clear();
         shopBuild.Clear();
         build.Clear();
+        tutorial.Clear();
     }
 }

@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
     TextMeshProUGUI sellTextGold;
     ThirdPersonController tpc;
 
-    private void Start()
+    private void Awake()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
@@ -129,6 +129,12 @@ public class Player : MonoBehaviour
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
 
+        //update db Id;
+        inventory.database.UpdateID();
+        tutorial.database.UpdateID();
+        buildList.database.UpdateID();
+
+        //Add Basic Items
         for (int i = 0; i < tutorial.GetSlots.Length ; i++)
         {
             if (tutorial.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
