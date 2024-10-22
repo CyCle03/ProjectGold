@@ -272,6 +272,12 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G))
         { inventory.AddGold(1000); player.InvenGoldUpdate(); }
 
+        //Move character Origin Pos
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            player.transform.position = Vector3.zero;
+        }
+
         if (isMsgOn)
         {
             alertTimer -= Time.deltaTime;
