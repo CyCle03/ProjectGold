@@ -131,9 +131,10 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < tutorial.GetSlots.Length ; i++)
         {
-            if (inventory.AddItem(tutorial.GetSlots[i].item, 1))
-            {
-            }
+            if (tutorial.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
+            { }
+            if (inventory.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
+            { }
         }
 
         //Load data.
