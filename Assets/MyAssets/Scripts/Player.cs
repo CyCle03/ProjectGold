@@ -120,13 +120,14 @@ public class Player : MonoBehaviour
             shopList.GetListSlots[i].OnAfterUpdate += OnAfterListSlotUpdate;
         }
 
-        //When after load stats, change.
         curruntHP = maxHP = 100;
-        UpdatePStats();
+        LvStatUp();
         UpdateEXP(0);
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
+
+        //Load data.
     }
 
     private void Update()
@@ -518,14 +519,30 @@ public class Player : MonoBehaviour
     public void UpdateEXP(int GetExp)
     {
         exp += GetExp;
+        LvUpCheck();
+        expText.text = exp.ToString("n0") + " / " + level * 10;
+        expSlider.value = exp / level;
+    }
+
+    private void LvUpCheck()
+    {
         if (exp >= (level * 10))
         {
             exp -= level * 10;
             level++;
             lvText.text = "LV : " + level.ToString("n0");
+            LvStatUp();
+            LvUpCheck();
         }
-        expText.text = exp.ToString("n0") + " / " + level * 10;
-        expSlider.value = exp / level;
+    }
+
+    private void LvStatUp()
+    {
+        for (int i = 0; i < attributes.Length; i++)
+        {
+            attributes[i].value.BaseValue += 1;
+            UpdatePStats();
+        }
     }
 
     public void StatDisplayUpdate()
