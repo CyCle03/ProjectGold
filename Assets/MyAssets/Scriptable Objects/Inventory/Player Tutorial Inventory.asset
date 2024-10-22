@@ -12,24 +12,101 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e13deaefeec5caf48b52b4294b96a7a7, type: 3}
   m_Name: Player Tutorial Inventory
   m_EditorClassIdentifier: 
+  savePath: 
+  database: {fileID: 11400000, guid: 58bf09996b7970a4487d33e3b816bca6, type: 2}
+  type: 5
   Container:
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
-  - item: {fileID: 0}
-    amount: 0
+    Slots:
+    - AllowedItems: 
+      item:
+        Name: Boots
+        Id: 2
+        ItemValue: 0
+        buffs:
+        - attribute: 0
+          value: 1
+          min: 1
+          max: 1
+        buffList: 'Agility: 1 '
+        foodHP: 0
+      amount: 1
+      totalValue: 0
+    - AllowedItems: 
+      item:
+        Name: Chest
+        Id: 3
+        ItemValue: 0
+        buffs:
+        - attribute: 2
+          value: 1
+          min: 1
+          max: 1
+        - attribute: 3
+          value: 1
+          min: 1
+          max: 1
+        buffList: 'Stamina: 1 Strenth: 1 '
+        foodHP: 0
+      amount: 1
+      totalValue: 0
+    - AllowedItems: 
+      item:
+        Name: Helmet
+        Id: 4
+        ItemValue: 0
+        buffs:
+        - attribute: 1
+          value: 1
+          min: 1
+          max: 1
+        - attribute: 2
+          value: 1
+          min: 1
+          max: 1
+        buffList: 'Intellect: 1 Stamina: 1 '
+        foodHP: 0
+      amount: 1
+      totalValue: 0
+    - AllowedItems: 
+      item:
+        Name: Shield
+        Id: 5
+        ItemValue: 0
+        buffs:
+        - attribute: 0
+          value: 1
+          min: 1
+          max: 1
+        - attribute: 1
+          value: 1
+          min: 1
+          max: 1
+        buffList: 'Agility: 1 Intelect: 1 '
+        foodHP: 0
+      amount: 1
+      totalValue: 0
+    - AllowedItems: 
+      item:
+        Name: Knife
+        Id: 6
+        ItemValue: 0
+        buffs:
+        - attribute: 3
+          value: 1
+          min: 1
+          max: 1
+        buffList: 'Strength 1 '
+        foodHP: 0
+      amount: 1
+      totalValue: 0
+    - AllowedItems: 
+      item:
+        Name: 
+        Id: -1
+        ItemValue: 0
+        buffs: []
+        buffList: 
+        foodHP: 0
+      amount: 0
+      totalValue: 0
+  gold: 0

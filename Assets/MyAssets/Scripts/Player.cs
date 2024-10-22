@@ -7,6 +7,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 using static UnityEngine.Rendering.DebugUI;
 
 public enum Stat
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
     public GameObject invenGoldObj;
     public GameObject sellGoldObj;
     public Animator anim;
+    public InventoryObject tutorial;
 
     public Attribute[] attributes;
     public PlayerStat[] stats;
@@ -126,6 +128,13 @@ public class Player : MonoBehaviour
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
+
+        for (int i = 0; i < tutorial.GetSlots.Length ; i++)
+        {
+            if (inventory.AddItem(tutorial.GetSlots[i].item, 1))
+            {
+            }
+        }
 
         //Load data.
     }
