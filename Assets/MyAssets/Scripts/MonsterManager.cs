@@ -53,8 +53,8 @@ public class MonsterManager : MonoBehaviour
                 mMove.indexOfPool = j;
                 spawnCnt[i]++;
             }
-            currentRegenTimes[i] = regenTimes[i];
             canSpawnMonster[i] = false;
+            currentRegenTimes[i] = regenTimes[i];
         }
     }
 
@@ -96,6 +96,7 @@ public class MonsterManager : MonoBehaviour
                 mMove.m_level = _level;
                 mMove.indexOfPool = i;
                 spawnCnt[_level]++;
+                canSpawnMonster[_level] = false;
                 currentRegenTimes[_level] = regenTimes[_level];
                 if (spawnCnt[_level] < spawnLimit[_level])
                 {

@@ -234,24 +234,29 @@ public class MonsterMove : MonoBehaviour
         }
         else if (Vector3.Distance(transform.position, originPos) >= 0.1f)
         {
-            monsterNav.isStopped = true;
-            monsterNav.ResetPath();
             monsterNav.SetDestination(originPos);
             monsterNav.stoppingDistance = 0f;
             monsterNav.speed = myMonster.moveSpeed;
         }
         else
         {
+            monsterNav.isStopped = true;
+            monsterNav.ResetPath();
+
             transform.position = originPos;
+
             myMonster.curruntHP = myMonster.maxHP;
             UpdateHPbar();
             m_State = MonsterState.Idle;
             print(myMonster.mName + " State: Return -> Idle");
+            //anim.SetTrigger("MoveToIdle");
         }
     }
 
     void DamagedMonster()
     {
+        monsterNav.isStopped = true;
+        monsterNav.ResetPath();
         StartCoroutine(DelayedMonster());
         m_State = MonsterState.Move;
         print(myMonster.mName + " State: Damaged -> Move");
