@@ -129,6 +129,11 @@ public class Player : MonoBehaviour
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
 
+        //update db Id;
+        inventory.database.UpdateID();
+        tutorial.database.UpdateID();
+        buildList.database.UpdateID();
+
         //Add Basic Items
         for (int i = 0; i < tutorial.GetSlots.Length ; i++)
         {
