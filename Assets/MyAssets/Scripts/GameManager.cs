@@ -81,9 +81,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.PageUp))
         { SaveInventory(); }
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.PageDown))
         { LoadInventory(); }
 
         //Inventory Window Controll
@@ -327,6 +327,8 @@ public class GameManager : MonoBehaviour
         inventory.Save();
         equipment.Save();
         build.Save();
+        player.Save();
+        Debug.Log("Save 0");
     }
 
     public void LoadInventory()
@@ -334,6 +336,8 @@ public class GameManager : MonoBehaviour
         inventory.Load();
         equipment.Load();
         build.Load();
+        player.Load();
+        Debug.Log("Load 0");
     }
 
     public void OpenInventory()

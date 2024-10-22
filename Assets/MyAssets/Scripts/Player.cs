@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
 
     public Attribute[] attributes;
     public PlayerStat[] stats;
+    public PlayerLV lv;
 
     public float maxHP = 100;
     public float curruntHP;
@@ -57,8 +58,6 @@ public class Player : MonoBehaviour
     public float attackSpeed = 0.5f;
     public float moveSpeed = 5.0f;
     public float moneyEarn = 1.00f;
-    public int level = 1;
-    public int exp = 0;
 
     public Dictionary<Stat, int> StatOnIndex = new Dictionary<Stat, int>();
 
@@ -73,6 +72,9 @@ public class Player : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
         tpc = GetComponentInParent<ThirdPersonController>();
+
+        lv.level = 1;
+        lv.exp = 0;
 
         for (int i = 0; i < attributes.Length; i++)
         {
@@ -538,19 +540,19 @@ public class Player : MonoBehaviour
 
     public void UpdateEXP(int GetExp)
     {
-        exp += GetExp;
+        lv.exp += GetExp;
         LvUpCheck();
-        expText.text = exp.ToString("n0") + " / " + level * 10;
-        expSlider.value = exp / level;
+        expText.text = lv.exp.ToString("n0") + " / " + lv.level * 10;
+        expSlider.value = lv.exp / lv.level;
     }
 
     private void LvUpCheck()
     {
-        if (exp >= (level * 10))
+        if (lv.exp >= (lv.level * 10))
         {
-            exp -= level * 10;
-            level++;
-            lvText.text = "LV : " + level.ToString("n0");
+            lv.exp -= lv.level * 10;
+            lv.level++;
+            lvText.text = "LV : " + lv.level.ToString("n0");
             LvStatUp();
             LvUpCheck();
         }
@@ -560,7 +562,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < attributes.Length; i++)
         {
-            attributes[i].value.BaseValue += 1;
+            attributes[i].value.BaseValue = lv.level;
             UpdatePStats();
         }
     }
@@ -627,28 +629,19 @@ public class Player : MonoBehaviour
     [ContextMenu("Save")]
     public void Save()
     {
-        IFormatter formatter1 = new BinaryFormatter();
-        Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath), FileMode.Create, FileAccess.Write);
-        formatter1.Serialize(stream1, attributes);
-        stream1.Close();
-        IFormatter formatter2 = new BinaryFormatter();
-        Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath), FileMode.Create, FileAccess.Write);
-        formatter2.Serialize(stream2, stats);
-        stream2.Close();
+        IFormatter formatter = new BinaryFormatter();
+        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
+        formatter.Serialize(stream, lv);
+        stream.Close();
     }
 
     public void Save(int _saveSlot)
     {
 
-        IFormatter formatter1 = new BinaryFormatter();
-        Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath + _saveSlot), FileMode.Create, FileAccess.Write);
-        formatter1.Serialize(stream1, attributes);
-        stream1.Close();
-
-        IFormatter formatter2 = new BinaryFormatter();
-        Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath + _saveSlot), FileMode.Create, FileAccess.Write);
-        formatter2.Serialize(stream2, stats);
-        stream2.Close();
+        IFormatter formatter = new BinaryFormatter();
+        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath + _saveSlot), FileMode.Create, FileAccess.Write);
+        formatter.Serialize(stream, lv);
+        stream.Close();
     }
 
     [ContextMenu("Load")]
@@ -656,25 +649,12 @@ public class Player : MonoBehaviour
     {
         if (File.Exists(string.Concat(Application.persistentDataPath, savePath)))
         {
-            IFormatter formatter1 = new BinaryFormatter();
-            Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath), FileMode.Open, FileAccess.Read);
-            Attribute newAttribute = (Attribute)formatter1.Deserialize(stream1);
-            for (int i = 0; i < attributes.Length; i++)
-            {
-                attributes[i].type = newAttribute.type;
-                attributes[i].value = newAttribute.value;
-            }
-            stream1.Close();
-
-            IFormatter formatter2 = new BinaryFormatter();
-            Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath), FileMode.Open, FileAccess.Read);
-            PlayerStat newStat = (PlayerStat)formatter2.Deserialize(stream2);
-            for (int i = 0; i < stats.Length; i++)
-            {
-                stats[i].type = newStat.type;
-                stats[i].value = newStat.value;
-            }
-            stream2.Close();
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Open, FileAccess.Read);
+            PlayerLV newLV = (PlayerLV)formatter.Deserialize(stream);
+            lv.level = newLV.level;
+            lv.exp = newLV.exp;
+            stream.Close();
         }
     }
 
@@ -682,25 +662,12 @@ public class Player : MonoBehaviour
     {
         if (File.Exists(string.Concat(Application.persistentDataPath, savePath + _saveSlot)))
         {
-            IFormatter formatter1 = new BinaryFormatter();
-            Stream stream1 = new FileStream(string.Concat(Application.persistentDataPath, "Attributes" + savePath + _saveSlot), FileMode.Open, FileAccess.Read);
-            Attribute newAttribute = (Attribute)formatter1.Deserialize(stream1);
-            for (int i = 0; i < attributes.Length; i++)
-            {
-                attributes[i].type = newAttribute.type;
-                attributes[i].value = newAttribute.value;
-            }
-            stream1.Close();
-
-            IFormatter formatter2 = new BinaryFormatter();
-            Stream stream2 = new FileStream(string.Concat(Application.persistentDataPath, "Stats" + savePath + _saveSlot), FileMode.Open, FileAccess.Read);
-            PlayerStat newStat = (PlayerStat)formatter2.Deserialize(stream2);
-            for (int i = 0; i < stats.Length; i++)
-            {
-                stats[i].type = newStat.type;
-                stats[i].value = newStat.value;
-            }
-            stream2.Close();
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath + _saveSlot), FileMode.Open, FileAccess.Read);
+            PlayerLV newLV = (PlayerLV)formatter.Deserialize(stream);
+            lv.level = newLV.level;
+            lv.exp = newLV.exp;
+            stream.Close();
         }
     }
 
@@ -742,4 +709,11 @@ public class PlayerStat
     {
         parent.StatModified(this);
     }
+}
+
+[System.Serializable]
+public class PlayerLV
+{
+    public int level = 1;
+    public int exp = 0;
 }
