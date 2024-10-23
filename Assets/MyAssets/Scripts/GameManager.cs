@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     TextMeshProUGUI AlertMsg;
 
+    public bool isStartGame;
     bool isInventoryOn;
     bool isShopOn;
     bool isBuildOn;
@@ -51,11 +52,14 @@ public class GameManager : MonoBehaviour
 
     Building tempBuild;
     Player player;
+    IntroManager introManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        isStartGame = false;
         player = GameObject.Find("Player").GetComponent<Player>();
+        introManager = GameObject.Find("IntroManager").GetComponent<IntroManager>();
         SetUI();
     }
 
@@ -96,15 +100,41 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.PageUp))
-        { SaveInventory(); }
-        if (Input.GetKeyDown(KeyCode.PageDown))
-        { LoadInventory(); }
-
-        //Inventory Window Controll
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
+        if (isStartGame)
         {
-            if (isInventoryOn)
+            if (Input.GetKeyDown(KeyCode.PageUp))
+            { SaveInventory(); }
+            if (Input.GetKeyDown(KeyCode.PageDown))
+            { LoadInventory(); }
+
+            //Inventory Window Controll
+            if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (isInventoryOn)
+                {
+                    if (isShopOn)
+                    {
+                        if (!ShopResetCheck())
+                        { Alert("Clear sell slots first."); }
+                        else
+                        { ShopClose(); }
+                    }
+                    CloseInventory();
+                }
+                else
+                {
+                    if (isBuildOn)
+                    {
+                        if (isBShopOn)
+                        { BShopClose(); }
+                        BuildClose();
+                    }
+                    OpenInventory();
+                }
+            }
+
+            //Shop Window Controll
+            if (Input.GetKeyDown(KeyCode.P))
             {
                 if (isShopOn)
                 {
@@ -113,9 +143,25 @@ public class GameManager : MonoBehaviour
                     else
                     { ShopClose(); }
                 }
-                CloseInventory();
+                else
+                {
+                    if (tempBuild != null && tempBuild.type == BuildType.Store)
+                    {
+                        if (isBuildOn)
+                        {
+                            if (isBShopOn)
+                            { BShopClose(); }
+                            BuildClose();
+                        }
+                        if (!isInventoryOn)
+                        { OpenInventory(); }
+                        ShopOpen();
+                    }
+                }
             }
-            else
+
+            //Build Window Controll
+            if (Input.GetKeyDown(KeyCode.B))
             {
                 if (isBuildOn)
                 {
@@ -123,186 +169,147 @@ public class GameManager : MonoBehaviour
                     { BShopClose(); }
                     BuildClose();
                 }
-                OpenInventory();
-            }
-        }
-
-        //Shop Window Controll
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (isShopOn)
-            {
-                if (!ShopResetCheck())
-                { Alert("Clear sell slots first."); }
                 else
-                { ShopClose(); }
-            }
-            else
-            {
-                if (tempBuild != null && tempBuild.type == BuildType.Store)
                 {
-                    if (isBuildOn)
+                    if (isInventoryOn)
                     {
-                        if (isBShopOn)
-                        { BShopClose(); }
-                        BuildClose();
+                        if (isShopOn)
+                        { ShopClose(); }
+                        CloseInventory();
                     }
-                    if (!isInventoryOn)
-                        { OpenInventory(); }
-                    ShopOpen();
+                    BuildOpen();
                 }
-            } 
-        }
+            }
 
-        //Build Window Controll
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            if (isBuildOn)
+            //Build Shop Window Controll
+            if (Input.GetKeyDown(KeyCode.T))
             {
                 if (isBShopOn)
-                { BShopClose(); }
-                BuildClose();
-            }
-            else
-            {
-                if(isInventoryOn)
+                {
+                    BShopClose();
+                    return;
+                }
+                if (isInventoryOn)
                 {
                     if (isShopOn)
                     { ShopClose(); }
                     CloseInventory();
                 }
-                BuildOpen();
+                if (!isBuildOn)
+                { BuildOpen(); }
+                BShopOpen();
             }
-        }
 
-        //Build Shop Window Controll
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (isBShopOn)
+            //Close Window
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                BShopClose();
-                return;
-            }
-            if (isInventoryOn)
-            {
-                if (isShopOn)
-                { ShopClose(); }
-                CloseInventory();
-            }
-            if (!isBuildOn)
-            { BuildOpen(); }
-            BShopOpen();
-        }
-
-        //Close Window
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isOptionOn)
-            {
-                OptionClose();
-            }
-            else if (isBShopOn)
-            {
-                BShopClose();
-            }
-            else if (isBuildOn)
-            {
-                BuildClose();
-            }
-            else if (isShopOn)
-            {
-                if (!ShopResetCheck())
-                { Alert("Clear sell slots first."); }
+                if (isOptionOn)
+                {
+                    OptionClose();
+                }
+                else if (isBShopOn)
+                {
+                    BShopClose();
+                }
+                else if (isBuildOn)
+                {
+                    BuildClose();
+                }
+                else if (isShopOn)
+                {
+                    if (!ShopResetCheck())
+                    { Alert("Clear sell slots first."); }
+                    else
+                    { ShopClose(); }
+                }
+                else if (isInventoryOn)
+                { CloseInventory(); }
                 else
-                { ShopClose(); }
+                { OptionOpen(); }
             }
-            else if (isInventoryOn)
-            { CloseInventory(); }
-            else
-            { OptionOpen(); }
-        }
 
-        //Interact Build
-        if (tempBuild != null && Input.GetKeyDown(KeyCode.E))
-        {
-            switch (tempBuild.type)
+            //Interact Build
+            if (tempBuild != null && Input.GetKeyDown(KeyCode.E))
             {
-                case BuildType.House:
-                    break;
-                case BuildType.Farm:
-                    break;
-                case BuildType.Store:
+                switch (tempBuild.type)
+                {
+                    case BuildType.House:
+                        break;
+                    case BuildType.Farm:
+                        break;
+                    case BuildType.Store:
+                        if (isBuildOn)
+                        {
+                            if (isBShopOn)
+                            { BShopClose(); }
+                            BuildClose();
+                        }
+                        if (!isInventoryOn)
+                        { OpenInventory(); }
+                        ShopOpen();
+                        break;
+                    case BuildType.Smith:
+                        break;
+                    case BuildType.Stable:
+                        break;
+                    case BuildType.AnimalFarm:
+                        break;
+                    case BuildType.Tarvern:
+                        break;
+                    case BuildType.Castle:
+                        break;
+                    case BuildType.Church:
+                        break;
+                    case BuildType.Windmill:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            //Stat Screen Controll
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                if (isStatOn)
+                {
+                    StatClose();
+                }
+                else
+                {
                     if (isBuildOn)
                     {
                         if (isBShopOn)
                         { BShopClose(); }
                         BuildClose();
                     }
-                    if (!isInventoryOn)
-                    { OpenInventory(); }
-                    ShopOpen();
-                    break;
-                case BuildType.Smith:
-                    break;
-                case BuildType.Stable:
-                    break;
-                case BuildType.AnimalFarm:
-                    break;
-                case BuildType.Tarvern:
-                    break;
-                case BuildType.Castle:
-                    break;
-                case BuildType.Church:
-                    break;
-                case BuildType.Windmill:
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //Stat Screen Controll
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            if (isStatOn)
-            {
-                StatClose();
-            }
-            else
-            {
-                if (isBuildOn)
-                {
-                    if (isBShopOn)
-                    { BShopClose(); }
-                    BuildClose();
+                    StatOpen();
                 }
-                StatOpen();
             }
-        }
 
-        //Cursor Controll
-        if (Input.GetKeyDown(KeyCode.C))
-        { CursorOn(); }
+            //Cursor Controll
+            if (Input.GetKeyDown(KeyCode.C))
+            { CursorOn(); }
 
-        if (Input.GetKeyDown(KeyCode.V))
-        { CursorOff(); }
+            if (Input.GetKeyDown(KeyCode.V))
+            { CursorOff(); }
 
-        //gold cheat
-        if (Input.GetKeyDown(KeyCode.G))
-        { inventory.AddGold(1000); player.InvenGoldUpdate(); }
+            //gold cheat
+            if (Input.GetKeyDown(KeyCode.G))
+            { inventory.AddGold(1000); player.InvenGoldUpdate(); }
 
-        //Move character Origin Pos
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            player.transform.position = Vector3.zero;
-        }
-
-        if (isMsgOn)
-        {
-            alertTimer -= Time.deltaTime;
-            if (alertTimer <= 0)
+            //Move character Origin Pos
+            if (Input.GetKeyDown(KeyCode.Delete))
             {
-                Alert();
+                player.transform.position = Vector3.zero;
+            }
+
+            if (isMsgOn)
+            {
+                alertTimer -= Time.deltaTime;
+                if (alertTimer <= 0)
+                {
+                    Alert();
+                }
             }
         }
     }
@@ -376,7 +383,7 @@ public class GameManager : MonoBehaviour
     public void LoadInventory(int _slotNum)
     {
         inventory.Load(_slotNum);
-        player.InvenGoldUpdate();
+        player.InvenGoldUpdate();   
         equipment.Load(_slotNum);
         build.Load(_slotNum);
         player.Load(_slotNum);
@@ -632,6 +639,8 @@ public class GameManager : MonoBehaviour
     public void MainReturn()
     {
         SceneManager.LoadScene(0);
+        introManager.ReturnMenu();
+        //DontDestroyOnLoad(); animator
     }
 
     public void QuitGame()

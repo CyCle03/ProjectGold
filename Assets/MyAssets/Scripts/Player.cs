@@ -137,9 +137,8 @@ public class Player : MonoBehaviour
         Debug.Log("inven slots : " + inven.GetSlots.Length);
     }
 
-    IEnumerator CheckSave()
+    public void CheckSave()
     {
-        yield return new WaitForSeconds(1f);
         int _saveSlot = PlayerPrefs.GetInt("UseSlot");
         //Load data.
         if (_saveSlot <= 3 && _saveSlot >= 1)

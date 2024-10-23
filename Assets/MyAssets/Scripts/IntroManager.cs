@@ -1,3 +1,4 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,11 +10,16 @@ using UnityEngine.UI;
 
 public class IntroManager : MonoBehaviour
 {
+    public Canvas IntroCanvas;
     public GameObject NewPanel;
     public GameObject LoadPanel;
     public string savePath;
     public TextMeshProUGUI quickSave;
     public bool[] isSaveFile = new bool[4];
+
+    GameManager gm;
+    Player player;
+    StarterAssetsInputs sai;
 
     private void Awake()
     {
@@ -22,9 +28,21 @@ public class IntroManager : MonoBehaviour
 
     private void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        player = GameObject.Find("Player").GetComponent<Player>();
+        sai = GameObject.Find("Player").GetComponent<StarterAssetsInputs>();
+
+        ReturnMenu();
+    }
+
+    public void ReturnMenu()
+    {
         CheckSaveFile();
         NewPanel.SetActive(false);
         LoadPanel.SetActive(false);
+        IntroCanvas.enabled = true;
+        sai.cursorLocked = false;
+        gm.CursorOn();
     }
 
     public void NewPanelOpen()
@@ -105,7 +123,11 @@ public class IntroManager : MonoBehaviour
     public void NewGame(int _slotNum)
     {
         PlayerPrefs.SetInt("UseSlot", -(_slotNum));
-        SceneManager.LoadScene(1);
+        IntroCanvas.enabled = false;
+        gm.isStartGame = true;
+        sai.cursorLocked = true;
+        player.CheckSave();
+        //SceneManager.LoadScene(1);
     }
 
     public void LoadGame(int _slotNum)
@@ -113,7 +135,11 @@ public class IntroManager : MonoBehaviour
         if (isSaveFile[_slotNum])
         {
             PlayerPrefs.SetInt("UseSlot", _slotNum);
-            SceneManager.LoadScene(1);
+            IntroCanvas.enabled = false;
+            gm.isStartGame = true;
+            sai.cursorLocked = true;
+            player.CheckSave();
+            //SceneManager.LoadScene(1);
         }
     }
     public void QuitGame()
