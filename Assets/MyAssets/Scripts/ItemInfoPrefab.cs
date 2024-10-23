@@ -29,7 +29,7 @@ public class ItemInfoPrefab : MonoBehaviour
         if (MouseData.buyIteminfo != null)
         {
             Item mdBuyItem = MouseData.buyItem.item;
-            if (player.inventory.GetGold >= mdBuyItem.ItemValue && player.inventory.EmptySlotCount >= 1)
+            if (player.inven.GetGold >= mdBuyItem.ItemValue && player.inven.EmptySlotCount >= 1)
             {
                 player.ShopBuy(mdBuyItem.ItemValue, mdBuyItem, 1);
             }
@@ -51,7 +51,7 @@ public class ItemInfoPrefab : MonoBehaviour
                     break;
                 case ItemType.Weapon:
                     if (MouseData.useItem == player.equipment.GetSlots[1] || MouseData.useItem == player.equipment.GetSlots[2])
-                    { EquipItems(MouseData.useItem, player.inventory.FindEmptySlot()); }
+                    { EquipItems(MouseData.useItem, player.inven.FindEmptySlot()); }
                     else if (player.equipment.GetSlots[1].item.Id <= -1)
                     { player.equipment.SwapItems(MouseData.useItem, player.equipment.GetSlots[1]); }
                     else if (player.equipment.GetSlots[2].item.Id <= -1)
@@ -80,7 +80,7 @@ public class ItemInfoPrefab : MonoBehaviour
     {
         if (item1 == item2)
         {
-            item2 = player.inventory.FindEmptySlot();
+            item2 = player.inven.FindEmptySlot();
         }
         if (item2 != null)
         {

@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public enum Stat
 {
@@ -22,7 +23,7 @@ public enum Stat
 public class Player : MonoBehaviour
 {
     public string savePath;
-    public InventoryObject inventory;
+    public InventoryObject inven;
     public InventoryObject equipment;
     public InventoryObject shop;
     public InventoryObject sell;
@@ -66,7 +67,10 @@ public class Player : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
         tpc = GetComponentInParent<ThirdPersonController>();
+    }
 
+    IEnumerator SetAttStat()
+    {
         for (int i = 0; i < attributes.Length; i++)
         {
             attributes[i].SetParent(this);
@@ -122,27 +126,29 @@ public class Player : MonoBehaviour
         curruntHP = maxHP = 100;
         LvStatUp();
         UpdateEXP();
+        yield return null;
     }
 
     private void Start()
     {
+        StartCoroutine(SetAttStat());
+
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
 
         //update BD ID;
-        inventory.database.UpdateID();
+        inven.database.UpdateID();
         tutorial.database.UpdateID();
         buildList.database.UpdateID();
 
-        //Add Basic Items
-        for (int i = 0; i < tutorial.GetSlots.Length; i++)
-        {
-            if (tutorial.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
-            { }
-            if (inventory.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
-            { }
-        }
+        StartCoroutine(CheckSave());
 
+        gm.SetUI();
+    }
+
+    IEnumerator CheckSave()
+    {
+        yield return new WaitForSeconds(0.1f);
         int _saveSlot = PlayerPrefs.GetInt("UseSlot");
         //Load data.
         if (_saveSlot <= 3 && _saveSlot >= 1)
@@ -157,6 +163,14 @@ public class Player : MonoBehaviour
         }
         else if (_saveSlot <= -1 && _saveSlot >= -3)
         {
+            //Add Basic Items
+            for (int i = 0; i < tutorial.GetSlots.Length; i++)
+            {
+                if (tutorial.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
+                { }
+                if (inven.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
+                { }
+            }
             gm.SaveInventory(-(_saveSlot));
             Debug.Log(_saveSlot);
         }
@@ -288,7 +302,7 @@ public class Player : MonoBehaviour
 
     public void InvenGoldUpdate()
     {
-        invenTextGold.text = inventory.GetGold.ToString("n0") + " G";
+        invenTextGold.text = inven.GetGold.ToString("n0") + " G";
     }
 
     public void SellGoldUpdate()
@@ -451,7 +465,7 @@ public class Player : MonoBehaviour
 
     public bool ShopResetCheck()
     {
-        if (sell.OnSlotCount > inventory.EmptySlotCount)
+        if (sell.OnSlotCount > inven.EmptySlotCount)
         {
             print("Not enough slots on Inventory");
             return false;
@@ -467,7 +481,7 @@ public class Player : MonoBehaviour
             {
                 Item _item = sell.GetSlots[i].item;
                 int _amount = sell.GetSlots[i].amount;
-                if (inventory.AddItem(_item, _amount))
+                if (inven.AddItem(_item, _amount))
                 {
                     sell.GetSlots[i].RemoveItem();
                 }
@@ -479,7 +493,7 @@ public class Player : MonoBehaviour
     {
         if (gm.TempBuildType(BuildType.Store))
         {
-            inventory.AddGold(sell.GetGold);
+            inven.AddGold(sell.GetGold);
             InvenGoldUpdate();
             sell.Clear();
         }
@@ -491,8 +505,8 @@ public class Player : MonoBehaviour
     {
         if (gm.TempBuildType(BuildType.Store))
         {
-            inventory.RemoveGold(_itemValue);
-            inventory.AddItem(_item, _amount);
+            inven.RemoveGold(_itemValue);
+            inven.AddItem(_item, _amount);
             InvenGoldUpdate();
         }
         else
@@ -501,7 +515,7 @@ public class Player : MonoBehaviour
 
     public void BuildBuy(int _buildValue, ListSlot _build)
     {
-        inventory.RemoveGold(_buildValue);
+        inven.RemoveGold(_buildValue);
         buildList.GetListSlots[_build.indexNum].UpdateListSlot(_build.build);
         gm.BuildShopClose();
         bm.ShopListUpdate(_build.indexNum);
@@ -510,7 +524,7 @@ public class Player : MonoBehaviour
     }
     public void BuildSell(ListSlot _build)
     {
-        inventory.AddGold(_build.build.BuildValue);
+        inven.AddGold(_build.build.BuildValue);
         buildList.GetListSlots[_build.indexNum].RemoveBuild();
         gm.BuildInfoClose();
         bm.ShopListUpdate(_build.indexNum);
@@ -522,7 +536,7 @@ public class Player : MonoBehaviour
     {
         int _foodHP = _itemObj.foodHP;
         print(_foodHP); 
-        inventory.UseItem(_itemObj.data);
+        inven.UseItem(_itemObj.data);
         if (maxHP - curruntHP >= _foodHP)
         { curruntHP += _foodHP; }   
         else
@@ -608,7 +622,7 @@ public class Player : MonoBehaviour
         if (item)
         {
             Item _item = new Item(item.item);
-            if (inventory.AddItem(_item, 1))
+            if (inven.AddItem(_item, 1))
             {
                 Destroy(other.gameObject);
             }

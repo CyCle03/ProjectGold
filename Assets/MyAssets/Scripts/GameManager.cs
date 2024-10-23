@@ -60,7 +60,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+    }
 
+    public void SetUI()
+    {
         InventoryCanvas.enabled = false;
         InvenScreen.SetActive(false);
         EquipScreen.SetActive(false);

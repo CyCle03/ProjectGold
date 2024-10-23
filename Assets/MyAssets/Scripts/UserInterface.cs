@@ -20,6 +20,12 @@ public abstract class UserInterface : MonoBehaviour
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 
+        
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
         for (int i = 0; i < inventory.GetSlots.Length; i++)
         {
             inventory.GetSlots[i].parent = this;
@@ -29,12 +35,6 @@ public abstract class UserInterface : MonoBehaviour
         slotsOnInterface.UpdateSlotDisplay();
         AddEvent(gameObject, EventTriggerType.PointerEnter, delegate { OnEnterInterface(gameObject); });
         AddEvent(gameObject, EventTriggerType.PointerExit, delegate { OnExitInterface(gameObject); });
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
     }
 
     private void OnSlotUpdate(InventorySlot _slot)
