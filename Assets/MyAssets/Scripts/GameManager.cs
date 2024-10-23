@@ -33,9 +33,6 @@ public class GameManager : MonoBehaviour
     public InventoryObject tutorial;
     public Canvas OptionCanvas;
     public GameObject OptionPanel;
-    public Canvas SceneLoad;
-    public Slider loadingBar;
-    public TextMeshProUGUI loadingText;
 
     TextMeshProUGUI AlertMsg;
 
@@ -46,7 +43,6 @@ public class GameManager : MonoBehaviour
     bool isMsgOn;
     bool isStatOn;
     bool isOptionOn;
-    bool isLoading;
 
     bool[] isSaveFile = new bool[4];
 
@@ -60,6 +56,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        SetUI();
     }
 
     public void SetUI()
@@ -84,9 +81,6 @@ public class GameManager : MonoBehaviour
 
         OptionCanvas.enabled = false;
         isOptionOn = false;
-
-        SceneLoad.enabled = false;
-        isLoading = false;
 
         InvenGoldBar.SetActive(false);
 
@@ -354,7 +348,8 @@ public class GameManager : MonoBehaviour
         build.Save();
         player.Save();
         Debug.Log("Save");
-    }//courtine
+        PlayerPrefs.SetInt("UseSlot", 0);
+    }
 
     public void SaveInventory(int _slotNum)
     {
@@ -370,15 +365,18 @@ public class GameManager : MonoBehaviour
     public void LoadInventory()
     {
         inventory.Load();
+        player.InvenGoldUpdate();
         equipment.Load();
         build.Load();
         player.Load();
         Debug.Log("Load");
+        PlayerPrefs.SetInt("UseSlot", 0);
     }
 
     public void LoadInventory(int _slotNum)
     {
         inventory.Load(_slotNum);
+        player.InvenGoldUpdate();
         equipment.Load(_slotNum);
         build.Load(_slotNum);
         player.Load(_slotNum);
@@ -633,30 +631,7 @@ public class GameManager : MonoBehaviour
 
     public void MainReturn()
     {
-        if (!isLoading)
-        {
-            isLoading = true;
-            SceneLoad.enabled = true;
-            StartCoroutine(TransitionNextScene());
-        }
-    }
-
-    IEnumerator TransitionNextScene()
-    {
-        AsyncOperation ao = SceneManager.LoadSceneAsync(0);
-        ao.allowSceneActivation = false;
-
-        while (!ao.isDone)
-        {
-            loadingBar.value = ao.progress;
-            loadingText.text = (ao.progress * 100f).ToString("f2") + "%";
-            if (ao.progress >= 0.9f)
-            {
-                ao.allowSceneActivation = true;
-            }
-
-            yield return null;
-        }
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
@@ -669,7 +644,6 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveInventory();
         inventory.Clear();
         equipment.Clear();
         sell.Clear();

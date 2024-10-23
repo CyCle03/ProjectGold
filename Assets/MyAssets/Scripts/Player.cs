@@ -67,10 +67,6 @@ public class Player : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
         tpc = GetComponentInParent<ThirdPersonController>();
-    }
-
-    IEnumerator SetAttStat()
-    {
         for (int i = 0; i < attributes.Length; i++)
         {
             attributes[i].SetParent(this);
@@ -126,13 +122,6 @@ public class Player : MonoBehaviour
         curruntHP = maxHP = 100;
         LvStatUp();
         UpdateEXP();
-        yield return null;
-    }
-
-    private void Start()
-    {
-        StartCoroutine(SetAttStat());
-
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
 
@@ -140,15 +129,17 @@ public class Player : MonoBehaviour
         inven.database.UpdateID();
         tutorial.database.UpdateID();
         buildList.database.UpdateID();
+    }
 
-        StartCoroutine(CheckSave());
-
-        gm.SetUI();
+    private void Start()
+    {
+        //StartCoroutine(CheckSave());
+        Debug.Log("inven slots : " + inven.GetSlots.Length);
     }
 
     IEnumerator CheckSave()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         int _saveSlot = PlayerPrefs.GetInt("UseSlot");
         //Load data.
         if (_saveSlot <= 3 && _saveSlot >= 1)
