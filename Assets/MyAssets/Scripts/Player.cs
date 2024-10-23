@@ -64,11 +64,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        
-    }
-
-    private void Start()
-    {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
         tpc = GetComponentInParent<ThirdPersonController>();
@@ -134,8 +129,12 @@ public class Player : MonoBehaviour
         inven.database.UpdateID();
         tutorial.database.UpdateID();
         buildList.database.UpdateID();
+    }
 
+    private void Start()
+    {
         //StartCoroutine(CheckSave());
+        Debug.Log("inven slots : " + inven.GetSlots.Length);
     }
 
     IEnumerator CheckSave()
@@ -156,14 +155,14 @@ public class Player : MonoBehaviour
         else if (_saveSlot <= -1 && _saveSlot >= -3)
         {
             //Add Basic Items
-            /*for (int i = 0; i < tutorial.GetSlots.Length; i++)
+            for (int i = 0; i < tutorial.GetSlots.Length; i++)
             {
                 if (tutorial.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
                 { }
                 if (inven.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
                 { }
-            }*/
-            //gm.SaveInventory(-(_saveSlot));
+            }
+            gm.SaveInventory(-(_saveSlot));
             Debug.Log(_saveSlot);
         }
     }

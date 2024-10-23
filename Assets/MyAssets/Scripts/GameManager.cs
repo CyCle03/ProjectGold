@@ -348,7 +348,8 @@ public class GameManager : MonoBehaviour
         build.Save();
         player.Save();
         Debug.Log("Save");
-    }//courtine
+        PlayerPrefs.SetInt("UseSlot", 0);
+    }
 
     public void SaveInventory(int _slotNum)
     {
@@ -364,6 +365,7 @@ public class GameManager : MonoBehaviour
     public void LoadInventory()
     {
         inventory.Load();
+        player.InvenGoldUpdate();
         equipment.Load();
         build.Load();
         player.Load();
@@ -374,6 +376,7 @@ public class GameManager : MonoBehaviour
     public void LoadInventory(int _slotNum)
     {
         inventory.Load(_slotNum);
+        player.InvenGoldUpdate();
         equipment.Load(_slotNum);
         build.Load(_slotNum);
         player.Load(_slotNum);
