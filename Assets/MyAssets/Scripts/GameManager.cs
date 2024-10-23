@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -28,6 +31,11 @@ public class GameManager : MonoBehaviour
     public GameObject ItemInfoPrefab;
     public GameObject BuyItemPrefab;
     public InventoryObject tutorial;
+    public Canvas OptionCanvas;
+    public GameObject OptionPanel;
+    public Canvas SceneLoad;
+    public Slider loadingBar;
+    public TextMeshProUGUI loadingText;
 
     TextMeshProUGUI AlertMsg;
 
@@ -37,6 +45,10 @@ public class GameManager : MonoBehaviour
     bool isBShopOn;
     bool isMsgOn;
     bool isStatOn;
+    bool isOptionOn;
+    bool isLoading;
+
+    bool[] isSaveFile = new bool[4];
 
     int alertCnt;
     float alertTimer;
@@ -47,6 +59,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player").GetComponent<Player>();
+
         InventoryCanvas.enabled = false;
         InvenScreen.SetActive(false);
         EquipScreen.SetActive(false);
@@ -65,6 +79,12 @@ public class GameManager : MonoBehaviour
         StatScreen.SetActive(false);
         isStatOn = false;
 
+        OptionCanvas.enabled = false;
+        isOptionOn = false;
+
+        SceneLoad.enabled = false;
+        isLoading = false;
+
         InvenGoldBar.SetActive(false);
 
         AlertMsg = AlertScreen.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -74,8 +94,6 @@ public class GameManager : MonoBehaviour
         alertTimer = 0f;
 
         tempBuild = null;
-
-        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -182,7 +200,11 @@ public class GameManager : MonoBehaviour
         //Close Window
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isBShopOn)
+            if (isOptionOn)
+            {
+                OptionClose();
+            }
+            else if (isBShopOn)
             {
                 BShopClose();
             }
@@ -200,7 +222,7 @@ public class GameManager : MonoBehaviour
             else if (isInventoryOn)
             { CloseInventory(); }
             else
-            { CursorOff(); }
+            { OptionOpen(); }
         }
 
         //Interact Build
@@ -329,7 +351,7 @@ public class GameManager : MonoBehaviour
         build.Save();
         player.Save();
         Debug.Log("Save");
-    }
+    }//courtine
 
     public void SaveInventory(int _slotNum)
     {
@@ -338,6 +360,8 @@ public class GameManager : MonoBehaviour
         build.Save(_slotNum);
         player.Save(_slotNum);
         Debug.Log("Save" + _slotNum);
+        PlayerPrefs.SetInt("UseSlot", _slotNum);
+        CheckSaveFile(_slotNum);
     }
 
     public void LoadInventory()
@@ -356,6 +380,8 @@ public class GameManager : MonoBehaviour
         build.Load(_slotNum);
         player.Load(_slotNum);
         Debug.Log("Load" + _slotNum);
+        PlayerPrefs.SetInt("UseSlot", _slotNum);
+        CheckSaveFile(_slotNum);
     }
 
     public void OpenInventory()
@@ -437,7 +463,24 @@ public class GameManager : MonoBehaviour
     public void StatClose()
     {
         StatScreen.SetActive(false);
-        isStatOn= false;
+        isStatOn = false;
+        CursorOff();
+    }
+
+    public void OptionOpen()
+    {
+        OptionCanvas.enabled = true;
+        isOptionOn = true;
+        CheckSaveFile();
+        Time.timeScale = 0f;
+        CursorOn();
+    }
+
+    public void OptionClose()
+    {
+        OptionCanvas.enabled = false;
+        isOptionOn = false;
+        Time.timeScale = 1f;
         CursorOff();
     }
 
@@ -450,7 +493,7 @@ public class GameManager : MonoBehaviour
 
     public void CursorOff()
     {
-        if (isInventoryOn || isStatOn || isBuildOn)
+        if (isInventoryOn || isStatOn || isBuildOn || isOptionOn)
         { return; }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -531,8 +574,99 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public void CheckSaveFile()
+    {
+        if (File.Exists(string.Concat(Application.persistentDataPath, player.savePath + "1")))
+        {
+            OptionPanel.transform.GetChild(1).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            OptionPanel.transform.GetChild(4).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            isSaveFile[1] = true;
+        }
+        else
+        {
+            OptionPanel.transform.GetChild(4).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
+            isSaveFile[1] = false;
+        }
+
+        if (File.Exists(string.Concat(Application.persistentDataPath, player.savePath + "2")))
+        {
+            OptionPanel.transform.GetChild(2).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            OptionPanel.transform.GetChild(5).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            isSaveFile[2] = true;
+        }
+        else
+        {
+            OptionPanel.transform.GetChild(5).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
+            isSaveFile[2] = false;
+        }
+
+        if (File.Exists(string.Concat(Application.persistentDataPath, player.savePath + "3")))
+        {
+            OptionPanel.transform.GetChild(3).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            OptionPanel.transform.GetChild(6).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            isSaveFile[3] = true;
+        }
+        else
+        {
+            OptionPanel.transform.GetChild(6).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
+            isSaveFile[3] = false;
+        }
+    }
+
+    public void CheckSaveFile(int _slotNum)
+    {
+        if (File.Exists(string.Concat(Application.persistentDataPath, player.savePath + _slotNum)))
+        {
+            OptionPanel.transform.GetChild(_slotNum).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            OptionPanel.transform.GetChild(_slotNum + 3).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            isSaveFile[_slotNum] = true;
+        }
+        else
+        {
+            OptionPanel.transform.GetChild(_slotNum + 3).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
+            isSaveFile[_slotNum] = false;
+        }
+    }
+
+    public void MainReturn()
+    {
+        if (!isLoading)
+        {
+            isLoading = true;
+            SceneLoad.enabled = true;
+            StartCoroutine(TransitionNextScene());
+        }
+    }
+
+    IEnumerator TransitionNextScene()
+    {
+        AsyncOperation ao = SceneManager.LoadSceneAsync(0);
+        ao.allowSceneActivation = false;
+
+        while (!ao.isDone)
+        {
+            loadingBar.value = ao.progress;
+            loadingText.text = (ao.progress * 100f).ToString("f2") + "%";
+            if (ao.progress >= 0.9f)
+            {
+                ao.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
+
     private void OnApplicationQuit()
     {
+        SaveInventory();
         inventory.Clear();
         equipment.Clear();
         sell.Clear();

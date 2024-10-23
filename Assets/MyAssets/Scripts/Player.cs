@@ -1,17 +1,11 @@
-using JetBrains.Annotations;
 using StarterAssets;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
-using static UnityEngine.Rendering.DebugUI;
 
 public enum Stat
 {
@@ -73,9 +67,6 @@ public class Player : MonoBehaviour
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
         tpc = GetComponentInParent<ThirdPersonController>();
 
-        lv.level = 1;
-        lv.exp = 0;
-
         for (int i = 0; i < attributes.Length; i++)
         {
             attributes[i].SetParent(this);
@@ -131,7 +122,10 @@ public class Player : MonoBehaviour
         curruntHP = maxHP = 100;
         LvStatUp();
         UpdateEXP();
+    }
 
+    private void Start()
+    {
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
 
@@ -141,7 +135,7 @@ public class Player : MonoBehaviour
         buildList.database.UpdateID();
 
         //Add Basic Items
-        for (int i = 0; i < tutorial.GetSlots.Length ; i++)
+        for (int i = 0; i < tutorial.GetSlots.Length; i++)
         {
             if (tutorial.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
             { }
@@ -149,10 +143,22 @@ public class Player : MonoBehaviour
             { }
         }
 
+        int _saveSlot = PlayerPrefs.GetInt("UseSlot");
         //Load data.
-        if (PlayerPrefs.GetInt("UseSlot") <= 2 && PlayerPrefs.GetInt("UseSlot") >= 0)
+        if (_saveSlot <= 3 && _saveSlot >= 1)
         {
-            gm.LoadInventory(PlayerPrefs.GetInt("UseSlot"));
+            gm.LoadInventory(_saveSlot);
+            Debug.Log(_saveSlot);
+        }
+        else if (_saveSlot == 0)
+        {
+            gm.LoadInventory();
+            Debug.Log(_saveSlot);
+        }
+        else if (_saveSlot <= -1 && _saveSlot >= -3)
+        {
+            gm.SaveInventory(-(_saveSlot));
+            Debug.Log(_saveSlot);
         }
     }
 
@@ -684,7 +690,6 @@ public class Player : MonoBehaviour
             LvStatUp();
         }
     }
-
 }
 
 [System.Serializable]

@@ -11,6 +11,9 @@ public class IntroManager : MonoBehaviour
 {
     public GameObject NewPanel;
     public GameObject LoadPanel;
+    public GameObject ScenePanel;
+    public Slider loadingBar;
+    public TextMeshProUGUI loadingText;
     public string savePath;
     public TextMeshProUGUI quickSave;
     public bool[] isSaveFile = new bool[4];
@@ -18,13 +21,15 @@ public class IntroManager : MonoBehaviour
 
     private void Awake()
     {
-        CheckSaveFile();
+        
     }
 
     private void Start()
     {
+        CheckSaveFile();
         NewPanel.SetActive(false);
         LoadPanel.SetActive(false);
+        ScenePanel.SetActive(false);
         loading = false;
     }
 
@@ -50,20 +55,21 @@ public class IntroManager : MonoBehaviour
 
     public void CheckSaveFile()
     {
-        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + 1)))
+
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath)))
         {
             LoadPanel.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
-            NewPanel.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
             isSaveFile[0] = true;
+            quickSave.text = PlayerPrefs.GetInt("UseSlot").ToString();
         }
         else
         {
             LoadPanel.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
-            NewPanel.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
             isSaveFile[0] = false;
+            quickSave.text = "";
         }
 
-        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + 2)))
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + "1")))
         {
             LoadPanel.transform.GetChild(1).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
             NewPanel.transform.GetChild(1).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
@@ -76,7 +82,7 @@ public class IntroManager : MonoBehaviour
             isSaveFile[1] = false;
         }
 
-        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + 3)))
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + "2")))
         {
             LoadPanel.transform.GetChild(2).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
             NewPanel.transform.GetChild(2).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
@@ -89,17 +95,17 @@ public class IntroManager : MonoBehaviour
             isSaveFile[2] = false;
         }
 
-        if (File.Exists(string.Concat(Application.persistentDataPath, savePath)))
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + "3")))
         {
             LoadPanel.transform.GetChild(3).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
+            NewPanel.transform.GetChild(3).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
             isSaveFile[3] = true;
-            quickSave.text = PlayerPrefs.GetInt("UseSlot").ToString();
         }
         else
         {
             LoadPanel.transform.GetChild(3).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 0.1f);
+            NewPanel.transform.GetChild(3).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
             isSaveFile[3] = false;
-            quickSave.text = "";
         }
     }
 
@@ -107,8 +113,9 @@ public class IntroManager : MonoBehaviour
     {
         if (!loading)
         {
+            ScenePanel.SetActive(true);
             loading = true;
-            StartCoroutine(TransitionNextScene(_slotNum));
+            StartCoroutine(TransitionNextScene(-(_slotNum)));
         }
     }
 
@@ -116,6 +123,7 @@ public class IntroManager : MonoBehaviour
     {
         if (isSaveFile[_slotNum] && !loading)
         {
+            ScenePanel.SetActive(true);
             loading = true;
             StartCoroutine(TransitionNextScene(_slotNum));
         }
@@ -126,13 +134,12 @@ public class IntroManager : MonoBehaviour
         AsyncOperation ao = SceneManager.LoadSceneAsync(1);
         ao.allowSceneActivation = false;
 
-        if (num != 3)
-        {
-            PlayerPrefs.SetInt("UseSlot", num);
-        }
+        PlayerPrefs.SetInt("UseSlot", num);
 
         while (!ao.isDone)
         {
+            loadingBar.value = ao.progress;
+            loadingText.text = (ao.progress * 100f).ToString("f2") + "%";
             if (ao.progress >= 0.9f)
             {
                 ao.allowSceneActivation = true;
