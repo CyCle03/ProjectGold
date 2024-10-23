@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
 
         curruntHP = maxHP = 100;
         LvStatUp();
-        UpdateEXP(0);
+        UpdateEXP();
 
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
@@ -546,6 +546,12 @@ public class Player : MonoBehaviour
         expSlider.value = lv.exp / lv.level;
     }
 
+    public void UpdateEXP()
+    {
+        expText.text = lv.exp.ToString("n0") + " / " + lv.level * 10;
+        expSlider.value = lv.exp / lv.level;
+    }
+
     private void LvUpCheck()
     {
         if (lv.exp >= (lv.level * 10))
@@ -655,6 +661,8 @@ public class Player : MonoBehaviour
             lv.level = newLV.level;
             lv.exp = newLV.exp;
             stream.Close();
+            UpdateEXP();
+            LvStatUp();
         }
     }
 
@@ -668,6 +676,8 @@ public class Player : MonoBehaviour
             lv.level = newLV.level;
             lv.exp = newLV.exp;
             stream.Close();
+            UpdateEXP();
+            LvStatUp();
         }
     }
 
