@@ -328,7 +328,16 @@ public class GameManager : MonoBehaviour
         equipment.Save();
         build.Save();
         player.Save();
-        Debug.Log("Save 0");
+        Debug.Log("Save");
+    }
+
+    public void SaveInventory(int _slotNum)
+    {
+        inventory.Save(_slotNum);
+        equipment.Save(_slotNum);
+        build.Save(_slotNum);
+        player.Save(_slotNum);
+        Debug.Log("Save" + _slotNum);
     }
 
     public void LoadInventory()
@@ -337,7 +346,16 @@ public class GameManager : MonoBehaviour
         equipment.Load();
         build.Load();
         player.Load();
-        Debug.Log("Load 0");
+        Debug.Log("Load");
+    }
+
+    public void LoadInventory(int _slotNum)
+    {
+        inventory.Load(_slotNum);
+        equipment.Load(_slotNum);
+        build.Load(_slotNum);
+        player.Load(_slotNum);
+        Debug.Log("Load" + _slotNum);
     }
 
     public void OpenInventory()

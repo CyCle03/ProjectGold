@@ -158,6 +158,14 @@ public class BuildingListObject : ScriptableObject
         stream.Close();
     }
 
+    public void Save(int _saveSlot)
+    {
+        IFormatter formatter = new BinaryFormatter();
+        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath + _saveSlot), FileMode.Create, FileAccess.Write);
+        formatter.Serialize(stream, Container);
+        stream.Close();
+    }
+
     [ContextMenu("Load")]
     public void Load()
     {
@@ -171,6 +179,21 @@ public class BuildingListObject : ScriptableObject
                 GetListSlots[i].UpdateListSlot(newContainer.ListSlots[i].build);
             }
             stream.Close ();
+        }
+    }
+
+    public void Load(int _saveSlot)
+    {
+        if (File.Exists(string.Concat(Application.persistentDataPath, savePath + _saveSlot)))
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath + _saveSlot), FileMode.Open, FileAccess.Read);
+            BuildList newContainer = (BuildList)formatter.Deserialize(stream);
+            for (int i = 0; i < GetListSlots.Length; i++)
+            {
+                GetListSlots[i].UpdateListSlot(newContainer.ListSlots[i].build);
+            }
+            stream.Close();
         }
     }
 

@@ -150,6 +150,10 @@ public class Player : MonoBehaviour
         }
 
         //Load data.
+        if (PlayerPrefs.GetInt("UseSlot") <= 2 && PlayerPrefs.GetInt("UseSlot") >= 0)
+        {
+            gm.LoadInventory(PlayerPrefs.GetInt("UseSlot"));
+        }
     }
 
     private void Update()
