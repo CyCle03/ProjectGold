@@ -64,13 +64,14 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        
+    }
+
+    private void Start()
+    {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         bm = GameObject.Find("BuildManager").GetComponent<BuildManager>();
         tpc = GetComponentInParent<ThirdPersonController>();
-    }
-
-    IEnumerator SetAttStat()
-    {
         for (int i = 0; i < attributes.Length; i++)
         {
             attributes[i].SetParent(this);
@@ -126,13 +127,6 @@ public class Player : MonoBehaviour
         curruntHP = maxHP = 100;
         LvStatUp();
         UpdateEXP();
-        yield return null;
-    }
-
-    private void Start()
-    {
-        StartCoroutine(SetAttStat());
-
         invenTextGold = invenGoldObj.GetComponent<TextMeshProUGUI>();
         sellTextGold = sellGoldObj.GetComponent<TextMeshProUGUI>();
 
@@ -141,14 +135,12 @@ public class Player : MonoBehaviour
         tutorial.database.UpdateID();
         buildList.database.UpdateID();
 
-        StartCoroutine(CheckSave());
-
-        gm.SetUI();
+        //StartCoroutine(CheckSave());
     }
 
     IEnumerator CheckSave()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         int _saveSlot = PlayerPrefs.GetInt("UseSlot");
         //Load data.
         if (_saveSlot <= 3 && _saveSlot >= 1)
@@ -164,14 +156,14 @@ public class Player : MonoBehaviour
         else if (_saveSlot <= -1 && _saveSlot >= -3)
         {
             //Add Basic Items
-            for (int i = 0; i < tutorial.GetSlots.Length; i++)
+            /*for (int i = 0; i < tutorial.GetSlots.Length; i++)
             {
                 if (tutorial.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
                 { }
                 if (inven.AddItem(new Item(tutorial.database.ItemObjects[i]), 1))
                 { }
-            }
-            gm.SaveInventory(-(_saveSlot));
+            }*/
+            //gm.SaveInventory(-(_saveSlot));
             Debug.Log(_saveSlot);
         }
     }

@@ -5,9 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-using System;
-using Unity.VisualScripting;
-using StarterAssets;
+
 
 public abstract class UserInterface : MonoBehaviour
 {
@@ -18,14 +16,14 @@ public abstract class UserInterface : MonoBehaviour
 
     void Awake()
     {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-
         
     }
 
     // Start is called before the first frame update
     private void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         for (int i = 0; i < inventory.GetSlots.Length; i++)
         {
             inventory.GetSlots[i].parent = this;

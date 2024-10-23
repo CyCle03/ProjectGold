@@ -11,13 +11,9 @@ public class IntroManager : MonoBehaviour
 {
     public GameObject NewPanel;
     public GameObject LoadPanel;
-    public GameObject ScenePanel;
-    public Slider loadingBar;
-    public TextMeshProUGUI loadingText;
     public string savePath;
     public TextMeshProUGUI quickSave;
     public bool[] isSaveFile = new bool[4];
-    bool loading;
 
     private void Awake()
     {
@@ -29,8 +25,6 @@ public class IntroManager : MonoBehaviour
         CheckSaveFile();
         NewPanel.SetActive(false);
         LoadPanel.SetActive(false);
-        ScenePanel.SetActive(false);
-        loading = false;
     }
 
     public void NewPanelOpen()
@@ -55,7 +49,6 @@ public class IntroManager : MonoBehaviour
 
     public void CheckSaveFile()
     {
-
         if (File.Exists(string.Concat(Application.persistentDataPath, savePath)))
         {
             LoadPanel.transform.GetChild(0).GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1);
@@ -111,44 +104,18 @@ public class IntroManager : MonoBehaviour
 
     public void NewGame(int _slotNum)
     {
-        if (!loading)
-        {
-            ScenePanel.SetActive(true);
-            loading = true;
-            StartCoroutine(TransitionNextScene(-(_slotNum)));
-        }
+        PlayerPrefs.SetInt("UseSlot", -(_slotNum));
+        SceneManager.LoadScene(1);
     }
 
     public void LoadGame(int _slotNum)
     {
-        if (isSaveFile[_slotNum] && !loading)
+        if (isSaveFile[_slotNum])
         {
-            ScenePanel.SetActive(true);
-            loading = true;
-            StartCoroutine(TransitionNextScene(_slotNum));
+            PlayerPrefs.SetInt("UseSlot", _slotNum);
+            SceneManager.LoadScene(1);
         }
     }
-
-    IEnumerator TransitionNextScene(int num)
-    {
-        AsyncOperation ao = SceneManager.LoadSceneAsync(1);
-        ao.allowSceneActivation = false;
-
-        PlayerPrefs.SetInt("UseSlot", num);
-
-        while (!ao.isDone)
-        {
-            loadingBar.value = ao.progress;
-            loadingText.text = (ao.progress * 100f).ToString("f2") + "%";
-            if (ao.progress >= 0.9f)
-            {
-                ao.allowSceneActivation = true;
-            }
-
-            yield return null;
-        }
-    }
-
     public void QuitGame()
     {
 #if UNITY_EDITOR

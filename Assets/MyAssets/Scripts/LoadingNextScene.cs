@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LoadingNextScene : MonoBehaviour
 {
     public int sceneNumber = 2;
     public Slider loadingBar;
-    public Text loadingText;
+    public TextMeshProUGUI loadingText;
 
     // Start is called before the first frame update
     void Start()
