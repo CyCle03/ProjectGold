@@ -23,6 +23,6 @@ MonoBehaviour:
     attackPower: 15
     moveSpeed: 5
     attackSpeed: 1
-    attackRange: 5
+    attackRange: 3
     mExp: 30
     dropItem: {fileID: 11400000, guid: 8e5e175840777a24ca656c35ccb7ae6a, type: 2}
