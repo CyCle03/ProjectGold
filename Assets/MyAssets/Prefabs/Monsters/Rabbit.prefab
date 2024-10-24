@@ -189,7 +189,6 @@ MonoBehaviour:
   player: {fileID: 0}
   hpSlider: {fileID: 1845571189954406766}
   groundItem: {fileID: 8090519959216403267, guid: e735848a20326b24ea9f6cda920bb400, type: 3}
-  monAnim: {fileID: 1557507452194693975}
   m_level: 0
   indexOfPool: 0
 --- !u!114 &6020652302973882724
@@ -590,7 +589,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 04bf23c7293743f4299944eb20c08990, type: 2}
     - target: {fileID: 95674028643950644, guid: c737dd230724d61469e1c672cf47ed9e, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -600,10 +599,5 @@ PrefabInstance:
 --- !u!4 &1503667507881210635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4677745771901032, guid: c737dd230724d61469e1c672cf47ed9e, type: 3}
-  m_PrefabInstance: {fileID: 1499284998566118243}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1557507452194693975 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95674028643950644, guid: c737dd230724d61469e1c672cf47ed9e, type: 3}
   m_PrefabInstance: {fileID: 1499284998566118243}
   m_PrefabAsset: {fileID: 0}

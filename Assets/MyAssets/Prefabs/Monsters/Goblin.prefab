@@ -491,7 +491,6 @@ MonoBehaviour:
   player: {fileID: 0}
   hpSlider: {fileID: 6083363190796427482}
   groundItem: {fileID: 8090519959216403267, guid: e735848a20326b24ea9f6cda920bb400, type: 3}
-  monAnim: {fileID: 0}
   m_level: 0
   indexOfPool: 0
 --- !u!114 &395578686114907380
@@ -520,6 +519,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 15d23c74de874a34e84c953e182afa71, type: 2}
+    - target: {fileID: 8272943599214529815, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8272943599223628453, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5297933

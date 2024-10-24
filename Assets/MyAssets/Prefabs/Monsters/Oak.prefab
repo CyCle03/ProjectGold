@@ -56,13 +56,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 3.24
+  m_Height: 4
   m_Radius: 0.92
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!195 &4505627539650483414
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -571,6 +571,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 0268140e2723a2e4bba3e8dc1925af1f, type: 2}
+    - target: {fileID: 5866666021909216657, guid: d13b16839fc97a742ac5c5a8f5628542, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9204128808516900346, guid: d13b16839fc97a742ac5c5a8f5628542, type: 3}
       propertyPath: m_Name
       value: orc
