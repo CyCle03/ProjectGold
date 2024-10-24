@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa249ac51d05e74bb19c8a4cbd25607, type: 3}
+  m_Name: Oak
+  m_EditorClassIdentifier: 
+  monsterObj: {fileID: 49666126163468060, guid: fcce51cf7d9415045bac3b4ebb39f959, type: 3}
+  type: 4
+  description: 
+  data:
+    mName: Oak
+    mId: 2
+    maxHP: 200
+    curruntHP: 0
+    attackPower: 15
+    moveSpeed: 5
+    attackSpeed: 1
+    attackRange: 3
+    mExp: 100
+    dropItem: {fileID: 11400000, guid: 01a5e574beddf024e9e65655938e9938, type: 2}

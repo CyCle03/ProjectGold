@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68f4f106ec47cca4c891b98c29c5f2e5, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e6bc02e564f75445abff855ac475a7f, type: 3}
   m_Name: Goblin
   m_EditorClassIdentifier: 
   monsterObj: {fileID: 49666126163468060, guid: fcce51cf7d9415045bac3b4ebb39f959, type: 3}
-  type: 1
+  type: 2
   description: 
   data:
     mName: Goblin
-    mId: 1
-    maxHP: 50
+    mId: 0
+    maxHP: 20
     curruntHP: 0
-    attackPower: 5
+    attackPower: 1
     moveSpeed: 3
     attackSpeed: 1
     attackRange: 2
-    mExp: 10
-    dropItem: {fileID: 11400000, guid: b2f475af1fff7cd41852b5084a5c32d5, type: 2}
+    mExp: 1
+    dropItem: {fileID: 11400000, guid: 139e01f8fd9554446bd19df5ba87c8cd, type: 2}

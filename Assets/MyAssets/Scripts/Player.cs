@@ -263,11 +263,13 @@ public class Player : MonoBehaviour
         int _mvSpd = FindStatIndex(Stat.MoveSpeed);
         if (_mvSpd != -1)
         {
-            stats[_mvSpd].value.BaseValue = 2.0f + ((float)GetIntAttributes(Attributes.Agility) / 10);
+            stats[_mvSpd].value.BaseValue = 3.0f + ((float)GetIntAttributes(Attributes.Agility) / 10);
             moveSpeed = stats[_mvSpd ].value.ModifiedValue;
             tpc.MoveSpeed = moveSpeed;
             tpc.SprintSpeed = moveSpeed * 2;
-            float moveSpd = moveSpeed * 0.5f;
+            float moveSpd = moveSpeed * 0.2f;
+            if (moveSpd <= 1.0f)
+            { moveSpd = 1.0f; }
             anim.SetFloat("MoveSpeed", moveSpd);
         }
     }

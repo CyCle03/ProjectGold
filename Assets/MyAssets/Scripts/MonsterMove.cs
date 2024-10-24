@@ -15,7 +15,6 @@ public class MonsterMove : MonoBehaviour
     public Player player;
     public Slider hpSlider;
     public GameObject groundItem;
-    public Animator monAnim;
 
     public int m_level;
     public int indexOfPool;
@@ -27,7 +26,9 @@ public class MonsterMove : MonoBehaviour
     Transform playerTransform;
     Vector3 originPos;
     ItemObject dropItem;
+    Animator monAnim;
 
+    bool isMove;
     float atkCdw = 0;
 
     enum MonsterState
@@ -54,7 +55,9 @@ public class MonsterMove : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Player>();
         hpSlider.value = (float)myMonster.curruntHP / (float)myMonster.maxHP;
         playerTransform = player.GetComponentInParent<Transform>();
+        monAnim = gameObject.transform.GetChild(0).GetComponent<Animator>();
         originPos = transform.position;
+        isMove = false;
     }
 
     // Update is called once per frame
@@ -89,7 +92,7 @@ public class MonsterMove : MonoBehaviour
             return;
         }
         if (monAnim != null)
-        { monAnim.SetInteger("AnimIndex", 0); monAnim.SetTrigger("Next"); }
+        { monAnim.SetTrigger("Hit"); }
         print(myMonster.mName + " Hit");
         myMonster.curruntHP -= hitPower;
         UpdateHPbar();
@@ -109,7 +112,7 @@ public class MonsterMove : MonoBehaviour
     void IdleMonster()
     {
         if (monAnim != null)
-        { monAnim.SetInteger("AnimIndex", 0); monAnim.SetTrigger("Next"); }
+        { monAnim.SetTrigger("Idle"); }
         
         if (monsterObj.type == MonsterType.Aggressive || monsterObj.type == MonsterType.Boss)
         {
@@ -119,6 +122,8 @@ public class MonsterMove : MonoBehaviour
             if (Vector3.Distance(transformY0, playerY0) < monsterSight)
             {
                 m_State = MonsterState.Move;
+                if (monAnim != null)
+                { monAnim.SetTrigger("IdleToMove"); isMove = true; }
                 print(myMonster.mName + " State: Idle -> Move");
             }
         }
@@ -126,14 +131,14 @@ public class MonsterMove : MonoBehaviour
 
     void MoveMonster()
     {
-        if (monAnim != null)
-        { monAnim.SetInteger("AnimIndex", 1); monAnim.SetTrigger("Next"); }
         if (playerTransform != null)
         {
             playerTransform = player.GetComponentInParent<Transform>();
             if (Vector3.Distance(transform.position, originPos) > monsterMoveRange)
             {
                 m_State = MonsterState.Return;
+                if (monAnim != null)
+                { monAnim.SetTrigger("Move");}
                 print(myMonster.mName + " State: Move -> Return");
             }
             else if (Vector3.Distance(transform.position, playerTransform.position) > myMonster.attackRange)
@@ -141,6 +146,8 @@ public class MonsterMove : MonoBehaviour
                 monsterNav.isStopped = true;
                 monsterNav.ResetPath();
                 monsterNav.SetDestination(playerTransform.position);
+                if (monAnim != null && !isMove)
+                { monAnim.SetTrigger("Move"); isMove = true; }
                 monsterNav.stoppingDistance = myMonster.attackRange;
                 monsterNav.speed = myMonster.moveSpeed;
             }
@@ -153,6 +160,8 @@ public class MonsterMove : MonoBehaviour
         else
         {
             m_State = MonsterState.Idle;
+            if (monAnim != null)
+            { monAnim.SetTrigger("MoveToIdle"); isMove = false; }
             print(myMonster.mName + " State: Move -> Idle");
         }
         
@@ -186,8 +195,6 @@ public class MonsterMove : MonoBehaviour
 
     void AttackMonster()
     {
-        if (monAnim != null)
-        { monAnim.SetInteger("AnimIndex", 1); monAnim.SetTrigger("Next"); }
         Vector3 transformY0 = transform.position;
         Vector3 playerY0 = playerTransform.position;
         playerY0.y = transformY0.y = 0;
@@ -195,9 +202,13 @@ public class MonsterMove : MonoBehaviour
         {
             monsterNav.avoidancePriority = 50;
             atkCdw -= Time.deltaTime;
+            isMove = false;
             if (atkCdw <= 0)
             {
                 print(myMonster.mName + " Attack");
+                if (monAnim != null)
+                { monAnim.SetTrigger("Attack"); }
+                print(myMonster.mName + " State: Attack");
                 StartCoroutine(DelayedMonster());
                 player.GetDamaged(myMonster.attackPower);
                 atkCdw = 1 / myMonster.attackSpeed;
@@ -207,6 +218,8 @@ public class MonsterMove : MonoBehaviour
         {
             monsterNav.avoidancePriority = 51;
             m_State = MonsterState.Move;
+            if (monAnim != null && !isMove)
+            { monAnim.SetTrigger("Move"); isMove = true; }
             print(myMonster.mName + " State: Attack -> Move");
             atkCdw = 1 / myMonster.attackSpeed;
         }
@@ -214,8 +227,8 @@ public class MonsterMove : MonoBehaviour
 
     void ReturnMonster()
     {
-        if (monAnim != null)
-        { monAnim.SetInteger("AnimIndex", 1); monAnim.SetTrigger("Next"); }
+        if (monAnim != null && !isMove)
+        { monAnim.SetTrigger("Move"); isMove = true; }
         if (myMonster.curruntHP < myMonster.maxHP)
         {
             myMonster.curruntHP += myMonster.curruntHP * Time.deltaTime;
@@ -248,8 +261,9 @@ public class MonsterMove : MonoBehaviour
             myMonster.curruntHP = myMonster.maxHP;
             UpdateHPbar();
             m_State = MonsterState.Idle;
+            if (monAnim != null)
+            { monAnim.SetTrigger("MoveToIdle"); isMove = false; }
             print(myMonster.mName + " State: Return -> Idle");
-            //anim.SetTrigger("MoveToIdle");
         }
     }
 
@@ -258,6 +272,8 @@ public class MonsterMove : MonoBehaviour
         monsterNav.isStopped = true;
         monsterNav.ResetPath();
         StartCoroutine(DelayedMonster());
+        if (monAnim != null)
+        { monAnim.SetTrigger("Move"); isMove = true; }
         m_State = MonsterState.Move;
         print(myMonster.mName + " State: Damaged -> Move");
     }
@@ -271,10 +287,11 @@ public class MonsterMove : MonoBehaviour
     void DieMonster()
     {
         if (monAnim != null)
-        { monAnim.SetInteger("AnimIndex", 2); monAnim.SetTrigger("Next"); }
+        { monAnim.SetTrigger("Die"); }
         print(myMonster.mName + " Die");
         StopAllCoroutines();
 
+        isMove = false;
         StartCoroutine(DieProcess());
     }
 

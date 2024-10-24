@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f4f106ec47cca4c891b98c29c5f2e5, type: 3}
+  m_Name: Minotaur
+  m_EditorClassIdentifier: 
+  monsterObj: {fileID: 49666126163468060, guid: fcce51cf7d9415045bac3b4ebb39f959, type: 3}
+  type: 1
+  description: 
+  data:
+    mName: Minotaur
+    mId: 1
+    maxHP: 50
+    curruntHP: 0
+    attackPower: 5
+    moveSpeed: 5
+    attackSpeed: 1
+    attackRange: 2
+    mExp: 10
+    dropItem: {fileID: 11400000, guid: b2f475af1fff7cd41852b5084a5c32d5, type: 2}
