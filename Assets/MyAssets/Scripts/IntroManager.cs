@@ -21,18 +21,20 @@ public class IntroManager : MonoBehaviour
     GameManager gm;
     Player player;
     StarterAssetsInputs sai;
+    ThirdPersonController tpc;
 
     private void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         player = GameObject.Find("Player").GetComponent<Player>();
         sai = GameObject.Find("Player").GetComponent<StarterAssetsInputs>();
-
+        tpc = GameObject.Find("Player").GetComponent<ThirdPersonController>();
         ReturnMenu();
     }
 
     public void ReturnMenu()
     {
+        tpc._isPlayerDie = true;
         CheckSaveFile();
         UICanvas.enabled = false;
         NewPanel.SetActive(false);
@@ -120,11 +122,7 @@ public class IntroManager : MonoBehaviour
     public void NewGame(int _slotNum)
     {
         PlayerPrefs.SetInt("UseSlot", -(_slotNum));
-        IntroCanvas.enabled = false;
-        gm.isStartGame = true;
-        sai.cursorLocked = true;
-        UICanvas.enabled = true;
-        player.CheckSave();
+        StartGame();
         //SceneManager.LoadScene(1);
     }
 
@@ -133,13 +131,19 @@ public class IntroManager : MonoBehaviour
         if (isSaveFile[_slotNum])
         {
             PlayerPrefs.SetInt("UseSlot", _slotNum);
-            IntroCanvas.enabled = false;
-            gm.isStartGame = true;
-            sai.cursorLocked = true;
-            UICanvas.enabled = true;
-            player.CheckSave();
+            StartGame();
             //SceneManager.LoadScene(1);
         }
+    }
+
+    public void StartGame()
+    {
+        IntroCanvas.enabled = false;
+        gm.isStartGame = true;
+        sai.cursorLocked = true;
+        UICanvas.enabled = true;
+        player.CheckSave();
+        tpc._isPlayerDie = false;
     }
     public void QuitGame()
     {

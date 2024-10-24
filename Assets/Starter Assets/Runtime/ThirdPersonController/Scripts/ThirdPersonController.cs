@@ -117,6 +117,7 @@ namespace StarterAssets
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
         private Collider _wBoxCollider;
+        public bool _isPlayerDie;
 
         private const float _threshold = 0.01f;
 
@@ -244,6 +245,9 @@ namespace StarterAssets
             // if attack, set the target speed to 0
             if (Attacking) targetSpeed = 0.0f;
 
+            // if Player die, set target speed 0
+            if (_isPlayerDie) targetSpeed = 0.0f;
+
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
@@ -275,7 +279,7 @@ namespace StarterAssets
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero && !Attacking)
+            if (_input.move != Vector2.zero && !Attacking && !_isPlayerDie)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
@@ -322,7 +326,7 @@ namespace StarterAssets
                 }
 
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                if (_input.jump && _jumpTimeoutDelta <= 0.0f && !_isPlayerDie)
                 {
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
@@ -380,7 +384,7 @@ namespace StarterAssets
                     _animator.SetBool(_animIDAttack, false);
                 }
                 //attack
-                if (_jumpTimeoutDelta <= 0.0f && _input.attack && _attackTimeoutDelta <= 0.0f)
+                if (_jumpTimeoutDelta <= 0.0f && _input.attack && _attackTimeoutDelta <= 0.0f && !_isPlayerDie)
                 {
                     // update animator if using character
                     if (_hasAnimator)

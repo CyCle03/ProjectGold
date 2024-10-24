@@ -572,6 +572,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DieMsg()
+    {
+        if (!isMsgOn)
+        {
+            alertTimer = 3f;
+            AlertScreen.SetActive(true);
+            isMsgOn = true;
+        }
+        AlertMsg.text = "You Died";
+    }
+
     public bool TempBuildType(BuildType _buildType)
     {
         if (tempBuild != null)

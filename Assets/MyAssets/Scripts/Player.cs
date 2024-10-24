@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     TextMeshProUGUI invenTextGold;
     TextMeshProUGUI sellTextGold;
     ThirdPersonController tpc;
+    Transform originTransform;
 
     private void Awake()
     {
@@ -134,7 +135,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         //StartCoroutine(CheckSave());
-        Debug.Log("inven slots : " + inven.GetSlots.Length);
+        originTransform = transform;
     }
 
     public void CheckSave()
@@ -168,7 +169,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (curruntHP < maxHP)
+        if (curruntHP < maxHP && !tpc._isPlayerDie)
         {
             curruntHP += (regenHP * Time.deltaTime / 10);
             if (curruntHP >= maxHP)
@@ -625,11 +626,36 @@ public class Player : MonoBehaviour
 
     public void GetDamaged(float damage)
     {
+        if (tpc._isPlayerDie)
+        { return; }
         damage -= armor;
         if(damage < 0)
         { damage = 0; }
         curruntHP -= damage;
+        if (curruntHP <= 0)
+        {
+            curruntHP = 0;
+            UpdateHPSlider();
+
+            StartCoroutine(PlayerDie());
+        }
         UpdateHPSlider();
+    }
+
+    IEnumerator PlayerDie()
+    {
+        tpc._isPlayerDie = true;
+        gm.isStartGame = false;
+        gm.DieMsg();
+
+        yield return new WaitForSeconds(1f);
+
+        gameObject.transform.position = Vector3.zero;
+        curruntHP = maxHP / 10;
+        UpdateHPSlider();
+        gm.Alert();
+        gm.isStartGame = true;
+        tpc._isPlayerDie = false;
     }
 
     void UpdateHPSlider()
