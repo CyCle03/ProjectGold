@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class IntroManager : MonoBehaviour
 {
     public Canvas IntroCanvas;
+    public Canvas UICanvas;
     public GameObject NewPanel;
     public GameObject LoadPanel;
     public string savePath;
@@ -20,11 +21,6 @@ public class IntroManager : MonoBehaviour
     GameManager gm;
     Player player;
     StarterAssetsInputs sai;
-
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {
@@ -38,6 +34,7 @@ public class IntroManager : MonoBehaviour
     public void ReturnMenu()
     {
         CheckSaveFile();
+        UICanvas.enabled = false;
         NewPanel.SetActive(false);
         LoadPanel.SetActive(false);
         IntroCanvas.enabled = true;
@@ -126,6 +123,7 @@ public class IntroManager : MonoBehaviour
         IntroCanvas.enabled = false;
         gm.isStartGame = true;
         sai.cursorLocked = true;
+        UICanvas.enabled = true;
         player.CheckSave();
         //SceneManager.LoadScene(1);
     }
@@ -138,6 +136,7 @@ public class IntroManager : MonoBehaviour
             IntroCanvas.enabled = false;
             gm.isStartGame = true;
             sai.cursorLocked = true;
+            UICanvas.enabled = true;
             player.CheckSave();
             //SceneManager.LoadScene(1);
         }

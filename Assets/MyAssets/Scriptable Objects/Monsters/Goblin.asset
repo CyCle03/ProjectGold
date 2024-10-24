@@ -20,7 +20,7 @@ MonoBehaviour:
     mId: 0
     maxHP: 20
     curruntHP: 0
-    attackPower: 1
+    attackPower: 5
     moveSpeed: 3
     attackSpeed: 1
     attackRange: 3
