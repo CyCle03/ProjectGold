@@ -171,6 +171,8 @@ public class Player : MonoBehaviour
         if (curruntHP < maxHP)
         {
             curruntHP += (regenHP * Time.deltaTime / 10);
+            if (curruntHP >= maxHP)
+            { curruntHP = maxHP; }
             UpdateHPSlider();
         }
     }
@@ -248,7 +250,7 @@ public class Player : MonoBehaviour
         int _atkSpd = FindStatIndex(Stat.AttackSpeed);
         if (_atkSpd != -1)
         {
-            stats[_atkSpd].value.BaseValue = 0.5f + ((float)GetIntAttributes(Attributes.Agility) / 10);
+            stats[_atkSpd].value.BaseValue = 0.5f + ((float)GetIntAttributes(Attributes.Agility) / 20);
             attackSpeed = stats[_atkSpd ].value.ModifiedValue;
             tpc.AttackTimeout = 1.0f / attackSpeed;
             float animAtkSpd = attackSpeed * 2.0f;
@@ -261,11 +263,11 @@ public class Player : MonoBehaviour
         int _mvSpd = FindStatIndex(Stat.MoveSpeed);
         if (_mvSpd != -1)
         {
-            stats[_mvSpd].value.BaseValue = 5.0f + ((float)GetIntAttributes(Attributes.Agility) / 10);
+            stats[_mvSpd].value.BaseValue = 2.0f + ((float)GetIntAttributes(Attributes.Agility) / 10);
             moveSpeed = stats[_mvSpd ].value.ModifiedValue;
             tpc.MoveSpeed = moveSpeed;
             tpc.SprintSpeed = moveSpeed * 2;
-            float moveSpd = moveSpeed * 0.2f;
+            float moveSpd = moveSpeed * 0.5f;
             anim.SetFloat("MoveSpeed", moveSpd);
         }
     }
