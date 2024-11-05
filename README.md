@@ -1,5 +1,13 @@
 https://velog.io/@amberjack/Unity-심화-시네머신-카메라-적용
 
+WASD : 이동 Move
+
+Ctrl : 공격 Attack
+
+Space : 점프 Jump
+
+Shift : 달리기 Run
+
 I/Tap: 인벤토리 Inventory Open
 
 P/(상점에서/at Store) E: 상점열기 Store Open
@@ -26,3 +34,4 @@ PgUp: 빠른저장 Quick Save
 
 PgDn: 불러오기 Quck Load
 
+https://www.youtube.com/watch?v=ooBbJ97Hv1o&feature=youtu.be
