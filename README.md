@@ -26,3 +26,4 @@ PgUp: 빠른저장 Quick Save
 
 PgDn: 불러오기 Quck Load
 
+https://www.youtube.com/watch?v=ooBbJ97Hv1o&feature=youtu.be
